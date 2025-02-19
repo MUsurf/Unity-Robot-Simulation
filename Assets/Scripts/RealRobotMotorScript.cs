@@ -4,9 +4,10 @@ using UnityEngine.UI;
 
 // TODO - reorganize the motor positions (so that it is like polar cords)
 // TODO - also, do the motor vectors need to be accurate?
-// TODO - lower tolerance of STL export, this is way to expensive
+// TODO - lower tolerance of STL export, this is way too expensive
 // TODO - max thrust is - 51.4 N and 40 N
 // TODO - invert mouse button
+// TODO - could rainbow be more efficient?
 
 public class RealRobotMotorScript : MonoBehaviour
 {
@@ -136,7 +137,10 @@ public class RealRobotMotorScript : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.R))
         {
-            rb.position = new Vector3(0, 1, 0);
+            rb.position = new Vector3(0, 4.5f, 0);
+            rb.rotation = new Quaternion(0, 0, 0, 0);
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
         }
 
         timeSinceLastIToggle += Time.deltaTime;

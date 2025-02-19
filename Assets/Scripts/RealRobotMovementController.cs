@@ -90,8 +90,8 @@ public class RealRobotMovementController : MonoBehaviour
         averageSpeedsSideways = 0;
         if(Input.GetKey(KeyCode.W))
         {
-            force5 += Vector3.right * keyboardForceMultiplier;
-            force6 += Vector3.right * keyboardForceMultiplier;
+            force1 += Vector3.right + Vector3.back;
+            force2 += Vector3.right + Vector3.forward;
             force7 += Vector3.right * keyboardForceMultiplier;
             force8 += Vector3.right * keyboardForceMultiplier;
             averageSpeedsForward++;
