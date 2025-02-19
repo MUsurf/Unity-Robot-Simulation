@@ -1026,7 +1026,7 @@ MonoBehaviour:
   audioClip: {fileID: 8300000, guid: c4b43193ce92ac045b53ccab47d4c949, type: 3}
   audioSource: {fileID: 330585549}
   MovementControllerScript: {fileID: 1507686379}
-  RealRobotMovementControllerScript: {fileID: 0}
+  RealRobotMovementControllerScript: {fileID: 1973803977}
 --- !u!1 &356330340
 GameObject:
   m_ObjectHideFlags: 0
@@ -5795,11 +5795,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 2
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -6441,6 +6441,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fc7d7ecfa8a3a36499be1da81062dcaf, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1973803976}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fc7d7ecfa8a3a36499be1da81062dcaf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1973803978}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fc7d7ecfa8a3a36499be1da81062dcaf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1973803977}
     - targetCorrespondingSourceObject: {fileID: 8164078558771037576, guid: fc7d7ecfa8a3a36499be1da81062dcaf, type: 3}
       insertIndex: -1
       addedObject: {fileID: 765747875}
@@ -6477,6 +6483,46 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &1973803977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1538548598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de1150f661782154d8edbc2c7dd2f593, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyboardForceMultiplier: 10
+  mouseForceMultiplier: 20
+  yawForceMultiplier: 4
+  shiftMultiplier: 4
+  invertMouse: 0
+  mouseRotMultiplier: 0.1
+  calledFor: 0
+--- !u!114 &1973803978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1538548598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5299c3a781577134bb74bf5e21493b5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 0}
+  MovementControllerScript: {fileID: 0}
+  overrideMovement: 0
+  InvertMouseButton: {fileID: 0}
+  objectRenderer1: {fileID: 0}
+  objectRenderer2: {fileID: 0}
+  objectRenderer3: {fileID: 0}
+  objectRenderer4: {fileID: 0}
+  objectRenderer5: {fileID: 0}
 --- !u!1 &1974783635
 GameObject:
   m_ObjectHideFlags: 0

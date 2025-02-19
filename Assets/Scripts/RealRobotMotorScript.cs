@@ -29,7 +29,7 @@ public class RealRobotMotorScript : MonoBehaviour
     private Vector3 position7 = new Vector3(-5.66f, 0f, 2.72f);
     private Vector3 position8 = new Vector3(-5.66f, 0f, -2.72f);
     private List<Vector3> MovementOverrideList = new List<Vector3>();
-    public MovementController MovementControllerScript;
+    public RealRobotMovementController RealRobotMovementControllerScript;
     
     // uncomment this to use PID when pushed
     // public PID PIDScript;
@@ -61,7 +61,7 @@ public class RealRobotMotorScript : MonoBehaviour
 
         if(overrideMovement)
         {
-            MovementOverrideList = MovementControllerScript.MovementOverride(force5, force6, force7, force8);
+            MovementOverrideList = RealRobotMovementControllerScript.MovementOverride(force5, force6, force7, force8);
             force5 = MovementOverrideList[0];
             force6 = MovementOverrideList[1];
             force7 = MovementOverrideList[2];
@@ -91,8 +91,8 @@ public class RealRobotMotorScript : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
-        MovementControllerScript.invertMouse = false;
-        MovementControllerScript.calledFor = enable;
+        RealRobotMovementControllerScript.invertMouse = false;
+        RealRobotMovementControllerScript.calledFor = enable;
         InvertMouseButton.SetActive(enable);
     }
 
@@ -132,7 +132,7 @@ public class RealRobotMotorScript : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.I) && overrideMovement && timeSinceLastIToggle > 0.2f)
         {
             timeSinceLastIToggle = 0f;
-            //MovementControllerScript.invertMouse = !MovementControllerScript.invertMouse;
+            //RealRobotMovementControllerScript.invertMouse = !RealRobotMovementControllerScript.invertMouse;
             InvertMouseButton.GetComponent<Toggle>().isOn = !InvertMouseButton.GetComponent<Toggle>().isOn;
         }
 
