@@ -19,10 +19,10 @@ public class RealRobotMotorScript : MonoBehaviour
     private Vector3 position2 = new Vector3(4.9f, 0f, -1.95f);
     private Vector3 position3 = new Vector3(-4.9f, 0f, 1.95f);
     private Vector3 position4 = new Vector3(-4.9f, 0f, -1.95f);
-    private Vector3 position5 = new Vector3(4.9f, 0f, 1.95f);
-    private Vector3 position6 = new Vector3(4.9f, 0f, -1.95f);
-    private Vector3 position7 = new Vector3(-1.5f, 0f, 0.5f);
-    private Vector3 position8 = new Vector3(-1.5f, 0f, -0.5f);
+    private Vector3 position5 = new Vector3(5.66f, 0f, 2.72f);
+    private Vector3 position6 = new Vector3(5.66f, 0f, -2.72f);
+    private Vector3 position7 = new Vector3(-5.66f, 0f, 2.72f);
+    private Vector3 position8 = new Vector3(-5.66f, 0f, -2.72f);
     private List<Vector3> MovementOverrideList = new List<Vector3>();
     public MovementController MovementControllerScript;
     
