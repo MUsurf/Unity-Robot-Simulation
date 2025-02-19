@@ -108,6 +108,9 @@ public class MotorScript : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.R))
         {
             rb.position = new Vector3(0, 1, 0);
+            rb.rotation = new Quaternion(0, 0, 0, 0);
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
         }
 
         timeSinceLastIToggle += Time.deltaTime;

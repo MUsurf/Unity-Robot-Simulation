@@ -50,7 +50,6 @@ public class RealRobotMotorScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {   
-
         Vector3 localposition1 = transform.TransformPoint(position1);
         Vector3 localposition2 = transform.TransformPoint(position2);
         Vector3 localposition3 = transform.TransformPoint(position3);
@@ -62,17 +61,29 @@ public class RealRobotMotorScript : MonoBehaviour
 
         if(overrideMovement)
         {
-            MovementOverrideList = RealRobotMovementControllerScript.MovementOverride(force5, force6, force7, force8);
-            force5 = MovementOverrideList[0];
-            force6 = MovementOverrideList[1];
-            force7 = MovementOverrideList[2];
-            force8 = MovementOverrideList[3];
+            MovementOverrideList = RealRobotMovementControllerScript.MovementOverride();
+            force1 = MovementOverrideList[0];
+            force2 = MovementOverrideList[1];
+            force3 = MovementOverrideList[2];
+            force4 = MovementOverrideList[3];
+            force5 = MovementOverrideList[4];
+            force6 = MovementOverrideList[5];
+            force7 = MovementOverrideList[6];
+            force8 = MovementOverrideList[7];
         }
 
+        Vector3 localforce1 = transform.TransformDirection(force1);
+        Vector3 localforce2 = transform.TransformDirection(force2);
+        Vector3 localforce3 = transform.TransformDirection(force3);
+        Vector3 localforce4 = transform.TransformDirection(force4);
         Vector3 localforce5 = transform.TransformDirection(force5);
         Vector3 localforce6 = transform.TransformDirection(force6);
         Vector3 localforce7 = transform.TransformDirection(force7);
         Vector3 localforce8 = transform.TransformDirection(force8);
+        rb.AddForceAtPosition(localforce1, localposition1, ForceMode.Force);
+        rb.AddForceAtPosition(localforce2, localposition2, ForceMode.Force);
+        rb.AddForceAtPosition(localforce3, localposition3, ForceMode.Force);
+        rb.AddForceAtPosition(localforce4, localposition4, ForceMode.Force);
         rb.AddForceAtPosition(localforce5, localposition5, ForceMode.Force);
         rb.AddForceAtPosition(localforce6, localposition6, ForceMode.Force);
         rb.AddForceAtPosition(localforce7, localposition7, ForceMode.Force);

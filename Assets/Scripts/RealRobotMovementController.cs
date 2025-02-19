@@ -50,8 +50,17 @@ public class RealRobotMovementController : MonoBehaviour
         invertMouse = invertMouseBool;
     }
 
-    public List<Vector3> MovementOverride(Vector3 force5,  Vector3 force6,  Vector3 force7,  Vector3 force8)
+    public List<Vector3> MovementOverride()
     {
+        Vector3 force1 = Vector3.zero;
+        Vector3 force2 = Vector3.zero;
+        Vector3 force3 = Vector3.zero;
+        Vector3 force4 = Vector3.zero;
+        Vector3 force5 = Vector3.zero;
+        Vector3 force6 = Vector3.zero;
+        Vector3 force7 = Vector3.zero;
+        Vector3 force8 = Vector3.zero;
+        
         if(invertMouse)
         {
             invertMouseMultiplier = -1;
@@ -77,10 +86,6 @@ public class RealRobotMovementController : MonoBehaviour
             }
         }
 
-        force5 = Vector3.zero;
-        force6 = Vector3.zero;
-        force7 = Vector3.zero;
-        force8 = Vector3.zero;
         averageSpeedsForward = 0;
         averageSpeedsSideways = 0;
         if(Input.GetKey(KeyCode.W))
