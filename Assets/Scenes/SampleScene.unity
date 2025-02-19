@@ -2005,7 +2005,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Camera Track Robot?
+  m_Text: Camera Track
 --- !u!222 &468612145
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5798,7 +5798,7 @@ MonoBehaviour:
   m_UiScaleMode: 0
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 2560, y: 1600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -6370,11 +6370,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: fc7d7ecfa8a3a36499be1da81062dcaf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -8.13
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fc7d7ecfa8a3a36499be1da81062dcaf, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.8
+      value: -0.88
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fc7d7ecfa8a3a36499be1da81062dcaf, type: 3}
       propertyPath: m_LocalPosition.z
