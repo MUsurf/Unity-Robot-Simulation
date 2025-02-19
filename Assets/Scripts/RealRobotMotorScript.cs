@@ -6,6 +6,7 @@ using UnityEngine.UI;
 // TODO - also, do the motor vectors need to be accurate?
 // TODO - lower tolerance of STL export, this is way to expensive
 // TODO - max thrust is - 51.4 N and 40 N
+// TODO - invert mouse button
 
 public class RealRobotMotorScript : MonoBehaviour
 {

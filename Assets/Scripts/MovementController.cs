@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -51,8 +50,12 @@ public class MovementController : MonoBehaviour
         invertMouse = invertMouseBool;
     }
 
-    public List<Vector3> MovementOverride(Vector3 force5,  Vector3 force6,  Vector3 force7,  Vector3 force8)
+    public List<Vector3> MovementOverride()
     {
+        Vector3 force5 = Vector3.zero;
+        Vector3 force6 = Vector3.zero;
+        Vector3 force7 = Vector3.zero;
+        Vector3 force8 = Vector3.zero;
         if(invertMouse)
         {
             invertMouseMultiplier = -1;

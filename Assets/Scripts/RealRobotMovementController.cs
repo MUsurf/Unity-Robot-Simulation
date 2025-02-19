@@ -175,6 +175,6 @@ public class RealRobotMovementController : MonoBehaviour
             force8 += Vector3.forward * yawForceMultiplier;
         }
         
-        return new List<Vector3> {force5, force6, force7, force8};
+        return new List<Vector3> {force1, force2, force3, force4, force5, force6, force7, force8};
     }
 }

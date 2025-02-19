@@ -44,7 +44,7 @@ public class MotorScript : MonoBehaviour
 
         if(overrideMovement)
         {
-            MovementOverrideList = MovementControllerScript.MovementOverride(force5, force6, force7, force8);
+            MovementOverrideList = MovementControllerScript.MovementOverride();
             force5 = MovementOverrideList[0];
             force6 = MovementOverrideList[1];
             force7 = MovementOverrideList[2];
