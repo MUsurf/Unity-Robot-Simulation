@@ -5,10 +5,15 @@ using UnityEngine.UI;
 // TODO - reorganize the motor positions (so that it is like polar cords)
 // TODO - also, do the motor vectors need to be accurate?
 // TODO - lower tolerance of STL export, this is way to expensive
+// TODO - max thrust is - 51.4 N and 40 N
 
 public class RealRobotMotorScript : MonoBehaviour
 {
     public Rigidbody rb;
+    private Vector3 force1;
+    private Vector3 force2;
+    private Vector3 force3;
+    private Vector3 force4;
     private Vector3 force5;
     private Vector3 force6;
     private Vector3 force7;
@@ -45,7 +50,10 @@ public class RealRobotMotorScript : MonoBehaviour
     void FixedUpdate()
     {   
 
-
+        Vector3 localposition1 = transform.TransformPoint(position1);
+        Vector3 localposition2 = transform.TransformPoint(position2);
+        Vector3 localposition3 = transform.TransformPoint(position3);
+        Vector3 localposition4 = transform.TransformPoint(position4);
         Vector3 localposition5 = transform.TransformPoint(position5);
         Vector3 localposition6 = transform.TransformPoint(position6);
         Vector3 localposition7 = transform.TransformPoint(position7);

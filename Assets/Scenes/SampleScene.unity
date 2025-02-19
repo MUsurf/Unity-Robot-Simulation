@@ -1026,6 +1026,7 @@ MonoBehaviour:
   audioClip: {fileID: 8300000, guid: c4b43193ce92ac045b53ccab47d4c949, type: 3}
   audioSource: {fileID: 330585549}
   MovementControllerScript: {fileID: 1507686379}
+  RealRobotMovementControllerScript: {fileID: 0}
 --- !u!1 &356330340
 GameObject:
   m_ObjectHideFlags: 0
@@ -3753,9 +3754,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 997003388}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.9, y: 0, z: -1.95}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.9, y: 0, z: 1.95}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1973803975}
