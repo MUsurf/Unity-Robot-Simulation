@@ -2,6 +2,9 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
+// TODO - reorganize the motor positions (so that it is like polar cords)
+// TODO - also, do the motor vectors need to be accurate?
+// TODO - lower tolerance of STL export, this is way to expensive
 
 public class RealRobotMotorScript : MonoBehaviour
 {
@@ -10,8 +13,14 @@ public class RealRobotMotorScript : MonoBehaviour
     private Vector3 force6;
     private Vector3 force7;
     private Vector3 force8;
-    private Vector3 position5 = new Vector3(1.5f, 0f, 0.5f);
-    private Vector3 position6 = new Vector3(1.5f, 0f, -0.5f);
+    //front left, front right, back left, back right XY motors
+    //then front left, front right, back left, back right Z motors
+    private Vector3 position1 = new Vector3(4.9f, 0f, 1.95f);
+    private Vector3 position2 = new Vector3(4.9f, 0f, -1.95f);
+    private Vector3 position3 = new Vector3(-4.9f, 0f, 1.95f);
+    private Vector3 position4 = new Vector3(-4.9f, 0f, -1.95f);
+    private Vector3 position5 = new Vector3(4.9f, 0f, 1.95f);
+    private Vector3 position6 = new Vector3(4.9f, 0f, -1.95f);
     private Vector3 position7 = new Vector3(-1.5f, 0f, 0.5f);
     private Vector3 position8 = new Vector3(-1.5f, 0f, -0.5f);
     private List<Vector3> MovementOverrideList = new List<Vector3>();
