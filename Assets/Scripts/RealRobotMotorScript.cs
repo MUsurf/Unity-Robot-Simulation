@@ -32,8 +32,7 @@ public class RealRobotMotorScript : MonoBehaviour
     private List<Vector3> MovementOverrideList = new List<Vector3>();
     public RealRobotMovementController RealRobotMovementControllerScript;
     
-    // uncomment this to use PID when pushed
-    // public PID PIDScript;
+    public RealRobotPID RealRobotPIDScript;
     public bool overrideMovement = false;
     public GameObject InvertMouseButton;
     private float timeSinceLastIToggle = 0f;
