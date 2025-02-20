@@ -6597,6 +6597,7 @@ GameObject:
   - component: {fileID: 9193295145256729471}
   - component: {fileID: 9193295145256729473}
   - component: {fileID: 9193295145256729472}
+  - component: {fileID: 9193295145256729474}
   m_Layer: 0
   m_Name: Real Robot
   m_TagString: Untagged
@@ -6730,15 +6731,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5299c3a781577134bb74bf5e21493b5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 0}
-  RealRobotMovementControllerScript: {fileID: 0}
+  rb: {fileID: 9193295145256729471}
+  RealRobotMovementControllerScript: {fileID: 9193295145256729472}
+  RealRobotPIDScript: {fileID: 9193295145256729474}
   overrideMovement: 0
   InvertMouseButton: {fileID: 0}
-  objectRenderer1: {fileID: 0}
-  objectRenderer2: {fileID: 0}
-  objectRenderer3: {fileID: 0}
-  objectRenderer4: {fileID: 0}
-  objectRenderer5: {fileID: 0}
+  objectRenderer: {fileID: 0}
+--- !u!114 &9193295145256729474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3023082051099529487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e1d3a047c79a84eaa1b9d1edc448ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 0}
+  xSetpoint: 0
+  ySetpoint: 0
+  zSetpoint: 0
+  yawSetpoint: 0
+  rollSetpoint: 0
+  pitchSetpoint: 0
+  forces:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  andrewList:
+  - 0.5
+  - 0
+  - 0.1
+  - 0.5
+  - 0
+  - 0.1
+  - 0.5
+  - 0
+  - 0.1
+  - 0.05
+  - 0
+  - 0.1
+  - 0.05
+  - 0
+  - 0.1
+  - 0.05
+  - 0
+  - 0.1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
