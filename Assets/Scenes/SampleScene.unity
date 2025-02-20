@@ -1026,7 +1026,7 @@ MonoBehaviour:
   audioClip: {fileID: 8300000, guid: c4b43193ce92ac045b53ccab47d4c949, type: 3}
   audioSource: {fileID: 330585549}
   MovementControllerScript: {fileID: 1507686379}
-  RealRobotMovementControllerScript: {fileID: 0}
+  RealRobotMovementControllerScript: {fileID: 9193295145256729472}
 --- !u!1 &356330340
 GameObject:
   m_ObjectHideFlags: 0
@@ -5069,6 +5069,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1507686376}
   - component: {fileID: 1507686375}
+  - component: {fileID: 1507686380}
   - component: {fileID: 1507686374}
   - component: {fileID: 1507686377}
   - component: {fileID: 1507686378}
@@ -5094,6 +5095,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 1507686375}
   MovementControllerScript: {fileID: 1507686379}
+  PIDScript: {fileID: 1507686380}
   overrideMovement: 0
   InvertMouseButton: {fileID: 2145012752}
   objectRenderer1: {fileID: 943441294}
@@ -5197,6 +5199,49 @@ MonoBehaviour:
   invertMouse: 0
   mouseRotMultiplier: 0.1
   calledFor: 0
+--- !u!114 &1507686380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1507686373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19ad777abd098b84fbf87f4a1ae4b12b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 1507686375}
+  xSetpoint: 0
+  ySetpoint: 0
+  zSetpoint: 0
+  yawSetpoint: 0
+  rollSetpoint: 0
+  pitchSetpoint: 0
+  forces:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  andrewList:
+  - 0.5
+  - 0
+  - 0.1
+  - 0.5
+  - 0
+  - 0.1
+  - 0.5
+  - 0
+  - 0.1
+  - 0.05
+  - 0
+  - 0.1
+  - 0.05
+  - 0
+  - 0.1
+  - 0.05
+  - 0
+  - 0.1
 --- !u!1 &1569532118
 GameObject:
   m_ObjectHideFlags: 0
@@ -6550,6 +6595,8 @@ GameObject:
   - component: {fileID: 9193295145256729470}
   - component: {fileID: 5670206860296888298}
   - component: {fileID: 9193295145256729471}
+  - component: {fileID: 9193295145256729473}
+  - component: {fileID: 9193295145256729472}
   m_Layer: 0
   m_Name: Real Robot
   m_TagString: Untagged
@@ -6611,7 +6658,7 @@ Transform:
   m_GameObject: {fileID: 3023082051099529487}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -7.26, y: 2.99, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6633,7 +6680,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3023082051099529487}
   serializedVersion: 4
-  m_Mass: 2
+  m_Mass: 26.53
   m_Drag: 1
   m_AngularDrag: 1
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -6652,6 +6699,46 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &9193295145256729472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3023082051099529487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de1150f661782154d8edbc2c7dd2f593, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyboardForceMultiplier: 10
+  mouseForceMultiplier: 20
+  yawForceMultiplier: 4
+  shiftMultiplier: 4
+  invertMouse: 0
+  mouseRotMultiplier: 0.1
+  calledFor: 0
+--- !u!114 &9193295145256729473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3023082051099529487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5299c3a781577134bb74bf5e21493b5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 0}
+  RealRobotMovementControllerScript: {fileID: 0}
+  overrideMovement: 0
+  InvertMouseButton: {fileID: 0}
+  objectRenderer1: {fileID: 0}
+  objectRenderer2: {fileID: 0}
+  objectRenderer3: {fileID: 0}
+  objectRenderer4: {fileID: 0}
+  objectRenderer5: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

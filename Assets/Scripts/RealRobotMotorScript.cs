@@ -59,6 +59,19 @@ public class RealRobotMotorScript : MonoBehaviour
         Vector3 localposition7 = transform.TransformPoint(position7);
         Vector3 localposition8 = transform.TransformPoint(position8);
 
+        List<Vector3> forceList = new List<Vector3>() {Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero};
+
+        forceList = RealRobotPIDScript.returnGetVectors();
+
+        force1 = forceList[0];
+        force2 = forceList[1];
+        force3 = forceList[2];
+        force4 = forceList[3];
+        force5 = forceList[4];
+        force6 = forceList[5];
+        force7 = forceList[6];
+        force8 = forceList[7];
+
         if(overrideMovement)
         {
             MovementOverrideList = RealRobotMovementControllerScript.MovementOverride();
