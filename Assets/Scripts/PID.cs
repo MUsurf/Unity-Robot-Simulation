@@ -21,9 +21,15 @@ public class PID : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {
+    public List<Vector3> getVectors(float[] pows){
+        Vector3 force6 = new Vector3(pows[0]*0.707f, pows[4], pows[0]*0.707f);
+        Vector3 force5 = new Vector3(pows[1]*0.707f, pows[5], -pows[1]*0.707f);
+        Vector3 force7 = new Vector3(pows[2]*0.707f, pows[6], pows[2]*0.707f);
+        Vector3 force8 = new Vector3(pows[3]*0.707f, pows[7], -pows[3]*0.707f);
+        return new List<Vector3> {force5, force6, force7, force8};
+    }
+
+    public List<Vector3> returnGetVectors(){
         LeHandler.xPIDController.kP = andrewList[0];
         LeHandler.xPIDController.kI = andrewList[1];
         LeHandler.xPIDController.kD = andrewList[2];
@@ -59,18 +65,8 @@ public class PID : MonoBehaviour
         );
         
         forces = getVectors(PowerControl.calculatePowers(powerArray[0], powerArray[1], powerArray[2], powerArray[3], powerArray[4], -powerArray[5]));
-    }
-
-    public List<Vector3> getVectors(float[] pows){
-        Vector3 force6 = new Vector3(pows[0]*0.707f, pows[4], pows[0]*0.707f);
-        Vector3 force5 = new Vector3(pows[1]*0.707f, pows[5], -pows[1]*0.707f);
-        Vector3 force7 = new Vector3(pows[2]*0.707f, pows[6], pows[2]*0.707f);
-        Vector3 force8 = new Vector3(pows[3]*0.707f, pows[7], -pows[3]*0.707f);
-        return new List<Vector3> {force5, force6, force7, force8};
-    }
-
-    public List<Vector3> returnGetVectors(float[] pows){
-        return getVectors(pows);
+        
+        return forces;
     }
 
     public float normalize_angle(float angle){

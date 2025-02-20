@@ -90,27 +90,25 @@ public class RealRobotMovementController : MonoBehaviour
         averageSpeedsSideways = 0;
         if(Input.GetKey(KeyCode.W))
         {
-            force1 += Vector3.right + Vector3.back;
-            force2 += Vector3.right + Vector3.forward;
-            force7 += Vector3.right * keyboardForceMultiplier;
-            force8 += Vector3.right * keyboardForceMultiplier;
-            averageSpeedsForward++;
+            force1 += Vector3.forward + Vector3.left;
+            force2 += Vector3.forward + Vector3.right;
+            force3 += Vector3.back + Vector3.left;
+            force4 += Vector3.back + Vector3.right;
         }
         if
         (Input.GetKey(KeyCode.S))
         {
-            force5 += Vector3.left * keyboardForceMultiplier;
-            force6 += Vector3.left * keyboardForceMultiplier;
-            force7 += Vector3.left * keyboardForceMultiplier;
-            force8 += Vector3.left * keyboardForceMultiplier;
-            averageSpeedsForward++;
+            force1 += Vector3.back + Vector3.left;
+            force2 += Vector3.back + Vector3.right;
+            force3 += Vector3.forward + Vector3.left;
+            force4 += Vector3.forward + Vector3.right;
         }
         if(Input.GetKey(KeyCode.A))
         {
-            force5 += Vector3.forward * keyboardForceMultiplier;
-            force6 += Vector3.forward * keyboardForceMultiplier;
-            force7 += Vector3.forward * keyboardForceMultiplier;
-            force8 += Vector3.forward * keyboardForceMultiplier;
+            force1 += Vector3.forward + Vector3.left;
+            force2 += Vector3.back + Vector3.right;
+            force3 += Vector3.forward + Vector3.left;
+            force4 += Vector3.back + Vector3.right;
             averageSpeedsSideways++;
         }
         if(Input.GetKey(KeyCode.D))

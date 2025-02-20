@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 // TODO - reorganize the motor positions (so that it is like polar cords)
 // TODO - also, do the motor vectors need to be accurate?
-// TODO - lower tolerance of STL export, this is way too expensive
 // TODO - max thrust is - 51.4 N and 40 N
 // TODO - invert mouse button
 // TODO - could rainbow be more efficient?

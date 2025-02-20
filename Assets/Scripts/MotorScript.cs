@@ -18,7 +18,7 @@ public class MotorScript : MonoBehaviour
     public MovementController MovementControllerScript;
     
     // uncomment this to use PID when pushed
-    // public PID PIDScript;
+    public PID PIDScript;
     public bool overrideMovement = false;
     public GameObject InvertMouseButton;
     private float timeSinceLastIToggle = 0f;
@@ -35,12 +35,14 @@ public class MotorScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {   
-
-
         Vector3 localposition5 = transform.TransformPoint(position5);
         Vector3 localposition6 = transform.TransformPoint(position6);
         Vector3 localposition7 = transform.TransformPoint(position7);
         Vector3 localposition8 = transform.TransformPoint(position8);
+
+        List<Vector3> forceList = new List<Vector3>() {Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero};
+        
+        forceList = PIDScript.returnGetVectors();
 
         if(overrideMovement)
         {
