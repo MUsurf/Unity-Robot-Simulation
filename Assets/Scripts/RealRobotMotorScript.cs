@@ -2,8 +2,6 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-// TODO - reorganize the motor positions (so that it is like polar cords)
-// TODO - also, do the motor vectors need to be accurate?
 // TODO - max thrust is - 51.4 N and 40 N
 // TODO - invert mouse button
 // TODO - could rainbow be more efficient?
@@ -31,7 +29,6 @@ public class RealRobotMotorScript : MonoBehaviour
     private Vector3 position8 = new Vector3(-5.66f, 0f, -2.72f);
     private List<Vector3> MovementOverrideList = new List<Vector3>();
     public RealRobotMovementController RealRobotMovementControllerScript;
-    
     public RealRobotPID RealRobotPIDScript;
     public bool overrideMovement = false;
     public GameObject InvertMouseButton;
@@ -137,11 +134,7 @@ public class RealRobotMotorScript : MonoBehaviour
         };
     private int currentColorIndex = 0;
     private float timeElapsed = 0f;
-    public Renderer objectRenderer1;
-    public Renderer objectRenderer2;
-    public Renderer objectRenderer3;
-    public Renderer objectRenderer4;
-    public Renderer objectRenderer5;
+    public Renderer objectRenderer;
 
     void Update()
     {
@@ -177,11 +170,7 @@ public class RealRobotMotorScript : MonoBehaviour
                         currentIndex = 0;
                         if (!rainbowAchieved)
                         {
-                            objectRenderer1.material.color = Color.gray;
-                            objectRenderer2.material.color = Color.gray;
-                            objectRenderer3.material.color = Color.gray;
-                            objectRenderer4.material.color = Color.gray;
-                            objectRenderer5.material.color = Color.gray;
+                            objectRenderer.material.color = Color.gray;
 
                             currentColorIndex = 0;
                             timeElapsed = 0f;
@@ -205,11 +194,7 @@ public class RealRobotMotorScript : MonoBehaviour
             // Interpolate the color
             Color startColor = rainbowColors[currentColorIndex];
             Color endColor = rainbowColors[(currentColorIndex + 1) % rainbowColors.Count];
-            objectRenderer1.material.color = Color.Lerp(startColor, endColor, lerpValue);
-            objectRenderer2.material.color = Color.Lerp(startColor, endColor, lerpValue);
-            objectRenderer3.material.color = Color.Lerp(startColor, endColor, lerpValue);
-            objectRenderer4.material.color = Color.Lerp(startColor, endColor, lerpValue);
-            objectRenderer5.material.color = Color.Lerp(startColor, endColor, lerpValue);
+            objectRenderer.material.color = Color.Lerp(startColor, endColor, lerpValue);
 
             // Move to the next color if the duration is exceeded
             if (timeElapsed >= duration)
