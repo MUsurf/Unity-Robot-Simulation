@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 7927140}
   - component: {fileID: 7927139}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: Origin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1922,8 +1922,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1507686374}
-        m_TargetAssemblyTypeName: MotorScript, Assembly-CSharp
+      - m_Target: {fileID: 9193295145256729473}
+        m_TargetAssemblyTypeName: RealRobotMotorScript, Assembly-CSharp
         m_MethodName: enableOverrideMovement
         m_Mode: 0
         m_Arguments:
@@ -4887,7 +4887,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1507686375}
+      - m_Target: {fileID: 9193295145256729471}
         m_TargetAssemblyTypeName: UnityEngine.Rigidbody, UnityEngine
         m_MethodName: set_useGravity
         m_Mode: 0
@@ -5110,7 +5110,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1507686374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6631,8 +6631,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1507686379}
-        m_TargetAssemblyTypeName: MovementController, Assembly-CSharp
+      - m_Target: {fileID: 9193295145256729472}
+        m_TargetAssemblyTypeName: RealRobotMovementController, Assembly-CSharp
         m_MethodName: invertMouseToggle
         m_Mode: 0
         m_Arguments:
@@ -6659,6 +6659,8 @@ GameObject:
   - component: {fileID: 9193295145256729473}
   - component: {fileID: 9193295145256729472}
   - component: {fileID: 9193295145256729474}
+  - component: {fileID: 9193295145256729476}
+  - component: {fileID: 9193295145256729475}
   m_Layer: 0
   m_Name: Real Robot
   m_TagString: Untagged
@@ -6843,6 +6845,33 @@ MonoBehaviour:
   - 0.05
   - 0
   - 0.1
+--- !u!114 &9193295145256729475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3023082051099529487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdbe172fb531b5e48bbe1ff10969bac6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 9193295145256729471}
+  explosionForce: 1000
+  explosionPoint: {fileID: 1163596927}
+--- !u!114 &9193295145256729476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3023082051099529487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f76c3d136e631d64a849d1109b504984, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
