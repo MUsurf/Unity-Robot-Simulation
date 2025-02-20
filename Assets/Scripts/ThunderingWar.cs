@@ -7,7 +7,7 @@ public class ThunderingWar : MonoBehaviour
     private bool warthunderAchieved = false;
     public AudioClip audioClip; // List of audio clips to play
     public AudioSource audioSource;
-    public MovementController MovementControllerScript;
+    // public MovementController MovementControllerScript;
     public RealRobotMovementController RealRobotMovementControllerScript;
 
     void Start()
@@ -17,7 +17,7 @@ public class ThunderingWar : MonoBehaviour
 
     void Update()
     {
-        if(MovementControllerScript.calledFor || RealRobotMovementControllerScript.calledFor)
+        if(RealRobotMovementControllerScript.calledFor)
         {
             if (currentIndex < targetWord.Length)
             {

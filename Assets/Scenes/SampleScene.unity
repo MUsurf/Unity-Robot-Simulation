@@ -889,8 +889,8 @@ MonoBehaviour:
   targetRigidbody: {fileID: 1507686375}
   ReallyMotionSicknessToggle: {fileID: 419122195}
   firstPersonToggle: {fileID: 1794228747}
-  fcameraPos: {fileID: 1581286494}
-  tcameraPos: {fileID: 1430938649}
+  fcameraPos: {fileID: 619879174}
+  tcameraPos: {fileID: 1914540611}
   firstPerson: 0
 --- !u!82 &330585549
 AudioSource:
@@ -1025,7 +1025,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioClip: {fileID: 8300000, guid: c4b43193ce92ac045b53ccab47d4c949, type: 3}
   audioSource: {fileID: 330585549}
-  MovementControllerScript: {fileID: 1507686379}
   RealRobotMovementControllerScript: {fileID: 9193295145256729472}
 --- !u!1 &356330340
 GameObject:
@@ -2200,6 +2199,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &619879174
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 619879175}
+  m_Layer: 0
+  m_Name: FirstPersonCameraPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &619879175
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619879174}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6287599461413388852}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &623094144
 GameObject:
@@ -6265,6 +6295,37 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   m_IsOn: 0
+--- !u!1 &1914540611
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1914540612}
+  m_Layer: 0
+  m_Name: ThirdPersonCameraPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1914540612
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1914540611}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 10, z: -20}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6287599461413388852}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1974783635
 GameObject:
   m_ObjectHideFlags: 0
@@ -6662,7 +6723,9 @@ Transform:
   m_LocalPosition: {x: -7.26, y: 2.99, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 619879175}
+  - {fileID: 1914540612}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &9193295145256729470
@@ -6735,8 +6798,8 @@ MonoBehaviour:
   RealRobotMovementControllerScript: {fileID: 9193295145256729472}
   RealRobotPIDScript: {fileID: 9193295145256729474}
   overrideMovement: 0
-  InvertMouseButton: {fileID: 0}
-  objectRenderer: {fileID: 0}
+  InvertMouseButton: {fileID: 2145012752}
+  objectRenderer: {fileID: 5670206860296888298}
 --- !u!114 &9193295145256729474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6749,7 +6812,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74e1d3a047c79a84eaa1b9d1edc448ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 0}
+  rb: {fileID: 9193295145256729471}
   xSetpoint: 0
   ySetpoint: 0
   zSetpoint: 0
@@ -6788,6 +6851,7 @@ SceneRoots:
   - {fileID: 832575519}
   - {fileID: 330585546}
   - {fileID: 1507686376}
+  - {fileID: 6287599461413388852}
   - {fileID: 1659023452}
   - {fileID: 617364284}
   - {fileID: 836291349}
@@ -6795,4 +6859,3 @@ SceneRoots:
   - {fileID: 1163596930}
   - {fileID: 787789190}
   - {fileID: 533916884}
-  - {fileID: 6287599461413388852}
