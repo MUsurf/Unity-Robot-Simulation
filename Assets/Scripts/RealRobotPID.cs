@@ -24,11 +24,15 @@ public class RealRobotPID : MonoBehaviour
     }
 
     public List<Vector3> getVectors(float[] pows){
-        Vector3 force6 = new Vector3(pows[0]*0.707f, pows[4], pows[0]*0.707f);
-        Vector3 force5 = new Vector3(pows[1]*0.707f, pows[5], -pows[1]*0.707f);
-        Vector3 force7 = new Vector3(pows[2]*0.707f, pows[6], pows[2]*0.707f);
-        Vector3 force8 = new Vector3(pows[3]*0.707f, pows[7], -pows[3]*0.707f);
-        return new List<Vector3> {force5, force6, force7, force8};
+        Vector3 force2 = new Vector3(pows[0]*0.707f, 0f, pows[0]*0.707f);
+        Vector3 force1 = new Vector3(pows[1]*0.707f, 0f, -pows[1]*0.707f);
+        Vector3 force3 = new Vector3(pows[2]*0.707f, 0f, pows[2]*0.707f);
+        Vector3 force4 = new Vector3(pows[3]*0.707f, 0f, -pows[3]*0.707f);
+        Vector3 force6 = new Vector3(0f, pows[4], 0f);
+        Vector3 force5 = new Vector3(0f, pows[5], 0f);
+        Vector3 force7 = new Vector3(0f, pows[6], 0f);
+        Vector3 force8 = new Vector3(0f, pows[7], 0f);
+        return new List<Vector3> {force1, force2, force3, force4, force5, force6, force7, force8};
     }
 
     public List<Vector3> returnGetVectors(){
