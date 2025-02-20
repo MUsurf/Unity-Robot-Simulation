@@ -40,7 +40,7 @@ public class MotorScript : MonoBehaviour
         Vector3 localposition7 = transform.TransformPoint(position7);
         Vector3 localposition8 = transform.TransformPoint(position8);
 
-        List<Vector3> forceList = new List<Vector3>() {Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero};
+        List<Vector3> forceList;
         
         forceList = PIDScript.returnGetVectors();
 
