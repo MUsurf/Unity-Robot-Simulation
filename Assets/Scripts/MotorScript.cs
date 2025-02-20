@@ -44,6 +44,11 @@ public class MotorScript : MonoBehaviour
         
         forceList = PIDScript.returnGetVectors();
 
+        force5 = forceList[0];
+        force6 = forceList[1];
+        force7 = forceList[2];
+        force8 = forceList[3];
+
         if(overrideMovement)
         {
             MovementOverrideList = MovementControllerScript.MovementOverride();
