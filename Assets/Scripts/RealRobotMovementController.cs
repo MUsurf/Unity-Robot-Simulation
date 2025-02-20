@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NUnit.Framework.Constraints;
 using UnityEngine;
 
 public class RealRobotMovementController : MonoBehaviour
@@ -7,8 +8,8 @@ public class RealRobotMovementController : MonoBehaviour
     public float mouseForceMultiplier = 20f;
     public float yawForceMultiplier = 4f;
     public float shiftMultiplier = 4f;
-    private int averageSpeedsForward = 0;
-    private int averageSpeedsSideways = 0;
+    private bool forwards = false;
+    private bool sideways = false;
     public bool invertMouse = false;
     private int invertMouseMultiplier = 1;
     public float mouseRotMultiplier = 0.1f;
@@ -60,6 +61,15 @@ public class RealRobotMovementController : MonoBehaviour
         Vector3 force6 = Vector3.zero;
         Vector3 force7 = Vector3.zero;
         Vector3 force8 = Vector3.zero;
+
+        Vector3 mouseforce1 = Vector3.zero;
+        Vector3 mouseforce2 = Vector3.zero;
+        Vector3 mouseforce3 = Vector3.zero;
+        Vector3 mouseforce4 = Vector3.zero;
+        Vector3 mouseforce5 = Vector3.zero;
+        Vector3 mouseforce6 = Vector3.zero;
+        Vector3 mouseforce7 = Vector3.zero;
+        Vector3 mouseforce8 = Vector3.zero;
         
         if(invertMouse)
         {
@@ -86,98 +96,187 @@ public class RealRobotMovementController : MonoBehaviour
             }
         }
 
-        averageSpeedsForward = 0;
-        averageSpeedsSideways = 0;
+        forwards = false;
+        sideways = false;
+
         if(Input.GetKey(KeyCode.W))
         {
-            force1 += Vector3.forward + Vector3.left;
-            force2 += Vector3.forward + Vector3.right;
+            force1 += Vector3.forward + Vector3.right;
+            force2 += Vector3.forward + Vector3.left;
             force3 += Vector3.back + Vector3.left;
             force4 += Vector3.back + Vector3.right;
+            forwards = true;
         }
         if
         (Input.GetKey(KeyCode.S))
         {
-            force1 += Vector3.back + Vector3.left;
-            force2 += Vector3.back + Vector3.right;
-            force3 += Vector3.forward + Vector3.left;
-            force4 += Vector3.forward + Vector3.right;
+            if(forwards)
+            {
+                force1 = Vector3.zero;
+                force2 = Vector3.zero;
+                force3 = Vector3.zero;
+                force4 = Vector3.zero;
+            }
+            else
+            {
+                force1 += Vector3.back + Vector3.left;
+                force2 += Vector3.back + Vector3.right;
+                force3 += Vector3.forward + Vector3.right;
+                force4 += Vector3.forward + Vector3.left;
+            }
         }
         if(Input.GetKey(KeyCode.A))
         {
-            force1 += Vector3.forward + Vector3.left;
-            force2 += Vector3.back + Vector3.right;
-            force3 += Vector3.forward + Vector3.left;
-            force4 += Vector3.back + Vector3.right;
-            averageSpeedsSideways++;
+            force1 += Vector3.back + Vector3.left;
+            force2 += Vector3.forward + Vector3.left;
+            force3 += Vector3.back + Vector3.left;
+            force4 += Vector3.forward + Vector3.left;
+            sideways = true;
         }
         if(Input.GetKey(KeyCode.D))
         {
-            force5 += Vector3.back * keyboardForceMultiplier;
-            force6 += Vector3.back * keyboardForceMultiplier;
-            force7 += Vector3.back * keyboardForceMultiplier;
-            force8 += Vector3.back * keyboardForceMultiplier;
-            averageSpeedsSideways++;
+            if(sideways)
+            {
+                force1 -= Vector3.back + Vector3.left;
+                force2 -= Vector3.forward + Vector3.left;
+                force3 -= Vector3.back + Vector3.left;
+                force4 -= Vector3.forward + Vector3.left;
+            }
+            else
+            {
+                force1 += Vector3.forward + Vector3.right;
+                force2 += Vector3.back + Vector3.right;
+                force3 += Vector3.forward + Vector3.right;
+                force4 += Vector3.back + Vector3.right;
+            }
         }
-        if((averageSpeedsForward == 1) && (averageSpeedsSideways == 1))
-        {
-            force5 *= 0.7071f;
-            force6 *= 0.7071f;
-            force7 *= 0.7071f;
-            force8 *= 0.7071f;
-        }
+
+        force1 = force1.normalized;
+        force2 = force2.normalized;
+        force3 = force3.normalized;
+        force4 = force4.normalized;
+
         if(Input.GetKey(KeyCode.Space))
         {
-            force5 += Vector3.up * keyboardForceMultiplier;
-            force6 += Vector3.up * keyboardForceMultiplier;
-            force7 += Vector3.up * keyboardForceMultiplier;
-            force8 += Vector3.up * keyboardForceMultiplier;
+            force5 += Vector3.up;
+            force6 += Vector3.up;
+            force7 += Vector3.up;
+            force8 += Vector3.up;
         }
         if(Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.C))
         {
-            force5 += Vector3.down * keyboardForceMultiplier;
-            force6 += Vector3.down * keyboardForceMultiplier;
-            force7 += Vector3.down * keyboardForceMultiplier;
-            force8 += Vector3.down * keyboardForceMultiplier;
+            force5 += Vector3.down;
+            force6 += Vector3.down;
+            force7 += Vector3.down;
+            force8 += Vector3.down;
         }
-        if(Input.GetKey(KeyCode.LeftShift))
-        {
-            force5 *= shiftMultiplier;
-            force6 *= shiftMultiplier;
-            force7 *= shiftMultiplier;
-            force8 *= shiftMultiplier;
-        }
+        
+        // TODO - make this go at half speed?
+        
+        // if(Input.GetKey(KeyCode.LeftShift))
+        // {
+        //     force5 *= shiftMultiplier;
+        //     force6 *= shiftMultiplier;
+        //     force7 *= shiftMultiplier;
+        //     force8 *= shiftMultiplier;
+        // }
 
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
         Vector3 mouseDelta = new Vector3(mouseX, mouseY, 0);
 
-        force5 += new Vector3(0, mouseDelta.y, 0) * mouseForceMultiplier * invertMouseMultiplier;
-        force6 += new Vector3(0, mouseDelta.y, 0) * mouseForceMultiplier * invertMouseMultiplier;
-        force7 -= new Vector3(0, mouseDelta.y, 0) * mouseForceMultiplier * invertMouseMultiplier;
-        force8 -= new Vector3(0, mouseDelta.y, 0) * mouseForceMultiplier * invertMouseMultiplier;
+        mouseforce5 += new Vector3(0, mouseDelta.y, 0) * mouseForceMultiplier * invertMouseMultiplier;
+        mouseforce6 += new Vector3(0, mouseDelta.y, 0) * mouseForceMultiplier * invertMouseMultiplier;
+        mouseforce7 -= new Vector3(0, mouseDelta.y, 0) * mouseForceMultiplier * invertMouseMultiplier;
+        mouseforce8 -= new Vector3(0, mouseDelta.y, 0) * mouseForceMultiplier * invertMouseMultiplier;
 
-        force5 += new Vector3(0, mouseDelta.x, 0) * mouseForceMultiplier;
-        force6 -= new Vector3(0, mouseDelta.x, 0) * mouseForceMultiplier;
-        force7 += new Vector3(0, mouseDelta.x, 0) * mouseForceMultiplier;
-        force8 -= new Vector3(0, mouseDelta.x, 0) * mouseForceMultiplier;
+        mouseforce5 += new Vector3(0, mouseDelta.x, 0) * mouseForceMultiplier;
+        mouseforce6 -= new Vector3(0, mouseDelta.x, 0) * mouseForceMultiplier;
+        mouseforce7 += new Vector3(0, mouseDelta.x, 0) * mouseForceMultiplier;
+        mouseforce8 -= new Vector3(0, mouseDelta.x, 0) * mouseForceMultiplier;
 
         if(Input.GetKey(KeyCode.Q))
         {
-            force5 += Vector3.forward * yawForceMultiplier;
-            force6 += Vector3.forward * yawForceMultiplier;
-            force7 += Vector3.back * yawForceMultiplier;
-            force8 += Vector3.back * yawForceMultiplier;
+            mouseforce1 += (Vector3.back + Vector3.left) * yawForceMultiplier;
+            mouseforce2 += (Vector3.forward + Vector3.left) * yawForceMultiplier;
+            mouseforce3 += (Vector3.forward + Vector3.right) * yawForceMultiplier;
+            mouseforce4 += (Vector3.back + Vector3.right) * yawForceMultiplier;
         }
         if(Input.GetKey(KeyCode.E))
         {
-            force5 += Vector3.back * yawForceMultiplier;
-            force6 += Vector3.back * yawForceMultiplier;
-            force7 += Vector3.forward * yawForceMultiplier;
-            force8 += Vector3.forward * yawForceMultiplier;
+            mouseforce1 += (Vector3.forward + Vector3.right) * yawForceMultiplier;
+            mouseforce2 += (Vector3.back + Vector3.right) * yawForceMultiplier;
+            mouseforce3 += (Vector3.back + Vector3.left) * yawForceMultiplier;
+            mouseforce4 += (Vector3.forward + Vector3.left) * yawForceMultiplier;
         }
         
+        mouseforce1 = mouseforce1.normalized;
+        mouseforce2 = mouseforce2.normalized;
+        mouseforce3 = mouseforce3.normalized;
+        mouseforce4 = mouseforce4.normalized;
+        mouseforce5 = mouseforce5.normalized;
+        mouseforce6 = mouseforce6.normalized;
+        mouseforce7 = mouseforce7.normalized;
+        mouseforce8 = mouseforce8.normalized;
+
+        force1 += mouseforce1;
+        force2 += mouseforce2;
+        force3 += mouseforce3;
+        force4 += mouseforce4;
+        force5 += mouseforce5;
+        force6 += mouseforce6;
+        force7 += mouseforce7;
+        force8 += mouseforce8;
+
+
+        force1 = force1.normalized;
+        force2 = force2.normalized;
+        force3 = force3.normalized;
+        force4 = force4.normalized;
+        force5 = force5.normalized;
+        force6 = force6.normalized;
+        force7 = force7.normalized;
+        force8 = force8.normalized;
+
+        checkNegativeAndApply(ref force1, ref force2, ref force3, ref force4, ref force5, ref force6, ref force7, ref force8);
+
+        // TODO - max thrust is - 51.4 N and 40 N
+
         return new List<Vector3> {force1, force2, force3, force4, force5, force6, force7, force8};
+    }
+
+    private void checkNegativeAndApply(ref Vector3 force1, ref Vector3 force2, ref Vector3 force3, ref Vector3 force4, ref Vector3 force5, ref Vector3 force6, ref Vector3 force7, ref Vector3 force8)
+    {
+        if((force1.x < 0) || (force1.z < 0) || (force2.x < 0) || (force2.z < 0) || (force3.x < 0) || (force3.z < 0) || (force4.x < 0) || (force4.z < 0))
+        {
+            force1 = force1 * 40;
+            force2 = force2 * 40;
+            force3 = force3 * 40;
+            force4 = force4 * 40;
+        }
+        else
+        {
+            force1 = force1 * 51.4f;
+            force2 = force2 * 51.4f;
+            force3 = force3 * 51.4f;
+            force4 = force4 * 51.4f;
+        }
+
+        if((force5.y < 0) || (force6.y < 0) || (force7.y < 0) || (force8.y < 0))
+        {
+            force5 = force5 * 40;
+            force6 = force6 * 40;
+            force7 = force7 * 40;
+            force8 = force8 * 40;
+        }
+        else
+        {
+            force5 = force5 * 51.4f;
+            force6 = force6 * 51.4f;
+            force7 = force7 * 51.4f;
+            force8 = force8 * 51.4f;
+        }
+
     }
 }
