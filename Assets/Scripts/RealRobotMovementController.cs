@@ -8,8 +8,6 @@ public class RealRobotMovementController : MonoBehaviour
     public float mouseForceMultiplier = 20f;
     public float yawForceMultiplier = 4f;
     public float shiftMultiplier = 4f;
-    private bool forwards = false;
-    private bool sideways = false;
     public bool invertMouse = false;
     private int invertMouseMultiplier = 1;
     public float mouseRotMultiplier = 0.1f;
@@ -96,16 +94,12 @@ public class RealRobotMovementController : MonoBehaviour
             }
         }
 
-        forwards = false;
-        sideways = false;
-
         if(Input.GetKey(KeyCode.W))
         {
             force1 += Vector3.forward + Vector3.right;
             force2 += Vector3.forward + Vector3.left;
             force3 += Vector3.forward + Vector3.left;
             force4 += Vector3.forward + Vector3.right;
-            forwards = true;
         }
         if
         (Input.GetKey(KeyCode.S))
@@ -123,7 +117,6 @@ public class RealRobotMovementController : MonoBehaviour
             force2 += Vector3.forward + Vector3.left;
             force3 += Vector3.back + Vector3.left;
             force4 += Vector3.forward + Vector3.left;
-            sideways = true;
         }
         if(Input.GetKey(KeyCode.D))
         {
@@ -225,8 +218,6 @@ public class RealRobotMovementController : MonoBehaviour
 
         checkNegativeAndApply(ref force1, ref force2, ref force3, ref force4, ref force5, ref force6, ref force7, ref force8);
 
-        // TODO - max thrust is - 51.4 N and 40 N
-
         Debug.Log(new List<Vector3> {force1, force2, force3, force4, force5, force6, force7, force8});
 
         return new List<Vector3> {force1, force2, force3, force4, force5, force6, force7, force8};
@@ -234,35 +225,47 @@ public class RealRobotMovementController : MonoBehaviour
 
     private void checkNegativeAndApply(ref Vector3 force1, ref Vector3 force2, ref Vector3 force3, ref Vector3 force4, ref Vector3 force5, ref Vector3 force6, ref Vector3 force7, ref Vector3 force8)
     {
-        if((force1.x < 0) || (force1.z < 0) || (force2.x < 0) || (force2.z < 0) || (force3.x < 0) || (force3.z < 0) || (force4.x < 0) || (force4.z < 0))
-        {
-            force1 = force1 * 40;
-            force2 = force2 * 40;
-            force3 = force3 * 40;
-            force4 = force4 * 40;
-        }
-        else
-        {
-            force1 = force1 * 51.4f;
-            force2 = force2 * 51.4f;
-            force3 = force3 * 51.4f;
-            force4 = force4 * 51.4f;
-        }
+        //TODO - maybe possible, for now just 40
+        // TODO - max thrust is - 51.4 N and 40 N
 
-        if((force5.y < 0) || (force6.y < 0) || (force7.y < 0) || (force8.y < 0))
-        {
-            force5 = force5 * 40;
-            force6 = force6 * 40;
-            force7 = force7 * 40;
-            force8 = force8 * 40;
-        }
-        else
-        {
-            force5 = force5 * 51.4f;
-            force6 = force6 * 51.4f;
-            force7 = force7 * 51.4f;
-            force8 = force8 * 51.4f;
-        }
+        force1 = force1 * 40;
+        force2 = force2 * 40;
+        force3 = force3 * 40;
+        force4 = force4 * 40;
+        force5 = force5 * 40;
+        force6 = force6 * 40;
+        force7 = force7 * 40;
+        force8 = force8 * 40;
+
+        // if((force1.x < 0) || (force1.z < 0) || (force2.x < 0) || (force2.z < 0) || (force3.x < 0) || (force3.z < 0) || (force4.x < 0) || (force4.z < 0))
+        // {
+        //     force1 = force1 * 40;
+        //     force2 = force2 * 40;
+        //     force3 = force3 * 40;
+        //     force4 = force4 * 40;
+        // }
+        // else
+        // {
+        //     force1 = force1 * 51.4f;
+        //     force2 = force2 * 51.4f;
+        //     force3 = force3 * 51.4f;
+        //     force4 = force4 * 51.4f;
+        // }
+
+        // if((force5.y < 0) || (force6.y < 0) || (force7.y < 0) || (force8.y < 0))
+        // {
+        //     force5 = force5 * 40;
+        //     force6 = force6 * 40;
+        //     force7 = force7 * 40;
+        //     force8 = force8 * 40;
+        // }
+        // else
+        // {
+        //     force5 = force5 * 51.4f;
+        //     force6 = force6 * 51.4f;
+        //     force7 = force7 * 51.4f;
+        //     force8 = force8 * 51.4f;
+        // }
 
     }
 }
