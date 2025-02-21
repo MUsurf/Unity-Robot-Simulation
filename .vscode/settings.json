@@ -1,6 +1,5 @@
 {
     "files.exclude": {
-        "**/.DS_Store": true,
         "**/.git": true,
         "**/.vs": true,
         "**/.gitmodules": true,
@@ -56,5 +55,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Unity-Robot-Simulation.sln"
+    "dotnet.defaultSolution": "SURF Robot Simulation.sln"
 }
