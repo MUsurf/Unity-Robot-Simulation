@@ -5,7 +5,7 @@ using UnityEngine;
 public class RealRobotMovementController : MonoBehaviour
 {
     public float keyboardForceMultiplier = 10;
-    public float mouseForceMultiplier = 20f;
+    public float mouseForceMultiplier = .001f;
     public float yawForceMultiplier = 4f;
     public float shiftMultiplier = 4f;
     public bool invertMouse = false;
@@ -187,15 +187,27 @@ public class RealRobotMovementController : MonoBehaviour
         mouseforce7 = mouseforce7.normalized;
         mouseforce8 = mouseforce8.normalized;
         
-        mouseforce5 += new Vector3(0, mouseDelta.y, 0) * mouseForceMultiplier * invertMouseMultiplier;
-        mouseforce6 += new Vector3(0, mouseDelta.y, 0) * mouseForceMultiplier * invertMouseMultiplier;
-        mouseforce7 -= new Vector3(0, mouseDelta.y, 0) * mouseForceMultiplier * invertMouseMultiplier;
-        mouseforce8 -= new Vector3(0, mouseDelta.y, 0) * mouseForceMultiplier * invertMouseMultiplier;
+        mouseDelta.y = mouseDelta.y * mouseForceMultiplier * invertMouseMultiplier / 40;
+        mouseDelta.x = mouseDelta.x * mouseForceMultiplier / 40;
 
-        mouseforce5 += new Vector3(0, mouseDelta.x, 0) * mouseForceMultiplier;
-        mouseforce6 -= new Vector3(0, mouseDelta.x, 0) * mouseForceMultiplier;
-        mouseforce7 += new Vector3(0, mouseDelta.x, 0) * mouseForceMultiplier;
-        mouseforce8 -= new Vector3(0, mouseDelta.x, 0) * mouseForceMultiplier;
+        if(mouseDelta.y > 1)
+        {
+            mouseDelta.y = 1;
+        }
+        if(mouseDelta.x > 1)
+        {
+            mouseDelta.x = 1;
+        }
+
+        mouseforce5 += new Vector3(0, mouseDelta.y, 0);
+        mouseforce6 += new Vector3(0, mouseDelta.y, 0);
+        mouseforce7 -= new Vector3(0, mouseDelta.y, 0);
+        mouseforce8 -= new Vector3(0, mouseDelta.y, 0);
+
+        mouseforce5 += new Vector3(0, mouseDelta.x, 0);
+        mouseforce6 -= new Vector3(0, mouseDelta.x, 0);
+        mouseforce7 += new Vector3(0, mouseDelta.x, 0);
+        mouseforce8 -= new Vector3(0, mouseDelta.x, 0);
 
         force1 += mouseforce1;
         force2 += mouseforce2;
