@@ -103,27 +103,19 @@ public class RealRobotMovementController : MonoBehaviour
         {
             force1 += Vector3.forward + Vector3.right;
             force2 += Vector3.forward + Vector3.left;
-            force3 += Vector3.back + Vector3.left;
-            force4 += Vector3.back + Vector3.right;
+            force3 += Vector3.forward + Vector3.left;
+            force4 += Vector3.forward + Vector3.right;
             forwards = true;
         }
         if
         (Input.GetKey(KeyCode.S))
         {
-            if(forwards)
-            {
-                force1 = Vector3.zero;
-                force2 = Vector3.zero;
-                force3 = Vector3.zero;
-                force4 = Vector3.zero;
-            }
-            else
-            {
-                force1 += Vector3.back + Vector3.left;
-                force2 += Vector3.back + Vector3.right;
-                force3 += Vector3.forward + Vector3.right;
-                force4 += Vector3.forward + Vector3.left;
-            }
+
+            force1 += Vector3.back + Vector3.left;
+            force2 += Vector3.back + Vector3.right;
+            force3 += Vector3.back + Vector3.right;
+            force4 += Vector3.back + Vector3.left;
+
         }
         if(Input.GetKey(KeyCode.A))
         {
@@ -135,20 +127,12 @@ public class RealRobotMovementController : MonoBehaviour
         }
         if(Input.GetKey(KeyCode.D))
         {
-            if(sideways)
-            {
-                force1 -= Vector3.back + Vector3.left;
-                force2 -= Vector3.forward + Vector3.left;
-                force3 -= Vector3.back + Vector3.left;
-                force4 -= Vector3.forward + Vector3.left;
-            }
-            else
-            {
-                force1 += Vector3.forward + Vector3.right;
-                force2 += Vector3.back + Vector3.right;
-                force3 += Vector3.forward + Vector3.right;
-                force4 += Vector3.back + Vector3.right;
-            }
+
+            force1 += Vector3.forward + Vector3.right;
+            force2 += Vector3.back + Vector3.right;
+            force3 += Vector3.forward + Vector3.right;
+            force4 += Vector3.back + Vector3.right;
+
         }
 
         force1 = force1.normalized;
@@ -200,15 +184,15 @@ public class RealRobotMovementController : MonoBehaviour
         {
             mouseforce1 += (Vector3.back + Vector3.left) * yawForceMultiplier;
             mouseforce2 += (Vector3.forward + Vector3.left) * yawForceMultiplier;
-            mouseforce3 += (Vector3.forward + Vector3.right) * yawForceMultiplier;
-            mouseforce4 += (Vector3.back + Vector3.right) * yawForceMultiplier;
+            mouseforce3 += (Vector3.back + Vector3.right) * yawForceMultiplier;
+            mouseforce4 += (Vector3.forward + Vector3.right) * yawForceMultiplier;
         }
         if(Input.GetKey(KeyCode.E))
         {
             mouseforce1 += (Vector3.forward + Vector3.right) * yawForceMultiplier;
             mouseforce2 += (Vector3.back + Vector3.right) * yawForceMultiplier;
-            mouseforce3 += (Vector3.back + Vector3.left) * yawForceMultiplier;
-            mouseforce4 += (Vector3.forward + Vector3.left) * yawForceMultiplier;
+            mouseforce3 += (Vector3.forward + Vector3.left) * yawForceMultiplier;
+            mouseforce4 += (Vector3.back + Vector3.left) * yawForceMultiplier;
         }
         
         mouseforce1 = mouseforce1.normalized;
@@ -242,6 +226,8 @@ public class RealRobotMovementController : MonoBehaviour
         checkNegativeAndApply(ref force1, ref force2, ref force3, ref force4, ref force5, ref force6, ref force7, ref force8);
 
         // TODO - max thrust is - 51.4 N and 40 N
+
+        Debug.Log(new List<Vector3> {force1, force2, force3, force4, force5, force6, force7, force8});
 
         return new List<Vector3> {force1, force2, force3, force4, force5, force6, force7, force8};
     }

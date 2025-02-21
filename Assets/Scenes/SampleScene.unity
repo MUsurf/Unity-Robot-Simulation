@@ -886,7 +886,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0c19888d95e9954cb222903c6c838d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetRigidbody: {fileID: 1507686375}
+  targetRigidbody: {fileID: 9193295145256729471}
   ReallyMotionSicknessToggle: {fileID: 419122195}
   firstPersonToggle: {fileID: 1794228747}
   fcameraPos: {fileID: 619879174}
@@ -2014,37 +2014,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 468612142}
   m_CullTransparentMesh: 1
---- !u!1 &533916883
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 533916884}
-  m_Layer: 0
-  m_Name: FirstPersonCameraPos
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &533916884
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 533916883}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4, y: 4.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &566508712
 GameObject:
   m_ObjectHideFlags: 0
@@ -3178,7 +3147,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1507686377}
+      - m_Target: {fileID: 9193295145256729476}
         m_TargetAssemblyTypeName: RandomizePosRot, Assembly-CSharp
         m_MethodName: RandomizeRot
         m_Mode: 1
@@ -3311,7 +3280,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1507686377}
+      - m_Target: {fileID: 9193295145256729476}
         m_TargetAssemblyTypeName: RandomizePosRot, Assembly-CSharp
         m_MethodName: RandomizePos
         m_Mode: 1
@@ -4271,7 +4240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 1265927426}
-  rb: {fileID: 1507686375}
+  rb: {fileID: 9193295145256729471}
 --- !u!114 &1265927426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5355,8 +5324,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1507686378}
-        m_TargetAssemblyTypeName: Explosion, Assembly-CSharp
+      - m_Target: {fileID: 9193295145256729475}
+        m_TargetAssemblyTypeName: RealRobotExplosion, Assembly-CSharp
         m_MethodName: Explode
         m_Mode: 1
         m_Arguments:
@@ -6858,7 +6827,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 9193295145256729471}
-  explosionForce: 1000
+  explosionForce: 100000
   explosionPoint: {fileID: 1163596927}
 --- !u!114 &9193295145256729476
 MonoBehaviour:
@@ -6887,4 +6856,3 @@ SceneRoots:
   - {fileID: 7927141}
   - {fileID: 1163596930}
   - {fileID: 787789190}
-  - {fileID: 533916884}

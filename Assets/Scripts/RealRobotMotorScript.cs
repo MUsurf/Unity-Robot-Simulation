@@ -55,18 +55,18 @@ public class RealRobotMotorScript : MonoBehaviour
         Vector3 localposition7 = transform.TransformPoint(position7);
         Vector3 localposition8 = transform.TransformPoint(position8);
 
-        // List<Vector3> forceList;
+        List<Vector3> forceList;
 
-        // forceList = RealRobotPIDScript.returnGetVectors();
+        forceList = RealRobotPIDScript.returnGetVectors();
 
-        // force1 = forceList[0];
-        // force2 = forceList[1];
-        // force3 = forceList[2];
-        // force4 = forceList[3];
-        // force5 = forceList[4];
-        // force6 = forceList[5];
-        // force7 = forceList[6];
-        // force8 = forceList[7];
+        force1 = forceList[0];
+        force2 = forceList[1];
+        force3 = forceList[2];
+        force4 = forceList[3];
+        force5 = forceList[4];
+        force6 = forceList[5];
+        force7 = forceList[6];
+        force8 = forceList[7];
 
         // GARBAGE A
         if(overrideMovement)
@@ -144,7 +144,7 @@ public class RealRobotMotorScript : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.R))
         {
             rb.position = new Vector3(0, 4.5f, 0);
-            rb.rotation = new Quaternion(0, 0, 0, 0);
+            rb.rotation = Quaternion.identity;
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
         }
