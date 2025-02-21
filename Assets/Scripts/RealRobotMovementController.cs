@@ -115,16 +115,16 @@ public class RealRobotMovementController : MonoBehaviour
         {
             force1 += Vector3.back + Vector3.left;
             force2 += Vector3.forward + Vector3.left;
-            force3 += Vector3.back + Vector3.left;
-            force4 += Vector3.forward + Vector3.left;
+            force3 += Vector3.forward + Vector3.left;
+            force4 += Vector3.back + Vector3.left;
         }
         if(Input.GetKey(KeyCode.D))
         {
 
             force1 += Vector3.forward + Vector3.right;
             force2 += Vector3.back + Vector3.right;
-            force3 += Vector3.forward + Vector3.right;
-            force4 += Vector3.back + Vector3.right;
+            force3 += Vector3.back + Vector3.right;
+            force4 += Vector3.forward + Vector3.right;
 
         }
 
@@ -163,16 +163,6 @@ public class RealRobotMovementController : MonoBehaviour
 
         Vector3 mouseDelta = new Vector3(mouseX, mouseY, 0);
 
-        mouseforce5 += new Vector3(0, mouseDelta.y, 0) * mouseForceMultiplier * invertMouseMultiplier;
-        mouseforce6 += new Vector3(0, mouseDelta.y, 0) * mouseForceMultiplier * invertMouseMultiplier;
-        mouseforce7 -= new Vector3(0, mouseDelta.y, 0) * mouseForceMultiplier * invertMouseMultiplier;
-        mouseforce8 -= new Vector3(0, mouseDelta.y, 0) * mouseForceMultiplier * invertMouseMultiplier;
-
-        mouseforce5 += new Vector3(0, mouseDelta.x, 0) * mouseForceMultiplier;
-        mouseforce6 -= new Vector3(0, mouseDelta.x, 0) * mouseForceMultiplier;
-        mouseforce7 += new Vector3(0, mouseDelta.x, 0) * mouseForceMultiplier;
-        mouseforce8 -= new Vector3(0, mouseDelta.x, 0) * mouseForceMultiplier;
-
         if(Input.GetKey(KeyCode.Q))
         {
             mouseforce1 += (Vector3.back + Vector3.left) * yawForceMultiplier;
@@ -187,7 +177,7 @@ public class RealRobotMovementController : MonoBehaviour
             mouseforce3 += (Vector3.forward + Vector3.left) * yawForceMultiplier;
             mouseforce4 += (Vector3.back + Vector3.left) * yawForceMultiplier;
         }
-        
+
         mouseforce1 = mouseforce1.normalized;
         mouseforce2 = mouseforce2.normalized;
         mouseforce3 = mouseforce3.normalized;
@@ -196,6 +186,16 @@ public class RealRobotMovementController : MonoBehaviour
         mouseforce6 = mouseforce6.normalized;
         mouseforce7 = mouseforce7.normalized;
         mouseforce8 = mouseforce8.normalized;
+        
+        mouseforce5 += new Vector3(0, mouseDelta.y, 0) * mouseForceMultiplier * invertMouseMultiplier;
+        mouseforce6 += new Vector3(0, mouseDelta.y, 0) * mouseForceMultiplier * invertMouseMultiplier;
+        mouseforce7 -= new Vector3(0, mouseDelta.y, 0) * mouseForceMultiplier * invertMouseMultiplier;
+        mouseforce8 -= new Vector3(0, mouseDelta.y, 0) * mouseForceMultiplier * invertMouseMultiplier;
+
+        mouseforce5 += new Vector3(0, mouseDelta.x, 0) * mouseForceMultiplier;
+        mouseforce6 -= new Vector3(0, mouseDelta.x, 0) * mouseForceMultiplier;
+        mouseforce7 += new Vector3(0, mouseDelta.x, 0) * mouseForceMultiplier;
+        mouseforce8 -= new Vector3(0, mouseDelta.x, 0) * mouseForceMultiplier;
 
         force1 += mouseforce1;
         force2 += mouseforce2;
@@ -218,14 +218,14 @@ public class RealRobotMovementController : MonoBehaviour
 
         checkNegativeAndApply(ref force1, ref force2, ref force3, ref force4, ref force5, ref force6, ref force7, ref force8);
 
-        Debug.Log(new List<Vector3> {force1, force2, force3, force4, force5, force6, force7, force8});
+        Debug.Log($"force1: {force1}, force2: {force2}, force3: {force3}, force4: {force4}, force5: {force5}, force6: {force6}, force7: {force7}, force8: {force8}");
 
         return new List<Vector3> {force1, force2, force3, force4, force5, force6, force7, force8};
     }
 
     private void checkNegativeAndApply(ref Vector3 force1, ref Vector3 force2, ref Vector3 force3, ref Vector3 force4, ref Vector3 force5, ref Vector3 force6, ref Vector3 force7, ref Vector3 force8)
     {
-        //TODO - maybe possible, for now just 40
+        // TODO - maybe possible, for now just 40
         // TODO - max thrust is - 51.4 N and 40 N
 
         force1 = force1 * 40;
