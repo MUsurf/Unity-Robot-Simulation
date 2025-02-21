@@ -6922,7 +6922,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyboardForceMultiplier: 10
-  mouseForceMultiplier: 0.001
+  mouseForceMultiplier: 2
   yawForceMultiplier: 4
   shiftMultiplier: 4
   invertMouse: 0

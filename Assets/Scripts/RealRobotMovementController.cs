@@ -5,7 +5,7 @@ using UnityEngine;
 public class RealRobotMovementController : MonoBehaviour
 {
     public float keyboardForceMultiplier = 10;
-    public float mouseForceMultiplier = .001f;
+    public float mouseForceMultiplier = 2f;
     public float yawForceMultiplier = 4f;
     public float shiftMultiplier = 4f;
     public bool invertMouse = false;
@@ -187,8 +187,8 @@ public class RealRobotMovementController : MonoBehaviour
         mouseforce7 = mouseforce7.normalized;
         mouseforce8 = mouseforce8.normalized;
         
-        mouseDelta.y = mouseDelta.y * mouseForceMultiplier * invertMouseMultiplier / 40;
-        mouseDelta.x = mouseDelta.x * mouseForceMultiplier / 40;
+        mouseDelta.y = mouseDelta.y * mouseForceMultiplier * invertMouseMultiplier / 40.00f;
+        mouseDelta.x = mouseDelta.x * mouseForceMultiplier / 40.00f;
 
         if(mouseDelta.y > 1)
         {
@@ -204,10 +204,10 @@ public class RealRobotMovementController : MonoBehaviour
         mouseforce7 -= new Vector3(0, mouseDelta.y, 0);
         mouseforce8 -= new Vector3(0, mouseDelta.y, 0);
 
-        mouseforce5 += new Vector3(0, mouseDelta.x, 0);
-        mouseforce6 -= new Vector3(0, mouseDelta.x, 0);
-        mouseforce7 += new Vector3(0, mouseDelta.x, 0);
-        mouseforce8 -= new Vector3(0, mouseDelta.x, 0);
+        mouseforce5 -= new Vector3(0, mouseDelta.x, 0);
+        mouseforce6 += new Vector3(0, mouseDelta.x, 0);
+        mouseforce7 -= new Vector3(0, mouseDelta.x, 0);
+        mouseforce8 += new Vector3(0, mouseDelta.x, 0);
 
         force1 += mouseforce1;
         force2 += mouseforce2;
@@ -218,15 +218,10 @@ public class RealRobotMovementController : MonoBehaviour
         force7 += mouseforce7;
         force8 += mouseforce8;
 
-
         force1 = force1.normalized;
         force2 = force2.normalized;
         force3 = force3.normalized;
         force4 = force4.normalized;
-        force5 = force5.normalized;
-        force6 = force6.normalized;
-        force7 = force7.normalized;
-        force8 = force8.normalized;
 
         checkNegativeAndApply(ref force1, ref force2, ref force3, ref force4, ref force5, ref force6, ref force7, ref force8);
 
