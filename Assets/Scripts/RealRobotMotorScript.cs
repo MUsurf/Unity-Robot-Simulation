@@ -68,7 +68,7 @@ public class RealRobotMotorScript : MonoBehaviour
         // force7 = forceList[6];
         // force8 = forceList[7];
 
-        // GARBAGE
+        // Amazing GARBAGE
         if(overrideMovement)
         {
             MovementOverrideList = RealRobotMovementControllerScript.MovementOverride();
