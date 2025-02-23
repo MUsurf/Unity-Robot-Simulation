@@ -1,3 +1,4 @@
+using UnityEditor.Callbacks;
 using UnityEngine;
 
 public class ObstacleCourse : MonoBehaviour
@@ -14,28 +15,58 @@ public class ObstacleCourse : MonoBehaviour
     public int spaceApart = 50;
     public int spaceForward = 60;
     private int flipInt = 1;
-    
+
+
+    public RealRobotPID realRobotPID;
+    public GameObject obstacleCourseSphere;
+    public GameObject realRobot;
+    private bool runCourse = false;
+    private Vector3 spherePosition;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        obstaclePosition = new Vector3(spaceForward, 16, width - spaceApart);
+        obstacleCourseSphere.SetActive(false);
+        obstaclePosition = new Vector3(spaceApart - width, 16, spaceForward);
         
         for(int i = 0; i < obstacleAmount; i++)
         {
             Instantiate(obstaclePrefab, obstaclePosition, new Quaternion(0, 0, 0, 0));
-            obstaclePosition.x += obstacleDistance;
-            obstaclePosition.z += flipInt * width;
+            obstaclePosition.z += obstacleDistance;
+            obstaclePosition.x += flipInt * width;
             flipInt *= -1;
         }
 
-        hoopPosition = new Vector3(spaceForward, 0, spaceApart);
+        hoopPosition = new Vector3(-spaceApart, 0, spaceForward);
 
         for(int i = 0; i < hoopAmount; i++)
         {
-            Instantiate(hoopPrefab, hoopPosition, new Quaternion(0, 0, 0, 0));
-            hoopPosition.x += hoopDistance;
+            Instantiate(hoopPrefab, hoopPosition, Quaternion.Euler(0, 90, 0));
+            hoopPosition.z += hoopDistance;
         }
 
+        spherePosition = new Vector3(-spaceApart, 35, spaceForward);
+    }
 
+    void Update()
+    {
+        if(runCourse)
+        {
+            realRobotPID.xSetpoint = spherePosition.x;
+            realRobotPID.ySetpoint = -spherePosition.z;
+            realRobotPID.zSetpoint = spherePosition.y;
+
+            if(Vector3.Distance(realRobot.transform.position, spherePosition) < 3)
+            {
+                spherePosition.z += hoopDistance;
+                obstacleCourseSphere.transform.position = spherePosition;
+            }
+        }
+    }
+
+    public void RunCourse()
+    {
+        runCourse = !runCourse;
+        obstacleCourseSphere.SetActive(runCourse);
+        obstacleCourseSphere.transform.position = spherePosition;
     }
 }

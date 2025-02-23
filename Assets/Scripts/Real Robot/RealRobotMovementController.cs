@@ -5,7 +5,7 @@ using UnityEngine;
 public class RealRobotMovementController : MonoBehaviour
 {
     public float keyboardForceMultiplier = 10;
-    public float mouseForceMultiplier = 20f;
+    public float mouseForceMultiplier = 0.5f;
     public float yawForceMultiplier = 4f;
     public float shiftMultiplier = 4f;
     public bool invertMouse = false;
@@ -76,8 +76,6 @@ public class RealRobotMovementController : MonoBehaviour
         {
             invertMouseMultiplier = 1;
         }
-
-        //Debug.Log(invertMouseMultiplier);
 
         if(Input.GetKey(KeyCode.Escape))
         {
@@ -181,13 +179,11 @@ public class RealRobotMovementController : MonoBehaviour
         mouseforce2 = mouseforce2.normalized;
         mouseforce3 = mouseforce3.normalized;
         mouseforce4 = mouseforce4.normalized;
-        mouseforce5 = mouseforce5.normalized;
-        mouseforce6 = mouseforce6.normalized;
-        mouseforce7 = mouseforce7.normalized;
-        mouseforce8 = mouseforce8.normalized;
         
-        mouseDelta.y = mouseDelta.y * mouseForceMultiplier * invertMouseMultiplier / 40.00f;
-        mouseDelta.x = mouseDelta.x * mouseForceMultiplier / 40.00f;
+        mouseDelta.y = mouseDelta.y * mouseForceMultiplier * invertMouseMultiplier;
+        mouseDelta.x = mouseDelta.x * mouseForceMultiplier;
+
+        Debug.Log(mouseDelta);
 
         if(mouseDelta.y > 1)
         {
