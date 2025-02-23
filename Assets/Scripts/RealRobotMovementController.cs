@@ -198,6 +198,14 @@ public class RealRobotMovementController : MonoBehaviour
         {
             mouseDelta.x = 1;
         }
+        if(mouseDelta.y < -1)
+        {
+            mouseDelta.y = -1;
+        }
+        if(mouseDelta.x < -1)
+        {
+            mouseDelta.x = -1;
+        }
 
         mouseforce5 += new Vector3(0, mouseDelta.y, 0);
         mouseforce6 += new Vector3(0, mouseDelta.y, 0);
@@ -208,6 +216,8 @@ public class RealRobotMovementController : MonoBehaviour
         mouseforce6 += new Vector3(0, mouseDelta.x, 0);
         mouseforce7 -= new Vector3(0, mouseDelta.x, 0);
         mouseforce8 += new Vector3(0, mouseDelta.x, 0);
+
+        greaterCheck(ref mouseforce5, ref mouseforce6, ref mouseforce7, ref mouseforce8);
 
         force1 += mouseforce1;
         force2 += mouseforce2;
@@ -274,5 +284,44 @@ public class RealRobotMovementController : MonoBehaviour
         //     force8 = force8 * 51.4f;
         // }
 
+    }
+
+    private void greaterCheck(ref Vector3 mouseforce5, ref Vector3 mouseforce6, ref Vector3 mouseforce7, ref Vector3 mouseforce8)
+    {
+        if(mouseforce5.y > 1)
+        {
+            mouseforce5.y = 1;
+        }
+        else if(mouseforce5.y < -1)
+        {
+            mouseforce5.y = -1;
+        }
+        
+        if(mouseforce6.y > 1)
+        {
+            mouseforce6.y = 1;
+        }
+        else if(mouseforce6.y < -1)
+        {
+            mouseforce6.y = -1;
+        }
+
+        if(mouseforce7.y > 1)
+        {
+            mouseforce7.y = 1;
+        }
+        else if(mouseforce7.y < -1)
+        {
+            mouseforce7.y = -1;
+        }
+
+        if(mouseforce8.y > 1)
+        {
+            mouseforce8.y = 1;
+        }
+        else if(mouseforce8.y < -1)
+        {
+            mouseforce8.y = -1;
+        }
     }
 }
