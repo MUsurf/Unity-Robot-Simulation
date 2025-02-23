@@ -6716,6 +6716,7 @@ GameObject:
   - component: {fileID: 9193295145256729476}
   - component: {fileID: 9193295145256729475}
   - component: {fileID: 9193295145256729477}
+  - component: {fileID: 9193295145256729478}
   m_Layer: 0
   m_Name: Real Robot
   m_TagString: Untagged
@@ -6776,8 +6777,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3023082051099529487}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.26, y: 2.99, z: 0}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6785,7 +6786,7 @@ Transform:
   - {fileID: 1914540612}
   - {fileID: 1404214353}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!33 &9193295145256729470
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -6804,7 +6805,7 @@ Rigidbody:
   serializedVersion: 4
   m_Mass: 26.53
   m_Drag: 1
-  m_AngularDrag: 5
+  m_AngularDrag: 1
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -6922,12 +6923,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyboardForceMultiplier: 10
-  mouseForceMultiplier: 2
+  mouseForceMultiplier: 20
   yawForceMultiplier: 4
   shiftMultiplier: 4
   invertMouse: 0
-  mouseRotMultiplier: 0.1
   calledFor: 0
+--- !u!64 &9193295145256729478
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3023082051099529487}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2432090755550338912, guid: bb6875ec82b4c9c429b9cd9e2a181272, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

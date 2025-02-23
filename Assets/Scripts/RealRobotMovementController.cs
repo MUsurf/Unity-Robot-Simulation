@@ -5,12 +5,11 @@ using UnityEngine;
 public class RealRobotMovementController : MonoBehaviour
 {
     public float keyboardForceMultiplier = 10;
-    public float mouseForceMultiplier = 2f;
+    public float mouseForceMultiplier = 20f;
     public float yawForceMultiplier = 4f;
     public float shiftMultiplier = 4f;
     public bool invertMouse = false;
     private int invertMouseMultiplier = 1;
-    public float mouseRotMultiplier = 0.1f;
     public bool calledFor = false;
     private float timeSinceLastToggle = 0f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -254,36 +253,77 @@ public class RealRobotMovementController : MonoBehaviour
         force7 = force7 * 40;
         force8 = force8 * 40;
 
-        // if((force1.x < 0) || (force1.z < 0) || (force2.x < 0) || (force2.z < 0) || (force3.x < 0) || (force3.z < 0) || (force4.x < 0) || (force4.z < 0))
+        // if(force1.z < 0)
         // {
-        //     force1 = force1 * 40;
-        //     force2 = force2 * 40;
-        //     force3 = force3 * 40;
-        //     force4 = force4 * 40;
+        //     force1 *= 40;
         // }
         // else
         // {
-        //     force1 = force1 * 51.4f;
-        //     force2 = force2 * 51.4f;
-        //     force3 = force3 * 51.4f;
-        //     force4 = force4 * 51.4f;
+        //     force1 *= 51.4f;
         // }
 
-        // if((force5.y < 0) || (force6.y < 0) || (force7.y < 0) || (force8.y < 0))
+        // if(force2.z < 0)
         // {
-        //     force5 = force5 * 40;
-        //     force6 = force6 * 40;
-        //     force7 = force7 * 40;
-        //     force8 = force8 * 40;
+        //     force2 *= 40;
         // }
         // else
         // {
-        //     force5 = force5 * 51.4f;
-        //     force6 = force6 * 51.4f;
-        //     force7 = force7 * 51.4f;
-        //     force8 = force8 * 51.4f;
+        //     force2 *= 51.4f;
         // }
 
+        // if(force3.z > 0)
+        // {
+        //     force3 *= 40;
+        // }
+        // else
+        // {
+        //     force3 *= 51.4f;
+        // }
+
+        // if(force4.z > 0)
+        // {
+        //     force4 *= 40;
+        // }
+        // else
+        // {
+        //     force4 *= 51.4f;
+        // }
+        
+        // if(force5.y < 0)
+        // {
+        //     force5 *= 40;
+        // }
+        // else
+        // {
+        //     force5 *= 51.4f;
+        // }
+
+        // if(force6.y < 0)
+        // {
+        //     force6 *= 40;
+        // }
+        // else
+        // {
+        //     force6 *= 51.4f;
+        // }
+
+        // if(force7.y < 0)
+        // {
+        //     force7 *= 40;
+        // }
+        // else
+        // {
+        //     force7 *= 51.4f;
+        // }
+
+        // if(force8.y < 0)
+        // {
+        //     force8 *= 40;
+        // }
+        // else
+        // {
+        //     force8 *= 51.4f;
+        // }
     }
 
     private void greaterCheck(ref Vector3 mouseforce5, ref Vector3 mouseforce6, ref Vector3 mouseforce7, ref Vector3 mouseforce8)
