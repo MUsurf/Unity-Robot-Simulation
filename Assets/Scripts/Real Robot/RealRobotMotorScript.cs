@@ -66,7 +66,6 @@ public class RealRobotMotorScript : MonoBehaviour
         force7 = forceList[6];
         force8 = forceList[7];
 
-        // GARBAGE A
         if(overrideMovement)
         {
             MovementOverrideList = RealRobotMovementControllerScript.MovementOverride();
@@ -78,6 +77,10 @@ public class RealRobotMotorScript : MonoBehaviour
             force6 = MovementOverrideList[5];
             force7 = MovementOverrideList[6];
             force8 = MovementOverrideList[7];
+        }
+        else
+        {
+            Debug.Log($"force1: {force1}, force2: {force2}, force3: {force3}, force4: {force4}, force5: {force5}, force6: {force6}, force7: {force7}, force8: {force8}");
         }
 
         // NYC Skyline
