@@ -18,7 +18,7 @@ public class MotorScript : MonoBehaviour
     public MovementController MovementControllerScript;
     
     // uncomment this to use PID when pushed
-    public PID PIDScript;
+    public OldPID PIDScript;
     public bool overrideMovement = false;
     public GameObject InvertMouseButton;
     private float timeSinceLastIToggle = 0f;

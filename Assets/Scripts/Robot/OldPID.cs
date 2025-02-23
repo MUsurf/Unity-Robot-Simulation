@@ -3,10 +3,10 @@ using System;
 using System.Linq;
 using UnityEngine;
 
-public class PID : MonoBehaviour
+public class OldPID : MonoBehaviour
 {
     public Rigidbody rb;
-    private PIDHandler LeHandler = new PIDHandler();
+    private OldPIDHandler LeHandler = new OldPIDHandler();
     public float xSetpoint = 0f;
     public float ySetpoint = 0f;
     public float zSetpoint = 0f;
@@ -83,7 +83,7 @@ public class PID : MonoBehaviour
     }
 }
 
-public class PIDController{
+public class OldPIDController{
     public float kP;
     public float kI;
     public float kD;
@@ -91,7 +91,7 @@ public class PIDController{
     private float last_error;
     private bool is_first_call = false;
     private float accum_error = 0;
-    public PIDController(float kP, float kI, float kD){
+    public OldPIDController(float kP, float kI, float kD){
         this.kP = kP;
         this.kI = kI;
         this.kD = kD;
@@ -128,42 +128,42 @@ public class PIDController{
     }
 }
 
-public class PIDHandler{
-    public PIDController xPIDController;
-    public PIDController yPIDController;
-    public PIDController zPIDController;
-    public PIDController rollPIDController;
-    public PIDController pitchPIDController;
-    public PIDController yawPIDController;
+public class OldPIDHandler{
+    public OldPIDController xPIDController;
+    public OldPIDController yPIDController;
+    public OldPIDController zPIDController;
+    public OldPIDController rollPIDController;
+    public OldPIDController pitchPIDController;
+    public OldPIDController yawPIDController;
 
-    public PIDHandler(){
+    public OldPIDHandler(){
         //PID parameters are set inside here instead of constant variables
-        xPIDController = new PIDController(
+        xPIDController = new OldPIDController(
             0.5f,
             0,
             0.1f
         );
-        yPIDController = new PIDController(
+        yPIDController = new OldPIDController(
             0.5f,
             0,
             0.1f
         );
-        zPIDController = new PIDController(
+        zPIDController = new OldPIDController(
             0.5f,
             0,
             0.1f
         );
-        rollPIDController = new PIDController(
+        rollPIDController = new OldPIDController(
             0.05f,
             0,
             0.1f
         );
-        pitchPIDController = new PIDController(
+        pitchPIDController = new OldPIDController(
             0.05f,
             0,
             0.1f
         );
-        yawPIDController = new PIDController(
+        yawPIDController = new OldPIDController(
             0.05f,
             0,
             0.1f
