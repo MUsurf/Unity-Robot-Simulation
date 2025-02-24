@@ -164,6 +164,7 @@ public class RealRobotMotorScript : MonoBehaviour
             rb.rotation = Quaternion.identity;
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
+            PIDScript.resetAll();
         }
 
         timeSinceLastIToggle += Time.deltaTime;

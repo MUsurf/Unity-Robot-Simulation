@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-
 public class PID : MonoBehaviour
 {
     // TODO - retune PID for higher max speed?
@@ -35,6 +34,11 @@ public class PID : MonoBehaviour
         pidHandler.UpdateKValues(kValues);
         pidHandler.UpdateSetpoint(xSetpoint, ySetpoint, zSetpoint, rollSetpoint, pitchSetpoint, yawSetpoint);
         return pidHandler.Update();
+    }
+
+    public void resetAll()
+    {
+        pidHandler.resetAll();
     }
 }
 
@@ -338,5 +342,15 @@ public class PIDHandler
         rollSetpoint = roll;
         pitchSetpoint = pitch;
         yawSetpoint = yaw;
+    }
+
+    public void resetAll()
+    {
+        xController.Reset();
+        yController.Reset();
+        zController.Reset();
+        rollController.Reset();
+        pitchController.Reset();
+        yawController.Reset();
     }
 }
