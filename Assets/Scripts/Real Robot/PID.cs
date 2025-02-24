@@ -12,18 +12,23 @@ public class PID : MonoBehaviour
     public float pitchSetpoint = 0f;
     public List<float> kValues = new List<float>() {0.5f, 0, 0.1f, 0.5f, 0, 0.1f, 0.5f, 0, 0.1f, 0.05f, 0, 0.1f, 0.05f, 0, 0.1f, 0.05f, 0, 0.1f};
 
-    private PIDHandler pidHandler;
+    private List<float> location;
+    private PIDHandler pidHandler = new PIDHandler();
+
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        pidHandler = new PIDHandler(rb);
+        location = new List<float>() {rb.position.x, rb.position.y, rb.position.z, rb.rotation.eulerAngles.x, rb.rotation.eulerAngles.y, rb.rotation.eulerAngles.z};
+        pidHandler.getLocation(location);
         pidHandler.UpdateKValues(kValues);
         pidHandler.UpdateSetpoint(xSetpoint, ySetpoint, zSetpoint, yawSetpoint, rollSetpoint, pitchSetpoint);
     }
 
     public List<Vector3> getVectors()
     {
+        location = new List<float>() {rb.position.x, rb.position.y, rb.position.z, rb.rotation.eulerAngles.x, rb.rotation.eulerAngles.y, rb.rotation.eulerAngles.z};
+        pidHandler.getLocation(location);
         pidHandler.UpdateKValues(kValues);
         pidHandler.UpdateSetpoint(xSetpoint, ySetpoint, zSetpoint, yawSetpoint, rollSetpoint, pitchSetpoint);
         return pidHandler.Update();
@@ -145,17 +150,13 @@ public class PIDController
 
 public class PIDHandler
 {
-    public PIDHandler(Rigidbody rb)
-    {
-        this.rb = rb;
-    }
-    private Rigidbody rb;
-    public PIDController xController;
-    public PIDController yController;
-    public PIDController zController;
-    public PIDController yawController;
-    public PIDController rollController;
-    public PIDController pitchController;
+    public List<float> location = new List<float>();
+    public PIDController xController = new PIDController();
+    public PIDController yController = new PIDController();
+    public PIDController zController = new PIDController();
+    public PIDController yawController = new PIDController();
+    public PIDController rollController = new PIDController();
+    public PIDController pitchController = new PIDController();
 
     //z is forward, x is right, y is up
     private float xSetpoint;
@@ -175,6 +176,10 @@ public class PIDHandler
     private float divideCounter = 0f;
 
     private List<Vector3> forces = new List<Vector3>() {Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero};
+    public void getLocation(List<float> location)
+    {
+        this.location = location;
+    }
 
     public void Reset()
     {
@@ -188,12 +193,14 @@ public class PIDHandler
 
     public List<Vector3> Update()
     {
-        xValue = xController.Update(Time.fixedDeltaTime, rb.position.x, xSetpoint);
-        yValue = yController.Update(Time.fixedDeltaTime, rb.position.y, ySetpoint);
-        zValue = zController.Update(Time.fixedDeltaTime, rb.position.z, zSetpoint);
-        yawValue = yawController.UpdateAngle(Time.fixedDeltaTime, rb.rotation.eulerAngles.y, yawSetpoint);
-        rollValue = rollController.UpdateAngle(Time.fixedDeltaTime, rb.rotation.eulerAngles.z, rollSetpoint);
-        pitchValue = pitchController.UpdateAngle(Time.fixedDeltaTime, rb.rotation.eulerAngles.x, pitchSetpoint);
+        forces = new List<Vector3>() {Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero};
+
+        xValue = xController.Update(Time.fixedDeltaTime, location[0], xSetpoint);
+        yValue = yController.Update(Time.fixedDeltaTime, location[1], ySetpoint);
+        zValue = zController.Update(Time.fixedDeltaTime, location[2], zSetpoint);
+        yawValue = yawController.UpdateAngle(Time.fixedDeltaTime, location[3], yawSetpoint);
+        rollValue = rollController.UpdateAngle(Time.fixedDeltaTime, location[4], rollSetpoint);
+        pitchValue = pitchController.UpdateAngle(Time.fixedDeltaTime, location[5], pitchSetpoint);
 
         if(zValue != 0)
         {

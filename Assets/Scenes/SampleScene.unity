@@ -3043,7 +3043,7 @@ MonoBehaviour:
   hoopAmount: 5
   spaceApart: 50
   spaceForward: 60
-  realRobotPID: {fileID: 9193295145256729474}
+  PIDScript: {fileID: 0}
   obstacleCourseSphere: {fileID: 266002510}
   realRobot: {fileID: 3023082051099529487}
 --- !u!4 &787789190
@@ -7095,7 +7095,7 @@ GameObject:
   - component: {fileID: 9193295145256729471}
   - component: {fileID: 9193295145256729473}
   - component: {fileID: 9193295145256729479}
-  - component: {fileID: 9193295145256729474}
+  - component: {fileID: 9193295145256729480}
   - component: {fileID: 9193295145256729476}
   - component: {fileID: 9193295145256729475}
   - component: {fileID: 9193295145256729478}
@@ -7218,53 +7218,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 9193295145256729471}
   RealRobotMovementControllerScript: {fileID: 9193295145256729479}
-  RealRobotPIDScript: {fileID: 9193295145256729474}
+  PIDScript: {fileID: 9193295145256729480}
   overrideMovement: 0
   InvertMouseButton: {fileID: 2145012752}
   objectRenderer: {fileID: 5670206860296888298}
---- !u!114 &9193295145256729474
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3023082051099529487}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74e1d3a047c79a84eaa1b9d1edc448ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 9193295145256729471}
-  xSetpoint: 0
-  ySetpoint: 0
-  zSetpoint: 0
-  yawSetpoint: 0
-  rollSetpoint: 0
-  pitchSetpoint: 0
-  forces:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  andrewList:
-  - 0.5
-  - 0
-  - 0.1
-  - 0.5
-  - 0
-  - 0.1
-  - 0.5
-  - 0
-  - 0.1
-  - 0.05
-  - 0
-  - 0.1
-  - 0.05
-  - 0
-  - 0.1
-  - 0.05
-  - 0
-  - 0.1
 --- !u!114 &9193295145256729475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7332,6 +7289,44 @@ MonoBehaviour:
   shiftMultiplier: 4
   invertMouse: 0
   calledFor: 0
+--- !u!114 &9193295145256729480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3023082051099529487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14a6ee41f7045f74c813b6fd16ee8095, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 9193295145256729471}
+  xSetpoint: 0
+  ySetpoint: 0
+  zSetpoint: 0
+  yawSetpoint: 0
+  rollSetpoint: 0
+  pitchSetpoint: 0
+  kValues:
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

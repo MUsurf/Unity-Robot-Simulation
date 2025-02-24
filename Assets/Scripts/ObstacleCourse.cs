@@ -17,7 +17,7 @@ public class ObstacleCourse : MonoBehaviour
     private int flipInt = 1;
 
 
-    public RealRobotPID realRobotPID;
+    public PID PIDScript;
     public GameObject obstacleCourseSphere;
     public GameObject realRobot;
     private bool runCourse = false;
@@ -51,9 +51,9 @@ public class ObstacleCourse : MonoBehaviour
     {
         if(runCourse)
         {
-            realRobotPID.xSetpoint = spherePosition.x;
-            realRobotPID.ySetpoint = -spherePosition.z;
-            realRobotPID.zSetpoint = spherePosition.y;
+            PIDScript.xSetpoint = spherePosition.x;
+            PIDScript.ySetpoint = -spherePosition.z;
+            PIDScript.zSetpoint = spherePosition.y;
 
             if(Vector3.Distance(realRobot.transform.position, spherePosition) < 3)
             {
