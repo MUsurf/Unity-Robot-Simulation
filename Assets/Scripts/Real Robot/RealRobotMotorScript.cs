@@ -5,6 +5,7 @@ using UnityEngine.UI;
 // TODO - max thrust is - 51.4 N and 40 N
 // TODO - invert mouse button
 // TODO - could rainbow be more efficient?
+// TODO - remove gravity, cause the sub cant fight it
 
 public class RealRobotMotorScript : MonoBehaviour
 {

@@ -83,7 +83,7 @@ public class PIDController
             float valueRateOfChange = (currentValue - lastValue) / dt;
             lastValue = currentValue;
 
-            float D = Kd * valueRateOfChange;
+            float D = Kd * (-valueRateOfChange);
 
             result = P + I + D;
         }
@@ -120,7 +120,7 @@ public class PIDController
             float valueRateOfChange = angleDifference(currentAngle, lastValue) / dt;
             lastValue = currentAngle;
 
-            float D = Kd * valueRateOfChange;
+            float D = Kd * (-valueRateOfChange);
 
             result = P + I + D;
         }
