@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class PID : MonoBehaviour
 {
+    // TODO - retune PID for higher max speed?
     public Rigidbody rb;
     public float xSetpoint = 0f;
     public float ySetpoint = 0f;
