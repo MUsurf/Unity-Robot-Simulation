@@ -52,8 +52,8 @@ public class ObstacleCourse : MonoBehaviour
         if(runCourse)
         {
             PIDScript.xSetpoint = spherePosition.x;
-            PIDScript.ySetpoint = -spherePosition.z;
-            PIDScript.zSetpoint = spherePosition.y;
+            PIDScript.ySetpoint = spherePosition.y;
+            PIDScript.zSetpoint = spherePosition.z;
 
             if(Vector3.Distance(realRobot.transform.position, spherePosition) < 3)
             {

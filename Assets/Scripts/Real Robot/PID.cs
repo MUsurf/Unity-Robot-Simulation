@@ -19,7 +19,7 @@ public class PID : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        location = new List<float>() {rb.position.x, rb.position.y, rb.position.z, rb.rotation.eulerAngles.x, rb.rotation.eulerAngles.y, rb.rotation.eulerAngles.z};
+        location = new List<float>() {rb.position.x, rb.position.y, rb.position.z, rb.rotation.eulerAngles.z, rb.rotation.eulerAngles.x, rb.rotation.eulerAngles.y};
         pidHandler.getLocation(location);
         pidHandler.UpdateKValues(kValues);
         pidHandler.UpdateSetpoint(xSetpoint, ySetpoint, zSetpoint, rollSetpoint, pitchSetpoint, yawSetpoint);
@@ -27,7 +27,7 @@ public class PID : MonoBehaviour
 
     public List<Vector3> getVectors()
     {
-        location = new List<float>() {rb.position.x, rb.position.y, rb.position.z, rb.rotation.eulerAngles.x, rb.rotation.eulerAngles.y, rb.rotation.eulerAngles.z};
+        location = new List<float>() {rb.position.x, rb.position.y, rb.position.z, rb.rotation.eulerAngles.z, rb.rotation.eulerAngles.x, rb.rotation.eulerAngles.y};
         pidHandler.getLocation(location);
         pidHandler.UpdateKValues(kValues);
         pidHandler.UpdateSetpoint(xSetpoint, ySetpoint, zSetpoint, rollSetpoint, pitchSetpoint, yawSetpoint);
@@ -103,7 +103,7 @@ public class PIDController
     {
         float result;
 
-        float error = angleDifference(targetAngle, currentAngle);
+        float error = Mathf.DeltaAngle(currentAngle, targetAngle);
 
         // proportional term
         float P = Kp * error;
@@ -117,7 +117,7 @@ public class PIDController
         if(notFirstUpdate)
         {
             //derivative term
-            float valueRateOfChange = angleDifference(currentAngle, lastValue) / dt;
+            float valueRateOfChange = Mathf.DeltaAngle(currentAngle, targetAngle) / dt;
             lastValue = currentAngle;
 
             float D = Kd * (-valueRateOfChange);
@@ -140,11 +140,6 @@ public class PIDController
     {
         lastValue = 0;
         notFirstUpdate = false;
-    }
-
-    float angleDifference(float a, float b)
-    {
-        return (a - b + 540) % 360 - 180;
     }
 }
 
@@ -254,10 +249,10 @@ public class PIDHandler
         }
         else
         {
-            forces[4] += Vector3.up * (yValue / divideCounter) + Vector3.up * (rollValue / divideCounter) + Vector3.down * (pitchValue / divideCounter);
-            forces[5] += Vector3.up * (yValue / divideCounter) + Vector3.up * (rollValue / divideCounter) + Vector3.up * (pitchValue / divideCounter);
-            forces[6] += Vector3.up * (yValue / divideCounter) + Vector3.down * (rollValue / divideCounter) + Vector3.down * (pitchValue / divideCounter);
-            forces[7] += Vector3.up * (yValue / divideCounter) + Vector3.down * (rollValue / divideCounter) + Vector3.up * (pitchValue / divideCounter);
+            forces[4] += Vector3.up * (yValue / divideCounter) + Vector3.up * (pitchValue / divideCounter) + Vector3.down * (rollValue / divideCounter);
+            forces[5] += Vector3.up * (yValue / divideCounter) + Vector3.up * (pitchValue / divideCounter) + Vector3.up * (rollValue / divideCounter);
+            forces[6] += Vector3.up * (yValue / divideCounter) + Vector3.down * (pitchValue / divideCounter) + Vector3.down * (rollValue / divideCounter);
+            forces[7] += Vector3.up * (yValue / divideCounter) + Vector3.down * (pitchValue / divideCounter) + Vector3.up * (rollValue / divideCounter);
         }
 
         // if we ever change it to be more realistic, the 40f should be changed to be 40/51.4 so it conforms to the actual motor limits if backwards
