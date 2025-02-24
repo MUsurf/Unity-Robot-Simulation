@@ -1,8 +1,11 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class PID : MonoBehaviour
 {
+    // TODO - current issue - robot moves at 13 or 40/3 if only need one axis and is slow and bad
+
     public Rigidbody rb;
     public float xSetpoint = 0f;
     public float ySetpoint = 0f;
@@ -168,6 +171,8 @@ public class PIDHandler
     private float pitchValue;
     private float yawValue;
 
+    private float minToMove = 0.01f;
+
     private float divideCounter = 0f;
 
     private List<Vector3> forces = new List<Vector3>() {Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero};
@@ -199,15 +204,36 @@ public class PIDHandler
 
         if(zValue != 0)
         {
-            divideCounter++;
+            if(Mathf.Abs(zValue) < minToMove)
+            {
+                zValue = 0;
+            }
+            else
+            {
+                divideCounter++;
+            }
         }
         if(xValue != 0)
         {
-            divideCounter++;
+            if(Mathf.Abs(xValue) < minToMove)
+            {
+                xValue = 0;
+            }
+            else
+            {
+                divideCounter++;
+            }
         }
         if(yawValue != 0)
         {
-            divideCounter++;
+            if(Mathf.Abs(yawValue) < minToMove)
+            {
+                yawValue = 0;
+            }
+            else
+            {
+                divideCounter++;
+            }
         }
 
         if(divideCounter == 0)
