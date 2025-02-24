@@ -7,9 +7,9 @@ public class PID : MonoBehaviour
     public float xSetpoint = 0f;
     public float ySetpoint = 0f;
     public float zSetpoint = 0f;
-    public float yawSetpoint = 0f;
     public float rollSetpoint = 0f;
     public float pitchSetpoint = 0f;
+    public float yawSetpoint = 0f;
     public List<float> kValues = new List<float>() {0.5f, 0, 0.1f, 0.5f, 0, 0.1f, 0.5f, 0, 0.1f, 0.05f, 0, 0.1f, 0.05f, 0, 0.1f, 0.05f, 0, 0.1f};
 
     private List<float> location;
@@ -22,7 +22,7 @@ public class PID : MonoBehaviour
         location = new List<float>() {rb.position.x, rb.position.y, rb.position.z, rb.rotation.eulerAngles.x, rb.rotation.eulerAngles.y, rb.rotation.eulerAngles.z};
         pidHandler.getLocation(location);
         pidHandler.UpdateKValues(kValues);
-        pidHandler.UpdateSetpoint(xSetpoint, ySetpoint, zSetpoint, yawSetpoint, rollSetpoint, pitchSetpoint);
+        pidHandler.UpdateSetpoint(xSetpoint, ySetpoint, zSetpoint, rollSetpoint, pitchSetpoint, yawSetpoint);
     }
 
     public List<Vector3> getVectors()
@@ -30,7 +30,7 @@ public class PID : MonoBehaviour
         location = new List<float>() {rb.position.x, rb.position.y, rb.position.z, rb.rotation.eulerAngles.x, rb.rotation.eulerAngles.y, rb.rotation.eulerAngles.z};
         pidHandler.getLocation(location);
         pidHandler.UpdateKValues(kValues);
-        pidHandler.UpdateSetpoint(xSetpoint, ySetpoint, zSetpoint, yawSetpoint, rollSetpoint, pitchSetpoint);
+        pidHandler.UpdateSetpoint(xSetpoint, ySetpoint, zSetpoint, rollSetpoint, pitchSetpoint, yawSetpoint);
         return pidHandler.Update();
     }
 }
@@ -154,24 +154,24 @@ public class PIDHandler
     public PIDController xController = new PIDController();
     public PIDController yController = new PIDController();
     public PIDController zController = new PIDController();
-    public PIDController yawController = new PIDController();
     public PIDController rollController = new PIDController();
     public PIDController pitchController = new PIDController();
+    public PIDController yawController = new PIDController();
 
     //z is forward, x is right, y is up
     private float xSetpoint;
     private float ySetpoint;
     private float zSetpoint;
-    private float yawSetpoint;
     private float rollSetpoint;
     private float pitchSetpoint;
+    private float yawSetpoint;
 
     private float xValue;
     private float yValue;
     private float zValue;
-    private float yawValue;
     private float rollValue;
     private float pitchValue;
+    private float yawValue;
 
     private float divideCounter = 0f;
 
@@ -186,9 +186,9 @@ public class PIDHandler
         xController.Reset();
         yController.Reset();
         zController.Reset();
-        yawController.Reset();
         rollController.Reset();
         pitchController.Reset();
+        yawController.Reset();
     }
 
     public List<Vector3> Update()
@@ -198,9 +198,9 @@ public class PIDHandler
         xValue = xController.Update(Time.fixedDeltaTime, location[0], xSetpoint);
         yValue = yController.Update(Time.fixedDeltaTime, location[1], ySetpoint);
         zValue = zController.Update(Time.fixedDeltaTime, location[2], zSetpoint);
-        yawValue = yawController.UpdateAngle(Time.fixedDeltaTime, location[3], yawSetpoint);
-        rollValue = rollController.UpdateAngle(Time.fixedDeltaTime, location[4], rollSetpoint);
-        pitchValue = pitchController.UpdateAngle(Time.fixedDeltaTime, location[5], pitchSetpoint);
+        rollValue = rollController.UpdateAngle(Time.fixedDeltaTime, location[3], rollSetpoint);
+        pitchValue = pitchController.UpdateAngle(Time.fixedDeltaTime, location[4], pitchSetpoint);
+        yawValue = yawController.UpdateAngle(Time.fixedDeltaTime, location[5], yawSetpoint);
 
         if(zValue != 0)
         {
@@ -285,15 +285,15 @@ public class PIDHandler
         zController.Kp = kValues[6];
         zController.Ki = kValues[7];
         zController.Kd = kValues[8];
-        yawController.Kp = kValues[9];
-        yawController.Ki = kValues[10];
-        yawController.Kd = kValues[11];
-        rollController.Kp = kValues[12];
-        rollController.Ki = kValues[13];
-        rollController.Kd = kValues[14];
-        pitchController.Kp = kValues[15];
-        pitchController.Ki = kValues[16];
-        pitchController.Kd = kValues[17];
+        rollController.Kp = kValues[9];
+        rollController.Ki = kValues[10];
+        rollController.Kd = kValues[11];
+        pitchController.Kp = kValues[12];
+        pitchController.Ki = kValues[13];
+        pitchController.Kd = kValues[14];
+        yawController.Kp = kValues[15];
+        yawController.Ki = kValues[16];
+        yawController.Kd = kValues[17];
     }
 
     public void UpdateSetpoint(float x, float y, float z, float yaw, float roll, float pitch)
@@ -301,8 +301,8 @@ public class PIDHandler
         xSetpoint = x;
         ySetpoint = y;
         zSetpoint = z;
-        yawSetpoint = yaw;
         rollSetpoint = roll;
         pitchSetpoint = pitch;
+        yawSetpoint = yaw;
     }
 }
