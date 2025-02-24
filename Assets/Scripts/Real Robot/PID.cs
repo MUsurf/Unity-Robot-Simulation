@@ -1,11 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 
 public class PID : MonoBehaviour
 {
-    // TODO - current issue - robot moves at 13 or 40/3 if only need one axis and is slow and bad
-
     public Rigidbody rb;
     public float xSetpoint = 0f;
     public float ySetpoint = 0f;
@@ -15,6 +12,7 @@ public class PID : MonoBehaviour
     public float yawSetpoint = 0f;
     public List<float> kValues = new List<float>() {0.5f, 0, 0.1f, 0.5f, 0, 0.1f, 0.5f, 0, 0.1f, 0.05f, 0, 0.1f, 0.05f, 0, 0.1f, 0.05f, 0, 0.1f};
 
+    public RealRobotMotorScript motorScript;
     private List<float> location;
     private PIDHandler pidHandler = new PIDHandler();
 
@@ -23,6 +21,7 @@ public class PID : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         location = new List<float>() {rb.position.x, rb.position.y, rb.position.z, rb.rotation.eulerAngles.z, rb.rotation.eulerAngles.x, rb.rotation.eulerAngles.y};
+        pidHandler.getMaxSpeed(motorScript.maxSpeed);
         pidHandler.getLocation(location);
         pidHandler.UpdateKValues(kValues);
         pidHandler.UpdateSetpoint(xSetpoint, ySetpoint, zSetpoint, rollSetpoint, pitchSetpoint, yawSetpoint);
@@ -171,14 +170,23 @@ public class PIDHandler
     private float pitchValue;
     private float yawValue;
 
+    private float degreeFix = Mathf.Sqrt(2) / 2;
+
     private float minToMove = 0.01f;
 
     private float divideCounter = 0f;
+
+    private float maxSpeed;
 
     private List<Vector3> forces = new List<Vector3>() {Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero};
     public void getLocation(List<float> location)
     {
         this.location = location;
+    }
+
+    public void getMaxSpeed(float maxSpeed)
+    {
+        this.maxSpeed = maxSpeed;
     }
 
     public void Reset()
@@ -202,38 +210,29 @@ public class PIDHandler
         pitchValue = pitchController.UpdateAngle(Time.fixedDeltaTime, location[4], pitchSetpoint);
         yawValue = yawController.UpdateAngle(Time.fixedDeltaTime, location[5], yawSetpoint);
 
-        if(zValue != 0)
+        if(Mathf.Abs(xValue) < minToMove)
         {
-            if(Mathf.Abs(zValue) < minToMove)
-            {
-                zValue = 0;
-            }
-            else
-            {
-                divideCounter++;
-            }
+            xValue = 0;
         }
-        if(xValue != 0)
+        else
         {
-            if(Mathf.Abs(xValue) < minToMove)
-            {
-                xValue = 0;
-            }
-            else
-            {
-                divideCounter++;
-            }
+            divideCounter++;
         }
-        if(yawValue != 0)
+        if(Mathf.Abs(zValue) < minToMove)
         {
-            if(Mathf.Abs(yawValue) < minToMove)
-            {
-                yawValue = 0;
-            }
-            else
-            {
-                divideCounter++;
-            }
+            zValue = 0;
+        }
+        else
+        {
+            divideCounter++;
+        }
+        if(Mathf.Abs(yawValue) < minToMove)
+        {
+            yawValue = 0;
+        }
+        else
+        {
+            divideCounter++;
         }
 
         if(divideCounter == 0)
@@ -245,6 +244,7 @@ public class PIDHandler
         }
         else 
         {
+            divideCounter *= 1/degreeFix;
             forces[0] += (Vector3.forward + Vector3.right) * (zValue / divideCounter) + (Vector3.forward + Vector3.right) * (xValue / divideCounter) + (Vector3.back + Vector3.left) * (yawValue / divideCounter);
             forces[1] += (Vector3.forward + Vector3.left) * (zValue / divideCounter) + (Vector3.back + Vector3.right) * (xValue / divideCounter) + (Vector3.forward + Vector3.left) * (yawValue / divideCounter);
             forces[2] += (Vector3.forward + Vector3.left) * (zValue / divideCounter) + (Vector3.back + Vector3.right) * (xValue / divideCounter) + (Vector3.back + Vector3.right) * (yawValue / divideCounter);
@@ -253,15 +253,27 @@ public class PIDHandler
 
         divideCounter = 0f;
 
-        if(yValue != 0)
+        if(Mathf.Abs(yValue) < minToMove)
+        {
+            yValue = 0;
+        }
+        else
         {
             divideCounter++;
         }
-        if(rollValue != 0)
+        if(Mathf.Abs(rollValue) < minToMove)
+        {
+            rollValue = 0;
+        }
+        else
         {
             divideCounter++;
         }
-        if(pitchValue != 0)
+        if(Mathf.Abs(pitchValue) < minToMove)
+        {
+            pitchValue = 0;
+        }
+        else
         {
             divideCounter++;
         }
@@ -282,14 +294,14 @@ public class PIDHandler
         }
 
         // if we ever change it to be more realistic, the 40f should be changed to be 40/51.4 so it conforms to the actual motor limits if backwards
-        forces[0] *= 40f;
-        forces[1] *= 40f;
-        forces[2] *= 40f;
-        forces[3] *= 40f;
-        forces[4] *= 40f;
-        forces[5] *= 40f;
-        forces[6] *= 40f;
-        forces[7] *= 40f;
+        forces[0] *= maxSpeed;
+        forces[1] *= maxSpeed;
+        forces[2] *= maxSpeed;
+        forces[3] *= maxSpeed;
+        forces[4] *= maxSpeed;
+        forces[5] *= maxSpeed;
+        forces[6] *= maxSpeed;
+        forces[7] *= maxSpeed;
 
         divideCounter = 0f;
         return forces;

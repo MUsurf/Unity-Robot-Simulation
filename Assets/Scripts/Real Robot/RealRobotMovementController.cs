@@ -11,6 +11,7 @@ public class RealRobotMovementController : MonoBehaviour
     private int invertMouseMultiplier = 1;
     public bool calledFor = false;
     private float timeSinceLastToggle = 0f;
+    public RealRobotMotorScript motorScript;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     // void Start()
     // {
@@ -239,14 +240,14 @@ public class RealRobotMovementController : MonoBehaviour
         // TODO - maybe possible, for now just 40
         // TODO - max thrust is - 51.4 N and 40 N
 
-        force1 = force1 * 40;
-        force2 = force2 * 40;
-        force3 = force3 * 40;
-        force4 = force4 * 40;
-        force5 = force5 * 40;
-        force6 = force6 * 40;
-        force7 = force7 * 40;
-        force8 = force8 * 40;
+        force1 = force1 * motorScript.maxSpeed;
+        force2 = force2 * motorScript.maxSpeed;
+        force3 = force3 * motorScript.maxSpeed;
+        force4 = force4 * motorScript.maxSpeed;
+        force5 = force5 * motorScript.maxSpeed;
+        force6 = force6 * motorScript.maxSpeed;
+        force7 = force7 * motorScript.maxSpeed;
+        force8 = force8 * motorScript.maxSpeed;
 
         // if(force1.z < 0)
         // {
