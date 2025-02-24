@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class PID : MonoBehaviour
 {
@@ -9,7 +10,24 @@ public class PID : MonoBehaviour
     public float yawSetpoint = 0f;
     public float rollSetpoint = 0f;
     public float pitchSetpoint = 0f;
+    public List<float> kValues = new List<float>() {0.5f, 0, 0.1f, 0.5f, 0, 0.1f, 0.5f, 0, 0.1f, 0.05f, 0, 0.1f, 0.05f, 0, 0.1f, 0.05f, 0, 0.1f};
 
+    private PIDHandler pidHandler;
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+        pidHandler = new PIDHandler(rb);
+        pidHandler.UpdateKValues(kValues);
+        pidHandler.UpdateSetpoint(xSetpoint, ySetpoint, zSetpoint, yawSetpoint, rollSetpoint, pitchSetpoint);
+    }
+
+    public List<Vector3> getVectors()
+    {
+        pidHandler.UpdateKValues(kValues);
+        pidHandler.UpdateSetpoint(xSetpoint, ySetpoint, zSetpoint, yawSetpoint, rollSetpoint, pitchSetpoint);
+        return pidHandler.Update();
+    }
 }
 
 // a class for initializing the PID controllers
@@ -125,74 +143,159 @@ public class PIDController
     }
 }
 
-public class PIDAngleController
+public class PIDHandler
 {
-    //note - the wording value just mean distance in this context
-
-    //proportional gain
-    public float Kp;
-    
-    // integral gain
-    public float Ki;
-
-    // derivative gain
-    public float Kd;
-
-    private float integrationStored;
-
-    // the error from the last time step
-    private float lastValue;
-    private bool notFirstUpdate = false;
-
-    // the maximum value the integral term can take, to prevent intergral windup
-    private float integralSaturation = 1f;
-
-
-    // dt - time step, in unity we use Time.fixedDeltaTime for this
-    // currentValue - the current value of the system (current position)
-    // targetValue - the desired value of the system (target position)
-    public float Update(float dt, float currentValue, float targetValue)
+    public PIDHandler(Rigidbody rb)
     {
-        float result;
+        this.rb = rb;
+    }
+    private Rigidbody rb;
+    public PIDController xController;
+    public PIDController yController;
+    public PIDController zController;
+    public PIDController yawController;
+    public PIDController rollController;
+    public PIDController pitchController;
 
-        float error = targetValue - currentValue;
+    //z is forward, x is right, y is up
+    private float xSetpoint;
+    private float ySetpoint;
+    private float zSetpoint;
+    private float yawSetpoint;
+    private float rollSetpoint;
+    private float pitchSetpoint;
 
-        // proportional term
-        float P = Kp * error;
+    private float xValue;
+    private float yValue;
+    private float zValue;
+    private float yawValue;
+    private float rollValue;
+    private float pitchValue;
 
-        // integral term
-        integrationStored = Mathf.Clamp(integrationStored + (error * dt), -integralSaturation, integralSaturation);
-        float I = Ki * integrationStored;
+    private float divideCounter = 0f;
 
-        // This check to make sure that the derivative term is not calculated on the first update, 
-        // as it causes a large spike in the output since the error is very large and the lastValue is 0
-        if(notFirstUpdate)
+    private List<Vector3> forces = new List<Vector3>() {Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero};
+
+    public void Reset()
+    {
+        xController.Reset();
+        yController.Reset();
+        zController.Reset();
+        yawController.Reset();
+        rollController.Reset();
+        pitchController.Reset();
+    }
+
+    public List<Vector3> Update()
+    {
+        xValue = xController.Update(Time.fixedDeltaTime, rb.position.x, xSetpoint);
+        yValue = yController.Update(Time.fixedDeltaTime, rb.position.y, ySetpoint);
+        zValue = zController.Update(Time.fixedDeltaTime, rb.position.z, zSetpoint);
+        yawValue = yawController.UpdateAngle(Time.fixedDeltaTime, rb.rotation.eulerAngles.y, yawSetpoint);
+        rollValue = rollController.UpdateAngle(Time.fixedDeltaTime, rb.rotation.eulerAngles.z, rollSetpoint);
+        pitchValue = pitchController.UpdateAngle(Time.fixedDeltaTime, rb.rotation.eulerAngles.x, pitchSetpoint);
+
+        if(zValue != 0)
         {
-            //derivative term
-            float valueRateOfChange = (error - lastValue) / dt;
-            lastValue = currentValue;
+            divideCounter++;
+        }
+        if(xValue != 0)
+        {
+            divideCounter++;
+        }
+        if(yawValue != 0)
+        {
+            divideCounter++;
+        }
 
-            float D = Kd * valueRateOfChange;
+        if(divideCounter == 0)
+        {
+            forces[0] = Vector3.zero;
+            forces[1] = Vector3.zero;
+            forces[2] = Vector3.zero;
+            forces[3] = Vector3.zero;
+        }
+        else 
+        {
+            forces[0] += (Vector3.forward + Vector3.right) * (zValue / divideCounter) + (Vector3.forward + Vector3.right) * (xValue / divideCounter) + (Vector3.back + Vector3.left) * (yawValue / divideCounter);
+            forces[1] += (Vector3.forward + Vector3.left) * (zValue / divideCounter) + (Vector3.back + Vector3.right) * (xValue / divideCounter) + (Vector3.forward + Vector3.left) * (yawValue / divideCounter);
+            forces[2] += (Vector3.forward + Vector3.left) * (zValue / divideCounter) + (Vector3.back + Vector3.right) * (xValue / divideCounter) + (Vector3.back + Vector3.right) * (yawValue / divideCounter);
+            forces[3] += (Vector3.forward + Vector3.right) * (zValue / divideCounter) + (Vector3.forward + Vector3.right) * (xValue / divideCounter) + (Vector3.forward + Vector3.right) * (yawValue / divideCounter);
+        }
 
-            result = P + I + D;
+        divideCounter = 0f;
+
+        if(yValue != 0)
+        {
+            divideCounter++;
+        }
+        if(rollValue != 0)
+        {
+            divideCounter++;
+        }
+        if(pitchValue != 0)
+        {
+            divideCounter++;
+        }
+
+        if(divideCounter == 0)
+        {
+            forces[4] = Vector3.zero;
+            forces[5] = Vector3.zero;
+            forces[6] = Vector3.zero;
+            forces[7] = Vector3.zero;
         }
         else
         {
-            notFirstUpdate = true;
-            result = P + I;
+            forces[4] += Vector3.up * (yValue / divideCounter) + Vector3.up * (rollValue / divideCounter) + Vector3.down * (pitchValue / divideCounter);
+            forces[5] += Vector3.up * (yValue / divideCounter) + Vector3.up * (rollValue / divideCounter) + Vector3.up * (pitchValue / divideCounter);
+            forces[6] += Vector3.up * (yValue / divideCounter) + Vector3.down * (rollValue / divideCounter) + Vector3.down * (pitchValue / divideCounter);
+            forces[7] += Vector3.up * (yValue / divideCounter) + Vector3.down * (rollValue / divideCounter) + Vector3.up * (pitchValue / divideCounter);
         }
 
-        // makes sure it cannot return an output greater than 1 or less than -1
-        // if we ever change it to be more realistic, the -1f should be changed to be 40/51.4 so it conforms to the actual motor limits
-        return Mathf.Clamp(result, -1f, 1f);
+        // if we ever change it to be more realistic, the 40f should be changed to be 40/51.4 so it conforms to the actual motor limits if backwards
+        forces[0] *= 40f;
+        forces[1] *= 40f;
+        forces[2] *= 40f;
+        forces[3] *= 40f;
+        forces[4] *= 40f;
+        forces[5] *= 40f;
+        forces[6] *= 40f;
+        forces[7] *= 40f;
+
+        divideCounter = 0f;
+        return forces;
     }
 
-    // reset the controller when the pid is not in use
-    public void Reset()
+    public void UpdateKValues(List<float> kValues)
     {
-        lastValue = 0;
-        notFirstUpdate = false;
+        xController.Kp = kValues[0];
+        xController.Ki = kValues[1];
+        xController.Kd = kValues[2];
+        yController.Kp = kValues[3];
+        yController.Ki = kValues[4];
+        yController.Kd = kValues[5];
+        zController.Kp = kValues[6];
+        zController.Ki = kValues[7];
+        zController.Kd = kValues[8];
+        yawController.Kp = kValues[9];
+        yawController.Ki = kValues[10];
+        yawController.Kd = kValues[11];
+        rollController.Kp = kValues[12];
+        rollController.Ki = kValues[13];
+        rollController.Kd = kValues[14];
+        pitchController.Kp = kValues[15];
+        pitchController.Ki = kValues[16];
+        pitchController.Kd = kValues[17];
     }
 
-
+    public void UpdateSetpoint(float x, float y, float z, float yaw, float roll, float pitch)
+    {
+        xSetpoint = x;
+        ySetpoint = y;
+        zSetpoint = z;
+        yawSetpoint = yaw;
+        rollSetpoint = roll;
+        pitchSetpoint = pitch;
+    }
 }

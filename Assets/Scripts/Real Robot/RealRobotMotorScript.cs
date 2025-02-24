@@ -29,7 +29,7 @@ public class RealRobotMotorScript : MonoBehaviour
     private Vector3 position8 = new Vector3(-2.72f, 0f, -5.66f);
     private List<Vector3> MovementOverrideList = new List<Vector3>();
     public RealRobotMovementController RealRobotMovementControllerScript;
-    public RealRobotPID RealRobotPIDScript;
+    public PID PIDScript;
     public bool overrideMovement = false;
     public GameObject InvertMouseButton;
     private float timeSinceLastIToggle = 0f;
@@ -55,7 +55,7 @@ public class RealRobotMotorScript : MonoBehaviour
 
         List<Vector3> forceList;
 
-        forceList = RealRobotPIDScript.returnGetVectors();
+        forceList = PIDScript.getVectors();
 
         force1 = forceList[0];
         force2 = forceList[1];
