@@ -12,7 +12,7 @@ public class PIDSim : MonoBehaviour
     public GameObject CameraPOS;
     public bool onYAxis = false;
     public Toggle IToggle;
-    PIDSimController controller = new PIDSimController();
+    public PIDSimController controller = new PIDSimController();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
