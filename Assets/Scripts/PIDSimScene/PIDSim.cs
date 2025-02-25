@@ -117,10 +117,13 @@ public class PIDSim : MonoBehaviour
 
     public List<float> returnValues()
     {
-        List<float> values = new List<float>();
-        values.Add(controller.LastP);
-        values.Add(controller.LastI);
-        values.Add(controller.LastD);
+        List<float> values = new List<float>
+        {
+            rb.linearVelocity.x/2,
+            controller.LastP/2,
+            controller.LastI/2,
+            controller.LastD/2
+        };
         return values;
     }
 }
@@ -169,6 +172,8 @@ public class PIDSimController
         integrationStored = Mathf.Clamp(integrationStored + (error * dt), -integralSaturation, integralSaturation);
         float I = Ki * integrationStored;
 
+        float D = 0;
+
         // This check to make sure that the derivative term is not calculated on the first update, 
         // as it causes a large spike in the output since the error is very large and the lastValue is 0
         if(notFirstUpdate)
@@ -176,15 +181,19 @@ public class PIDSimController
             //derivative term
             float valueRateOfChange = (currentValue - lastValue) / dt;
 
-            float D = Kd * (-valueRateOfChange);
-
-            result = P + I + D;
+            D = Kd * (-valueRateOfChange);
         }
         else
         {
             notFirstUpdate = true;
-            result = P + I;
+            D = 0;
         }
+
+        result = P + I + D;
+
+        LastP = P;
+        LastI = I;
+        LastD = D;
 
         lastValue = currentValue;
 
