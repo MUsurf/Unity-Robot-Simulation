@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,6 +7,8 @@ public class PIDSim : MonoBehaviour
 {
     // TODO - add button for dont get rid of integral windup or derivative kick?
     // TODO - add button that comes before ki for on off gravity
+    // TODO switch button broke
+
     public Rigidbody rb;
     public GameObject Platform;
     public GameObject RightPlatform;
@@ -56,10 +60,12 @@ public class PIDSim : MonoBehaviour
         if(enable)
         {
             controller.Ki = 0.55f;
+            controller.integrationStored = 0f;
         }
         else
         {
             controller.Ki = 0f;
+            controller.integrationStored = 0f;
         }
     }
 
@@ -108,12 +114,25 @@ public class PIDSim : MonoBehaviour
             controller.Reset();
         }
     }
+
+    public List<float> returnValues()
+    {
+        List<float> values = new List<float>();
+        values.Add(controller.LastP);
+        values.Add(controller.LastI);
+        values.Add(controller.LastD);
+        return values;
+    }
 }
 
 // a class for initializing the PID controller
 public class PIDSimController
 {
     //note - the wording value just mean distance in this context
+
+    public float LastP;
+    public float LastI;
+    public float LastD;
 
     //proportional gain
     public float Kp;
@@ -124,7 +143,7 @@ public class PIDSimController
     // derivative gain
     public float Kd;
 
-    private float integrationStored;
+    public float integrationStored;
 
     // the error from the last time step
     private float lastValue;
@@ -156,7 +175,6 @@ public class PIDSimController
         {
             //derivative term
             float valueRateOfChange = (currentValue - lastValue) / dt;
-            lastValue = currentValue;
 
             float D = Kd * (-valueRateOfChange);
 
@@ -167,6 +185,8 @@ public class PIDSimController
             notFirstUpdate = true;
             result = P + I;
         }
+
+        lastValue = currentValue;
 
         return result;
     }

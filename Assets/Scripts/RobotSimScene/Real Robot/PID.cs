@@ -177,10 +177,6 @@ public class PIDHandler
 
     private float degreeFix = Mathf.Sqrt(2) / 2;
 
-    private float minToMove = 0.01f;
-
-    private float divideCounter = 0f;
-
     private float maxSpeed;
 
     private List<Vector3> forces = new List<Vector3>() {Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero};
@@ -215,89 +211,21 @@ public class PIDHandler
         pitchValue = pitchController.UpdateAngle(Time.fixedDeltaTime, location[4], pitchSetpoint);
         yawValue = yawController.UpdateAngle(Time.fixedDeltaTime, location[5], yawSetpoint);
 
-        if(Mathf.Abs(xValue) < minToMove)
-        {
-            xValue = 0;
-        }
-        else
-        {
-            divideCounter++;
-        }
-        if(Mathf.Abs(zValue) < minToMove)
-        {
-            zValue = 0;
-        }
-        else
-        {
-            divideCounter++;
-        }
-        if(Mathf.Abs(yawValue) < minToMove)
-        {
-            yawValue = 0;
-        }
-        else
-        {
-            divideCounter++;
-        }
+        zValue = zValue * degreeFix;
+        xValue = xValue * degreeFix;
+        yawValue = yawValue * degreeFix;
 
-        if(divideCounter == 0)
-        {
-            forces[0] = Vector3.zero;
-            forces[1] = Vector3.zero;
-            forces[2] = Vector3.zero;
-            forces[3] = Vector3.zero;
-        }
-        else 
-        {
-            divideCounter *= 1/degreeFix;
-            forces[0] += (Vector3.forward + Vector3.right) * (zValue / divideCounter) + (Vector3.forward + Vector3.right) * (xValue / divideCounter) + (Vector3.back + Vector3.left) * (yawValue / divideCounter);
-            forces[1] += (Vector3.forward + Vector3.left) * (zValue / divideCounter) + (Vector3.back + Vector3.right) * (xValue / divideCounter) + (Vector3.forward + Vector3.left) * (yawValue / divideCounter);
-            forces[2] += (Vector3.forward + Vector3.left) * (zValue / divideCounter) + (Vector3.back + Vector3.right) * (xValue / divideCounter) + (Vector3.back + Vector3.right) * (yawValue / divideCounter);
-            forces[3] += (Vector3.forward + Vector3.right) * (zValue / divideCounter) + (Vector3.forward + Vector3.right) * (xValue / divideCounter) + (Vector3.forward + Vector3.right) * (yawValue / divideCounter);
-        }
+        forces[0] += (Vector3.forward + Vector3.right) * (zValue / (1 + Mathf.Abs(xValue) + Mathf.Abs(yawValue))) + (Vector3.forward + Vector3.right) * (xValue / (1 + Mathf.Abs(zValue) + Mathf.Abs(yawValue))) + (Vector3.back + Vector3.left) * (yawValue / (1 + Mathf.Abs(xValue) + Mathf.Abs(zValue)));
+        forces[1] += (Vector3.forward + Vector3.left) * (zValue / (1 + Mathf.Abs(xValue) + Mathf.Abs(yawValue))) + (Vector3.back + Vector3.right) * (xValue / (1 + Mathf.Abs(zValue) + Mathf.Abs(yawValue))) + (Vector3.forward + Vector3.left) * (yawValue / (1 + Mathf.Abs(xValue) + Mathf.Abs(zValue)));
+        forces[2] += (Vector3.forward + Vector3.left) * (zValue / (1 + Mathf.Abs(xValue) + Mathf.Abs(yawValue))) + (Vector3.back + Vector3.right) * (xValue / (1 + Mathf.Abs(zValue) + Mathf.Abs(yawValue))) + (Vector3.back + Vector3.right) * (yawValue / (1 + Mathf.Abs(xValue) + Mathf.Abs(zValue)));
+        forces[3] += (Vector3.forward + Vector3.right) * (zValue / (1 + Mathf.Abs(xValue) + Mathf.Abs(yawValue))) + (Vector3.forward + Vector3.right) * (xValue / (1 + Mathf.Abs(zValue) + Mathf.Abs(yawValue))) + (Vector3.forward + Vector3.right) * (yawValue / (1 + Mathf.Abs(xValue) + Mathf.Abs(zValue)));
 
-        divideCounter = 0f;
+        forces[4] += Vector3.up * (yValue / (1 + Mathf.Abs(pitchValue) + Mathf.Abs(rollValue))) + Vector3.up * (pitchValue / (1 + Mathf.Abs(yValue) + Mathf.Abs(rollValue))) + Vector3.down * (rollValue / (1 + Mathf.Abs(yValue) + Mathf.Abs(pitchValue)));
+        forces[5] += Vector3.up * (yValue / (1 + Mathf.Abs(pitchValue) + Mathf.Abs(rollValue))) + Vector3.up * (pitchValue / (1 + Mathf.Abs(yValue) + Mathf.Abs(rollValue))) + Vector3.up * (rollValue / (1 + Mathf.Abs(yValue) + Mathf.Abs(pitchValue)));
+        forces[6] += Vector3.up * (yValue / (1 + Mathf.Abs(pitchValue) + Mathf.Abs(rollValue))) + Vector3.down * (pitchValue / (1 + Mathf.Abs(yValue) + Mathf.Abs(rollValue))) + Vector3.down * (rollValue / (1 + Mathf.Abs(yValue) + Mathf.Abs(pitchValue)));
+        forces[7] += Vector3.up * (yValue / (1 + Mathf.Abs(pitchValue) + Mathf.Abs(rollValue))) + Vector3.down * (pitchValue / (1 + Mathf.Abs(yValue) + Mathf.Abs(rollValue))) + Vector3.up * (rollValue / (1 + Mathf.Abs(yValue) + Mathf.Abs(pitchValue)));
 
-        if(Mathf.Abs(yValue) < minToMove)
-        {
-            yValue = 0;
-        }
-        else
-        {
-            divideCounter++;
-        }
-        if(Mathf.Abs(rollValue) < minToMove)
-        {
-            rollValue = 0;
-        }
-        else
-        {
-            divideCounter++;
-        }
-        if(Mathf.Abs(pitchValue) < minToMove)
-        {
-            pitchValue = 0;
-        }
-        else
-        {
-            divideCounter++;
-        }
-
-        if(divideCounter == 0)
-        {
-            forces[4] = Vector3.zero;
-            forces[5] = Vector3.zero;
-            forces[6] = Vector3.zero;
-            forces[7] = Vector3.zero;
-        }
-        else
-        {
-            forces[4] += Vector3.up * (yValue / divideCounter) + Vector3.up * (pitchValue / divideCounter) + Vector3.down * (rollValue / divideCounter);
-            forces[5] += Vector3.up * (yValue / divideCounter) + Vector3.up * (pitchValue / divideCounter) + Vector3.up * (rollValue / divideCounter);
-            forces[6] += Vector3.up * (yValue / divideCounter) + Vector3.down * (pitchValue / divideCounter) + Vector3.down * (rollValue / divideCounter);
-            forces[7] += Vector3.up * (yValue / divideCounter) + Vector3.down * (pitchValue / divideCounter) + Vector3.up * (rollValue / divideCounter);
-        }
-
+        //replace the bottom 4 lines divideCounter like they are in the top 4 lines divide counter but with the correct values for the bottom 4 lines
         // if we ever change it to be more realistic, the 40f should be changed to be 40/51.4 so it conforms to the actual motor limits if backwards
         forces[0] *= maxSpeed;
         forces[1] *= maxSpeed;
@@ -308,7 +236,6 @@ public class PIDHandler
         forces[6] *= maxSpeed;
         forces[7] *= maxSpeed;
 
-        divideCounter = 0f;
         return forces;
     }
 
