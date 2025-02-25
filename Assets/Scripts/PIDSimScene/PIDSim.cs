@@ -4,8 +4,12 @@ using UnityEngine.UI;
 public class PIDSim : MonoBehaviour
 {
     // TODO - add button for dont get rid of integral windup or derivative kick?
+    // TODO - add button that comes before ki for on off gravity
     public Rigidbody rb;
-    public GameObject Target;
+    public GameObject Platform;
+    public GameObject RightPlatform;
+    public GameObject LeftPlatform;
+    public GameObject CameraPOS;
     public bool onYAxis = false;
     public Toggle IToggle;
     PIDSimController controller = new PIDSimController();
@@ -29,13 +33,14 @@ public class PIDSim : MonoBehaviour
         }
         else if((controller.Kp != 0f || controller.Ki != 0f || controller.Kd != 0f) && onYAxis)
         {
-            Vector3 force = new Vector3(0f, controller.Update(Time.fixedDeltaTime, rb.transform.position.y, 5.5f), 0f);
+            Vector3 force = new Vector3(0f, controller.Update(Time.fixedDeltaTime, rb.transform.position.y, 8.5f), 0f);
             rb.AddForce(force, ForceMode.Force);
         }
     }
 
     public void enableP(bool enable)
-    {
+    {   
+        Debug.Log("P: " + enable);
         if(enable)
         {
             controller.Kp = 1f;
@@ -50,7 +55,7 @@ public class PIDSim : MonoBehaviour
     {
         if(enable)
         {
-            controller.Ki = 1f;
+            controller.Ki = 0.55f;
         }
         else
         {
@@ -62,7 +67,7 @@ public class PIDSim : MonoBehaviour
     {
         if(enable)
         {
-            controller.Kd = 1f;
+            controller.Kd = 0.33f;
         }
         else
         {
@@ -75,16 +80,29 @@ public class PIDSim : MonoBehaviour
         onYAxis = !onYAxis;
         if(onYAxis)
         {
+            rb.linearVelocity = new Vector3(0f, 0f, 0f);
+            rb.angularVelocity = new Vector3(0f, 0f, 0f);
             rb.transform.position = new Vector3(0f, 0.5f, 0f);
-            Target.transform.position = new Vector3(2f, 5.5f, 0f);
+            Platform.transform.position = new Vector3(2f, 8.5f, 0f);
+            rb.useGravity = true;
+            LeftPlatform.transform.position = new Vector3(2f, 0.5f, 0f);
+            RightPlatform.transform.position = new Vector3(2f, 16.5f, 0f);
+            CameraPOS.transform.position = new Vector3(0f, 8f, -20f);
             IToggle.isOn = false;
             IToggle.gameObject.SetActive(true);
             controller.Reset();
+
         }
         else
         {
+            rb.linearVelocity = new Vector3(0f, 0f, 0f);
+            rb.angularVelocity = new Vector3(0f, 0f, 0f);
             rb.transform.position = new Vector3(-8f, 2.5f, 0f);
-            Target.transform.position = new Vector3(0f, 0.5f, 0f);
+            rb.useGravity = false;
+            Platform.transform.position = new Vector3(0f, 0.5f, 0f);
+            LeftPlatform.transform.position = new Vector3(-8f, 0.5f, 0f);
+            RightPlatform.transform.position = new Vector3(8f, 0.5f, 0f);
+            CameraPOS.transform.position = new Vector3(0f, 3f, -12f);
             IToggle.isOn = false;
             IToggle.gameObject.SetActive(false);
             controller.Reset();
@@ -113,7 +131,7 @@ public class PIDSimController
     private bool notFirstUpdate = false;
 
     // the maximum value the integral term can take, to prevent intergral windup
-    private float integralSaturation = 1f;
+    private float integralSaturation = 8f;
 
 
     // dt - time step, in unity we use Time.fixedDeltaTime for this
@@ -150,9 +168,7 @@ public class PIDSimController
             result = P + I;
         }
 
-        // makes sure it cannot return an output greater than 1 or less than -1
-        // if we ever change it to be more realistic, the -1f should be changed to be 40/51.4 so it conforms to the actual motor limits
-        return Mathf.Clamp(result, -1f, 1f);
+        return result;
     }
 
     // reset the controller when the pid is not in use
