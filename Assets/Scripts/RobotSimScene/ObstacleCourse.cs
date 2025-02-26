@@ -1,4 +1,3 @@
-using UnityEditor.Callbacks;
 using UnityEngine;
 
 public class ObstacleCourse : MonoBehaviour
@@ -22,6 +21,8 @@ public class ObstacleCourse : MonoBehaviour
     public GameObject realRobot;
     private bool runCourse = false;
     private Vector3 spherePosition;
+    private bool hoopDone = false;
+    private bool courseDone = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -57,8 +58,47 @@ public class ObstacleCourse : MonoBehaviour
 
             if(Vector3.Distance(realRobot.transform.position, spherePosition) < 3)
             {
-                spherePosition.z += hoopDistance;
-                obstacleCourseSphere.transform.position = spherePosition;
+                if(courseDone)
+                {
+                    spherePosition = new Vector3(-spaceApart, 35, spaceForward);
+                    obstacleCourseSphere.transform.position = spherePosition;
+                    courseDone = false;
+                }
+                else if((spherePosition.z < hoopDistance * (hoopAmount - 1) + spaceForward) && !hoopDone)
+                {
+                    spherePosition.z += hoopDistance;
+                    obstacleCourseSphere.transform.position = spherePosition;
+                }
+                else if(hoopDone)
+                {
+                    if(spherePosition.z == 60)
+                    {
+                        spherePosition = new Vector3(0, 5, 0);
+                        obstacleCourseSphere.transform.position = spherePosition;
+                        courseDone = true;
+                        hoopDone = false;
+                    }
+                    else
+                    {
+                        spherePosition.z -= obstacleDistance;
+                        if(spherePosition.x == 30 + width)
+                        {
+                            spherePosition.x -= width;
+                        }
+                        else
+                        {
+                            spherePosition.x += width;
+                        }
+                        obstacleCourseSphere.transform.position = spherePosition;
+                    }
+                }
+                else
+                {
+                    hoopDone = true;
+                    spherePosition = new Vector3(30 + obstacleAmount % 2 * width, 5, spaceForward + obstacleDistance * obstacleAmount);
+                    obstacleCourseSphere.transform.position = spherePosition;
+                }
+
             }
         }
     }
