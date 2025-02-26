@@ -23,6 +23,7 @@ public class ObstacleCourse : MonoBehaviour
     private Vector3 spherePosition;
     private bool hoopDone = false;
     private bool courseDone = false;
+    private bool hoopReset = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -61,12 +62,14 @@ public class ObstacleCourse : MonoBehaviour
                 if(courseDone)
                 {
                     spherePosition = new Vector3(-spaceApart, 35, spaceForward);
+                    PIDScript.yawSetpoint = findAngle(realRobot.transform.position, spherePosition);
                     obstacleCourseSphere.transform.position = spherePosition;
                     courseDone = false;
                 }
                 else if((spherePosition.z < hoopDistance * (hoopAmount - 1) + spaceForward) && !hoopDone)
                 {
                     spherePosition.z += hoopDistance;
+                    PIDScript.yawSetpoint = findAngle(realRobot.transform.position, spherePosition);
                     obstacleCourseSphere.transform.position = spherePosition;
                 }
                 else if(hoopDone)
@@ -74,6 +77,7 @@ public class ObstacleCourse : MonoBehaviour
                     if(spherePosition.z == 60)
                     {
                         spherePosition = new Vector3(0, 5, 0);
+                        PIDScript.yawSetpoint = findAngle(realRobot.transform.position, spherePosition);
                         obstacleCourseSphere.transform.position = spherePosition;
                         courseDone = true;
                         hoopDone = false;
@@ -89,14 +93,25 @@ public class ObstacleCourse : MonoBehaviour
                         {
                             spherePosition.x += width;
                         }
+                        PIDScript.yawSetpoint = findAngle(realRobot.transform.position, spherePosition);
                         obstacleCourseSphere.transform.position = spherePosition;
                     }
                 }
+                else if(hoopReset)
+                {
+                    hoopReset = false;
+                    hoopDone = true;
+                    spherePosition = new Vector3(30 + obstacleAmount % 2 * width, 5, spaceForward + obstacleDistance * (obstacleAmount - 1));
+                    PIDScript.yawSetpoint = findAngle(realRobot.transform.position, spherePosition);
+                    obstacleCourseSphere.transform.position = spherePosition;
+                    PIDScript.yawSetpoint = 180;
+                }
                 else
                 {
-                    hoopDone = true;
-                    spherePosition = new Vector3(30 + obstacleAmount % 2 * width, 5, spaceForward + obstacleDistance * obstacleAmount);
+                    spherePosition.z = spaceForward + obstacleDistance * (obstacleAmount - 1);
+                    PIDScript.yawSetpoint = findAngle(realRobot.transform.position, spherePosition);
                     obstacleCourseSphere.transform.position = spherePosition;
+                    hoopReset = true;
                 }
 
             }
@@ -107,6 +122,17 @@ public class ObstacleCourse : MonoBehaviour
     {
         runCourse = !runCourse;
         obstacleCourseSphere.SetActive(runCourse);
+        if(runCourse)
+        {
+            PIDScript.yawSetpoint = findAngle(realRobot.transform.position, spherePosition);
+        }
         obstacleCourseSphere.transform.position = spherePosition;
+    }
+
+    private float findAngle(Vector3 fromPosition, Vector3 toPosition)
+    {
+        Vector3 direction = toPosition - fromPosition;
+        float angle = Mathf.Atan2(direction.z, direction.x) * Mathf.Rad2Deg;
+        return angle;
     }
 }
