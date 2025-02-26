@@ -212,19 +212,39 @@ public class PIDHandler
         pitchValue = pitchController.UpdateAngle(Time.fixedDeltaTime, location[4], pitchSetpoint);
         yawValue = yawController.UpdateAngle(Time.fixedDeltaTime, location[5], yawSetpoint);
 
-        zValue = zValue * degreeFix;
-        xValue = xValue * degreeFix;
-        yawValue = yawValue * degreeFix;
+        forces[0] += (Vector3.forward + Vector3.right) * zValue + (Vector3.forward + Vector3.right) * xValue + (Vector3.back + Vector3.left) * yawValue;
+        forces[1] += (Vector3.forward + Vector3.left) * zValue + (Vector3.back + Vector3.right) * xValue + (Vector3.forward + Vector3.left) * yawValue;
+        forces[2] += (Vector3.forward + Vector3.left) * zValue + (Vector3.back + Vector3.right) * xValue + (Vector3.back + Vector3.right) * yawValue;
+        forces[3] += (Vector3.forward + Vector3.right) * zValue + (Vector3.forward + Vector3.right) * xValue + (Vector3.forward + Vector3.right) * yawValue;
 
-        forces[0] += (Vector3.forward + Vector3.right) * (zValue / (1 + Mathf.Abs(xValue) + Mathf.Abs(yawValue))) + (Vector3.forward + Vector3.right) * (xValue / (1 + Mathf.Abs(zValue) + Mathf.Abs(yawValue))) + (Vector3.back + Vector3.left) * (yawValue / (1 + Mathf.Abs(xValue) + Mathf.Abs(zValue)));
-        forces[1] += (Vector3.forward + Vector3.left) * (zValue / (1 + Mathf.Abs(xValue) + Mathf.Abs(yawValue))) + (Vector3.back + Vector3.right) * (xValue / (1 + Mathf.Abs(zValue) + Mathf.Abs(yawValue))) + (Vector3.forward + Vector3.left) * (yawValue / (1 + Mathf.Abs(xValue) + Mathf.Abs(zValue)));
-        forces[2] += (Vector3.forward + Vector3.left) * (zValue / (1 + Mathf.Abs(xValue) + Mathf.Abs(yawValue))) + (Vector3.back + Vector3.right) * (xValue / (1 + Mathf.Abs(zValue) + Mathf.Abs(yawValue))) + (Vector3.back + Vector3.right) * (yawValue / (1 + Mathf.Abs(xValue) + Mathf.Abs(zValue)));
-        forces[3] += (Vector3.forward + Vector3.right) * (zValue / (1 + Mathf.Abs(xValue) + Mathf.Abs(yawValue))) + (Vector3.forward + Vector3.right) * (xValue / (1 + Mathf.Abs(zValue) + Mathf.Abs(yawValue))) + (Vector3.forward + Vector3.right) * (yawValue / (1 + Mathf.Abs(xValue) + Mathf.Abs(zValue)));
+        forces[4] += Vector3.up * yValue + Vector3.up * pitchValue + Vector3.down * rollValue;
+        forces[5] += Vector3.up * yValue + Vector3.up * pitchValue + Vector3.up * rollValue;
+        forces[6] += Vector3.up * yValue + Vector3.down * pitchValue + Vector3.down * rollValue;
+        forces[7] += Vector3.up * yValue + Vector3.down * pitchValue + Vector3.up * rollValue;
 
-        forces[4] += Vector3.up * (yValue / (1 + Mathf.Abs(pitchValue) + Mathf.Abs(rollValue))) + Vector3.up * (pitchValue / (1 + Mathf.Abs(yValue) + Mathf.Abs(rollValue))) + Vector3.down * (rollValue / (1 + Mathf.Abs(yValue) + Mathf.Abs(pitchValue)));
-        forces[5] += Vector3.up * (yValue / (1 + Mathf.Abs(pitchValue) + Mathf.Abs(rollValue))) + Vector3.up * (pitchValue / (1 + Mathf.Abs(yValue) + Mathf.Abs(rollValue))) + Vector3.up * (rollValue / (1 + Mathf.Abs(yValue) + Mathf.Abs(pitchValue)));
-        forces[6] += Vector3.up * (yValue / (1 + Mathf.Abs(pitchValue) + Mathf.Abs(rollValue))) + Vector3.down * (pitchValue / (1 + Mathf.Abs(yValue) + Mathf.Abs(rollValue))) + Vector3.down * (rollValue / (1 + Mathf.Abs(yValue) + Mathf.Abs(pitchValue)));
-        forces[7] += Vector3.up * (yValue / (1 + Mathf.Abs(pitchValue) + Mathf.Abs(rollValue))) + Vector3.down * (pitchValue / (1 + Mathf.Abs(yValue) + Mathf.Abs(rollValue))) + Vector3.up * (rollValue / (1 + Mathf.Abs(yValue) + Mathf.Abs(pitchValue)));
+        float highestForce1 = 1f;
+        float highestForce2 = 1f;
+
+        for(int i = 0; i < 4; i++)
+        {
+            if(forces[i].magnitude > highestForce1)
+            {
+                highestForce1 = forces[i].magnitude;
+            }
+            if(forces[i+4].magnitude > highestForce2)
+            {
+                highestForce2 = forces[i+4].magnitude;
+            }
+        }
+
+        forces[0] = forces[0] * (1 / highestForce1);
+        forces[1] = forces[1] * (1 / highestForce1);
+        forces[2] = forces[2] * (1 / highestForce1);
+        forces[3] = forces[3] * (1 / highestForce1);
+        forces[4] = forces[4] * (1 / highestForce2);
+        forces[5] = forces[5] * (1 / highestForce2);
+        forces[6] = forces[6] * (1 / highestForce2);
+        forces[7] = forces[7] * (1 / highestForce2);
 
         //replace the bottom 4 lines divideCounter like they are in the top 4 lines divide counter but with the correct values for the bottom 4 lines
         // if we ever change it to be more realistic, the 40f should be changed to be 40/51.4 so it conforms to the actual motor limits if backwards
@@ -236,8 +256,6 @@ public class PIDHandler
         forces[5] *= maxSpeed;
         forces[6] *= maxSpeed;
         forces[7] *= maxSpeed;
-
-        
 
         return forces;
     }

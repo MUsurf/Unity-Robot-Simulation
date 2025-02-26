@@ -7750,7 +7750,7 @@ Transform:
   m_GameObject: {fileID: 3023082051099529487}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 100, z: 0}
+  m_LocalPosition: {x: 0, y: 4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7776,7 +7776,7 @@ Rigidbody:
   m_GameObject: {fileID: 3023082051099529487}
   serializedVersion: 4
   m_Mass: 26.53
-  m_Drag: 0
+  m_Drag: 1
   m_AngularDrag: 1
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -7807,7 +7807,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 9193295145256729471}
-  defaultMaxSpeed: 200
   maxSpeed: 200
   RealRobotMovementControllerScript: {fileID: 9193295145256729479}
   PIDScript: {fileID: 9193295145256729480}
@@ -7911,15 +7910,15 @@ MonoBehaviour:
   - 0.5
   - 0
   - 0.2
-  - 0.5
+  - 0.05
   - 0
-  - 0.2
-  - 0.5
+  - 0.05
+  - 0.05
   - 0
-  - 0.2
-  - 0.5
+  - 0.05
+  - 0.05
   - 0
-  - 0.2
+  - 0.05
   motorScript: {fileID: 9193295145256729473}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

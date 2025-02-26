@@ -10,7 +10,6 @@ using UnityEngine.UI;
 public class RealRobotMotorScript : MonoBehaviour
 {
     public Rigidbody rb;
-    public float defaultMaxSpeed = 200f;
     public float maxSpeed;
     private Vector3 force1;
     private Vector3 force2;
@@ -42,7 +41,7 @@ public class RealRobotMotorScript : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         InvertMouseButton.SetActive(false);
         rb.useGravity = false;
-        maxSpeed = defaultMaxSpeed;
+        maxSpeed = 80f;
     }
 
     // Update is called once per frame
@@ -132,7 +131,7 @@ public class RealRobotMotorScript : MonoBehaviour
         }
         else
         {
-            maxSpeed = defaultMaxSpeed;
+            maxSpeed = 80f;
         }
     }
 
