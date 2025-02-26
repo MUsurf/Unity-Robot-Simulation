@@ -98,7 +98,7 @@ public class RealRobotMovementController : MonoBehaviour
             force3 += (Vector3.back + Vector3.right) * leftStickX;
             force4 += (Vector3.forward + Vector3.right) * leftStickX;
 
-            // TODO - finish the rest AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+            // TODO - finish the rest AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
             if(Input.GetKey(KeyCode.Space))
             {
