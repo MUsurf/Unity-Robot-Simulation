@@ -176,7 +176,7 @@ public class PIDHandler
     private float pitchValue;
     private float yawValue;
 
-    private float degreeFix = Mathf.Sqrt(2) / 2;
+    // private float degreeFix = Mathf.Sqrt(2) / 2;
 
     private float maxSpeed;
 

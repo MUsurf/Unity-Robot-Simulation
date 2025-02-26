@@ -26,7 +26,7 @@ public class RealRobotMovementController : MonoBehaviour
         {
             timeSinceLastToggle += Time.deltaTime;
 
-            if(Input.GetKey(KeyCode.M) || Input.GetKey(KeyCode.Escape) && timeSinceLastToggle > 0.25f)
+            if(Input.GetKey(KeyCode.M) && timeSinceLastToggle > 0.25f)
             {
                 if(Cursor.lockState == CursorLockMode.Locked)
                 {
@@ -77,6 +77,8 @@ public class RealRobotMovementController : MonoBehaviour
             float rightStickY = Input.GetAxis("RightStickVertical");
             float leftTrigger = Input.GetAxis("LeftTrigger");
             float rightTrigger = Input.GetAxis("RightTrigger");
+            float dpadX = Input.GetAxis("DpadHorizontal");
+            float dpadY = Input.GetAxis("DpadVertical");
 
             if(invertMouse)
             {
@@ -98,88 +100,73 @@ public class RealRobotMovementController : MonoBehaviour
             force3 += (Vector3.back + Vector3.right) * leftStickX;
             force4 += (Vector3.forward + Vector3.right) * leftStickX;
 
-            // TODO - finish the rest AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+            force5 += Vector3.up * dpadY;
+            force6 += Vector3.up * dpadY;
+            force7 += Vector3.up * dpadY;
+            force8 += Vector3.up * dpadY;
 
-            if(Input.GetKey(KeyCode.Space))
-            {
-                force5 += Vector3.up;
-                force6 += Vector3.up;
-                force7 += Vector3.up;
-                force8 += Vector3.up;
-            }
-            if(Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.C))
-            {
-                force5 += Vector3.down;
-                force6 += Vector3.down;
-                force7 += Vector3.down;
-                force8 += Vector3.down;
-            }
-            
-            // TODO - make this go at half speed?
-            
-            // if(Input.GetKey(KeyCode.LeftShift))
-            // {
-            //     force5 *= shiftMultiplier;
-            //     force6 *= shiftMultiplier;
-            //     force7 *= shiftMultiplier;
-            //     force8 *= shiftMultiplier;
-            // }
+            force1 += (Vector3.back + Vector3.left) * leftTrigger;
+            force2 += (Vector3.forward + Vector3.left) * leftTrigger;
+            force3 += (Vector3.back + Vector3.right) * leftTrigger;
+            force4 += (Vector3.forward + Vector3.right) * leftTrigger;
 
-            float mouseX = Input.GetAxis("Mouse X");
-            float mouseY = Input.GetAxis("Mouse Y");
 
-            Vector3 mouseDelta = new Vector3(mouseX, mouseY, 0);
+            force1 += (Vector3.forward + Vector3.right) * rightTrigger;
+            force2 += (Vector3.back + Vector3.right) * rightTrigger;
+            force3 += (Vector3.forward + Vector3.left) * rightTrigger;
+            force4 += (Vector3.back + Vector3.left) * rightTrigger;
 
-            if(Input.GetKey(KeyCode.Q))
-            {
-                mouseforce1 += (Vector3.back + Vector3.left) * yawForceMultiplier;
-                mouseforce2 += (Vector3.forward + Vector3.left) * yawForceMultiplier;
-                mouseforce3 += (Vector3.back + Vector3.right) * yawForceMultiplier;
-                mouseforce4 += (Vector3.forward + Vector3.right) * yawForceMultiplier;
-            }
-            if(Input.GetKey(KeyCode.E))
-            {
-                mouseforce1 += (Vector3.forward + Vector3.right) * yawForceMultiplier;
-                mouseforce2 += (Vector3.back + Vector3.right) * yawForceMultiplier;
-                mouseforce3 += (Vector3.forward + Vector3.left) * yawForceMultiplier;
-                mouseforce4 += (Vector3.back + Vector3.left) * yawForceMultiplier;
-            }
+            // mouseforce1 = mouseforce1.normalized;
+            // mouseforce2 = mouseforce2.normalized;
+            // mouseforce3 = mouseforce3.normalized;
+            // mouseforce4 = mouseforce4.normalized;
 
-            mouseforce1 = mouseforce1.normalized;
-            mouseforce2 = mouseforce2.normalized;
-            mouseforce3 = mouseforce3.normalized;
-            mouseforce4 = mouseforce4.normalized;
-            
-            mouseDelta.y = mouseDelta.y * mouseForceMultiplier * invertMouseMultiplier;
-            mouseDelta.x = mouseDelta.x * mouseForceMultiplier;
+            force5 -= new Vector3(0, rightStickY, 0);
+            force6 -= new Vector3(0, rightStickY, 0);
+            force7 += new Vector3(0, rightStickY, 0);
+            force8 += new Vector3(0, rightStickY, 0);
 
-            Debug.Log(mouseDelta);
+            force5 -= new Vector3(0, rightStickX, 0);
+            force6 += new Vector3(0, rightStickX, 0);
+            force7 -= new Vector3(0, rightStickX, 0);
+            force8 += new Vector3(0, rightStickX, 0);
 
-            if(mouseDelta.y > 1)
+            float highestForce1 = 1f;
+            float highestForce2 = 1f;
+
+            List<Vector3> forces = new List<Vector3> {force1, force2, force3, force4, force5, force6, force7, force8};
+
+            for(int i = 0; i < 4; i++)
             {
-                mouseDelta.y = 1;
-            }
-            if(mouseDelta.x > 1)
-            {
-                mouseDelta.x = 1;
-            }
-            if(mouseDelta.y < -1)
-            {
-                mouseDelta.y = -1;
-            }
-            if(mouseDelta.x < -1)
-            {
-                mouseDelta.x = -1;
+                if(forces[i].magnitude > highestForce1)
+                {
+                    highestForce1 = forces[i].magnitude;
+                }
+                if(forces[i+4].magnitude > highestForce2)
+                {
+                    highestForce2 = forces[i+4].magnitude;
+                }
             }
 
-            mouseforce5 += new Vector3(0, mouseDelta.y, 0);
-            mouseforce6 += new Vector3(0, mouseDelta.y, 0);
-            mouseforce7 -= new Vector3(0, mouseDelta.y, 0);
-            mouseforce8 -= new Vector3(0, mouseDelta.y, 0);
+            forces[0] = forces[0] * (1 / highestForce1);
+            forces[1] = forces[1] * (1 / highestForce1);
+            forces[2] = forces[2] * (1 / highestForce1);
+            forces[3] = forces[3] * (1 / highestForce1);
+            forces[4] = forces[4] * (1 / highestForce2);
+            forces[5] = forces[5] * (1 / highestForce2);
+            forces[6] = forces[6] * (1 / highestForce2);
+            forces[7] = forces[7] * (1 / highestForce2);
 
-            mouseforce5 -= new Vector3(0, mouseDelta.x, 0);
-            mouseforce6 += new Vector3(0, mouseDelta.x, 0);
-            mouseforce7 -= new Vector3(0, mouseDelta.x, 0);
+            //replace the bottom 4 lines divideCounter like they are in the top 4 lines divide counter but with the correct values for the bottom 4 lines
+            // if we ever change it to be more realistic, the 40f should be changed to be 40/51.4 so it conforms to the actual motor limits if backwards
+            forces[0] *= motorScript.maxSpeed;
+            forces[1] *= motorScript.maxSpeed;
+            forces[2] *= motorScript.maxSpeed;
+            forces[3] *= motorScript.maxSpeed;
+            forces[4] *= motorScript.maxSpeed;
+            forces[5] *= motorScript.maxSpeed;
+            forces[6] *= motorScript.maxSpeed;
+            forces[7] *= motorScript.maxSpeed;
         }
         else
         {
@@ -313,7 +300,7 @@ public class RealRobotMovementController : MonoBehaviour
             mouseforce6 += new Vector3(0, mouseDelta.x, 0);
             mouseforce7 -= new Vector3(0, mouseDelta.x, 0);
             mouseforce8 += new Vector3(0, mouseDelta.x, 0);
-        }
+        
 
         greaterCheck(ref mouseforce5, ref mouseforce6, ref mouseforce7, ref mouseforce8);
 
@@ -332,6 +319,8 @@ public class RealRobotMovementController : MonoBehaviour
         force4 = force4.normalized;
 
         checkNegativeAndApply(ref force1, ref force2, ref force3, ref force4, ref force5, ref force6, ref force7, ref force8);
+
+        }
 
         Debug.Log($"force1: {force1}, force2: {force2}, force3: {force3}, force4: {force4}, force5: {force5}, force6: {force6}, force7: {force7}, force8: {force8}");
 
