@@ -54,23 +54,65 @@ public class ArrowCreator : MonoBehaviour
     {
         for(int i = 0; i < arrows.Count; i++)
         {
-            arrows[i].transform.position = cube.transform.position + new Vector3(0f, positions[i], 0);
-            
-            arrows[i].transform.position += new Vector3(Mathf.Sign(values[i])*0.5f + values[i]/2, 0, 0);
-
-            if(values[i] < 0)
+            if(pidSimScript.onYAxis)
             {
-                arrowHeads[i].transform.localRotation = Quaternion.Euler(90, 180, 0);
+                arrows[i].transform.position = cube.transform.position + new Vector3(-positions[i], 0, 0);
+                
+                arrows[i].transform.position += new Vector3(0, Mathf.Sign(values[i])*0.5f + values[i]/2, 0);
+
+                if(values[i] < 0)
+                {
+                    arrowHeads[i].transform.localRotation = Quaternion.Euler(180, 90, 90);
+                }
+                else
+                {
+                    arrowHeads[i].transform.localRotation = Quaternion.Euler(0, 90, 90);
+                }
+            
+                Vector3 scale = new Vector3(0.1f, 1, 0.1f);
+                scale.y = values[i];
+                arrows[i].transform.localScale = scale;
             }
             else
             {
-                arrowHeads[i].transform.localRotation = Quaternion.Euler(90, 0, 0);
+                arrows[i].transform.position = cube.transform.position + new Vector3(0f, positions[i], 0);
+                
+                arrows[i].transform.position += new Vector3(Mathf.Sign(values[i])*0.5f + values[i]/2, 0, 0);
+
+                if(values[i] < 0)
+                {
+                    arrowHeads[i].transform.localRotation = Quaternion.Euler(90, 180, 0);
+                }
+                else
+                {
+                    arrowHeads[i].transform.localRotation = Quaternion.Euler(90, 0, 0);
+                }
+            
+                Vector3 scale = new Vector3(1, 0.1f, 0.1f);
+                scale.x = values[i];
+                arrows[i].transform.localScale = scale;
             }
-        
-            Vector3 scale = new Vector3(1, 0.1f, 0.1f);
-            scale.x = values[i];
-            arrows[i].transform.localScale = scale;
+            
+
         }
+
+        for(int i = 0; i < arrowHeads.Count; i++)
+        {
+            if(pidSimScript.onYAxis)
+            {
+                Vector3 newPosition = arrowHeadsPositions[i].transform.position;
+                newPosition.y += Mathf.Sign(values[i])*0.5f + values[i]/2 + Mathf.Sign(values[i]) * -0.5f;
+                arrowHeads[i].transform.position = newPosition;
+
+            }
+            else
+            {
+                arrowHeads[i].transform.position = arrowHeadsPositions[i].transform.position;
+            }
+
+            arrowHeads[i].transform.position += new Vector3(-0.05f, 0, 0);
+        }
+        
     }
 
     public List<float> getValues()

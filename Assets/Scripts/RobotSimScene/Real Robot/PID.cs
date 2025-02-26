@@ -30,6 +30,7 @@ public class PID : MonoBehaviour
     public List<Vector3> getVectors()
     {
         location = new List<float>() {rb.position.x, rb.position.y, rb.position.z, rb.rotation.eulerAngles.z, rb.rotation.eulerAngles.x, rb.rotation.eulerAngles.y};
+        pidHandler.getMaxSpeed(motorScript.maxSpeed);
         pidHandler.getLocation(location);
         pidHandler.UpdateKValues(kValues);
         pidHandler.UpdateSetpoint(xSetpoint, ySetpoint, zSetpoint, rollSetpoint, pitchSetpoint, yawSetpoint);
@@ -235,6 +236,8 @@ public class PIDHandler
         forces[5] *= maxSpeed;
         forces[6] *= maxSpeed;
         forces[7] *= maxSpeed;
+
+        
 
         return forces;
     }
