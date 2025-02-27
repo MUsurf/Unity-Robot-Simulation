@@ -3,6 +3,7 @@ using System.Collections.Generic;
 public class PID : MonoBehaviour
 {
     // TODO - does not work if yaw pitch and roll are not 0
+    // TODO - make yaw track thing a button
     public Rigidbody rb;
     public float xSetpoint = 0f;
     public float ySetpoint = 0f;
@@ -10,6 +11,9 @@ public class PID : MonoBehaviour
     public float rollSetpoint = 0f;
     public float pitchSetpoint = 0f;
     public float yawSetpoint = 0f;
+    public float xSetpointRelative = 0f;
+    public float ySetpointRelative = 0f;
+    public float zSetpointRelative = 0f;
     public List<float> kValues = new List<float>() {0.5f, 0, 0.1f, 0.5f, 0, 0.1f, 0.5f, 0, 0.1f, 0.05f, 0, 0.1f, 0.05f, 0, 0.1f, 0.05f, 0, 0.1f};
 
     public RealRobotMotorScript motorScript;
@@ -20,7 +24,7 @@ public class PID : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        location = new List<float>() {rb.position.x, rb.position.y, rb.position.z, rb.rotation.eulerAngles.z, rb.rotation.eulerAngles.x, rb.rotation.eulerAngles.y};
+        location = new List<float>() {0, 0, 0, rb.rotation.eulerAngles.z, rb.rotation.eulerAngles.x, rb.rotation.eulerAngles.y};
         pidHandler.getMaxSpeed(motorScript.maxSpeed);
         pidHandler.getLocation(location);
         pidHandler.UpdateKValues(kValues);
@@ -29,11 +33,12 @@ public class PID : MonoBehaviour
 
     public List<Vector3> getVectors()
     {
-        location = new List<float>() {rb.position.x, rb.position.y, rb.position.z, rb.rotation.eulerAngles.z, rb.rotation.eulerAngles.x, rb.rotation.eulerAngles.y};
+        location = new List<float>() {0, 0, 0, rb.rotation.eulerAngles.z, rb.rotation.eulerAngles.x, rb.rotation.eulerAngles.y};
         pidHandler.getMaxSpeed(motorScript.maxSpeed);
         pidHandler.getLocation(location);
         pidHandler.UpdateKValues(kValues);
         UpdateSetpoint(xSetpoint, ySetpoint, zSetpoint, rollSetpoint, pitchSetpoint, yawSetpoint);
+        sendSetpoints();
         return pidHandler.Update();
     }
 
@@ -46,12 +51,18 @@ public class PID : MonoBehaviour
     {
         Vector3 vector = new Vector3(x, y, z);
         vector = transform.InverseTransformPoint(vector);
-        xSetpoint = vector.x;
-        ySetpoint = vector.y;
-        zSetpoint = vector.z;
+        xSetpointRelative = vector.x;
+        ySetpointRelative = vector.y;
+        zSetpointRelative = vector.z;
         rollSetpoint = roll;
         pitchSetpoint = pitch;
         yawSetpoint = yaw;
+    }
+
+    public void sendSetpoints()
+    {
+        List<float> setpoints = new List<float>() {xSetpointRelative, ySetpointRelative, zSetpointRelative, rollSetpoint, pitchSetpoint, yawSetpoint};
+        pidHandler.recieveSetpoints(setpoints);
     }
 }
 
@@ -213,8 +224,22 @@ public class PIDHandler
         yawController.Reset();
     }
 
+    public void recieveSetpoints(List<float> setpoints)
+    {
+        xSetpoint = setpoints[0];
+        ySetpoint = setpoints[1];
+        zSetpoint = setpoints[2];
+        rollSetpoint = setpoints[3];
+        pitchSetpoint = setpoints[4];
+        yawSetpoint = setpoints[5];
+    }
+
     public List<Vector3> Update()
     {
+        rollSetpoint = 0;
+        pitchSetpoint = 0;
+        yawSetpoint = 0;
+
         forces = new List<Vector3>() {Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero};
 
         xValue = xController.Update(Time.fixedDeltaTime, location[0], xSetpoint);

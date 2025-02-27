@@ -61,19 +61,21 @@ public class ObstacleCourse : MonoBehaviour
             PIDScript.ySetpoint = spherePosition.y;
             PIDScript.zSetpoint = spherePosition.z;
 
+            PIDScript.yawSetpoint = findAngle(realRobot.transform.position, spherePosition);
+
             if(Vector3.Distance(realRobot.transform.position, spherePosition) < 3)
             {
                 if(courseDone)
                 {
                     spherePosition = new Vector3(-spaceApart, 35, spaceForward);
-                    // PIDScript.yawSetpoint = findAngle(realRobot.transform.position, spherePosition);
+                    
                     obstacleCourseSphere.transform.position = spherePosition;
                     courseDone = false;
                 }
                 else if((spherePosition.z < hoopDistance * (hoopAmount - 1) + spaceForward) && !hoopDone)
                 {
                     spherePosition.z += hoopDistance;
-                    // PIDScript.yawSetpoint = findAngle(realRobot.transform.position, spherePosition);
+                    
                     obstacleCourseSphere.transform.position = spherePosition;
                 }
                 else if(hoopDone)
@@ -81,17 +83,10 @@ public class ObstacleCourse : MonoBehaviour
                     if(spherePosition.z == 60)
                     {
                         spherePosition = new Vector3(0, 5, 0);
-                        // PIDScript.yawSetpoint = findAngle(realRobot.transform.position, spherePosition);
+                        
                         obstacleCourseSphere.transform.position = spherePosition;
                         courseDone = true;
                         hoopDone = false;
-                        if(CameraTrackScript.firstPerson || CameraTrackScript.trackRotation)
-                        {
-                            FirstPersonCamera.transform.rotation = Quaternion.Euler(0, 0, 0);
-                            FirstPersonCamera.transform.position = new Vector3(0, 0, 4) + realRobot.transform.position;
-                            ThirdPersonCamera.transform.rotation = Quaternion.Euler(0, 0, 0);
-                            ThirdPersonCamera.transform.position = new Vector3(0, 10, -20) + realRobot.transform.position;
-                        }
                     }
                     else
                     {
@@ -104,30 +99,22 @@ public class ObstacleCourse : MonoBehaviour
                         {
                             spherePosition.x += width;
                         }
-                        // PIDScript.yawSetpoint = findAngle(realRobot.transform.position, spherePosition);
+                        
                         obstacleCourseSphere.transform.position = spherePosition;
                     }
                 }
                 else if(hoopReset)
                 {
-                    if(CameraTrackScript.firstPerson || CameraTrackScript.trackRotation)
-                    {
-                        FirstPersonCamera.transform.rotation = Quaternion.Euler(0, 180, 0);
-                        FirstPersonCamera.transform.position = new Vector3(0, 0, -4) + realRobot.transform.position;
-                        ThirdPersonCamera.transform.rotation = Quaternion.Euler(0, 180, 0);
-                        ThirdPersonCamera.transform.position = new Vector3(0, 10, 20) + realRobot.transform.position;
-                    }
                     hoopReset = false;
                     hoopDone = true;
                     spherePosition = new Vector3(30 + obstacleAmount % 2 * width, 5, spaceForward + obstacleDistance * (obstacleAmount - 1));
-                    // PIDScript.yawSetpoint = findAngle(realRobot.transform.position, spherePosition);
+                    
                     obstacleCourseSphere.transform.position = spherePosition;
-                    // PIDScript.yawSetpoint = 180;
                 }
                 else
                 {
                     spherePosition.z = spaceForward + obstacleDistance * (obstacleAmount - 1);
-                    // PIDScript.yawSetpoint = findAngle(realRobot.transform.position, spherePosition);
+                    
                     obstacleCourseSphere.transform.position = spherePosition;
                     hoopReset = true;
                 }
@@ -140,10 +127,6 @@ public class ObstacleCourse : MonoBehaviour
     {
         runCourse = !runCourse;
         obstacleCourseSphere.SetActive(runCourse);
-        // if(runCourse)
-        // {
-        //     PIDScript.yawSetpoint = findAngle(realRobot.transform.position, spherePosition);
-        // }
         obstacleCourseSphere.transform.position = spherePosition;
     }
 
@@ -151,6 +134,6 @@ public class ObstacleCourse : MonoBehaviour
     {
         Vector3 direction = toPosition - fromPosition;
         float angle = Mathf.Atan2(direction.z, direction.x) * Mathf.Rad2Deg;
-        return angle;
+        return -(angle - 90);
     }
 }
