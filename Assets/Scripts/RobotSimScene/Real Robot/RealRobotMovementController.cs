@@ -74,15 +74,13 @@ public class RealRobotMovementController : MonoBehaviour
         {
             float leftStickX = Input.GetAxis("JoystickHorizontal");
             float leftStickY = Input.GetAxis("JoystickVertical");
-            // float rightStickX = Input.GetAxis("RightStickHorizontal");
-            // float rightStickY = Input.GetAxis("RightStickVertical");
+            float rightStickX = Input.GetAxis("JoystickHorizontalRight");
+            float rightStickY = Input.GetAxis("JoystickVerticalRight");
             // float leftTrigger = Input.GetAxis("LeftTrigger");
             // float rightTrigger = Input.GetAxis("RightTrigger");
             // float dpadX = Input.GetAxis("DpadHorizontal");
             // float dpadY = Input.GetAxis("DpadVertical");
 
-            float rightStickX = 0;
-            float rightStickY = 0;
             float leftTrigger = 0;
             float rightTrigger = 0;
             float dpadY = 0;
