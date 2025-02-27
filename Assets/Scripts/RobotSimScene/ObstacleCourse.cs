@@ -90,6 +90,14 @@ public class ObstacleCourse : MonoBehaviour
                         obstacleCourseSphere.transform.position = spherePosition;
                         courseDone = true;
                         hoopDone = false;
+
+                        if((CameraTrackScript.firstPerson || CameraTrackScript.trackRotation) && (!PIDScript.yawTrack))
+                        {
+                            FirstPersonCamera.transform.rotation = Quaternion.Euler(0, 0, 0);
+                            FirstPersonCamera.transform.position = new Vector3(0, 0, 4) + realRobot.transform.position;
+                            ThirdPersonCamera.transform.rotation = Quaternion.Euler(0, 0, 0);
+                            ThirdPersonCamera.transform.position = new Vector3(0, 10, -20) + realRobot.transform.position;
+                        }
                     }
                     else
                     {
@@ -108,6 +116,14 @@ public class ObstacleCourse : MonoBehaviour
                 }
                 else if(hoopReset)
                 {
+                    if((CameraTrackScript.firstPerson || CameraTrackScript.trackRotation) && (!PIDScript.yawTrack))
+                    {
+                        FirstPersonCamera.transform.rotation = Quaternion.Euler(0, 180, 0);
+                        FirstPersonCamera.transform.position = new Vector3(0, 0, -4) + realRobot.transform.position;
+                        ThirdPersonCamera.transform.rotation = Quaternion.Euler(0, 180, 0);
+                        ThirdPersonCamera.transform.position = new Vector3(0, 10, 20) + realRobot.transform.position;
+                    }
+
                     hoopReset = false;
                     hoopDone = true;
                     spherePosition = new Vector3(30 + obstacleAmount % 2 * width, 5, spaceForward + obstacleDistance * (obstacleAmount - 1));

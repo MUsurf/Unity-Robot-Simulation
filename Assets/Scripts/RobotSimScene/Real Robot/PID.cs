@@ -166,7 +166,6 @@ public class PIDController
 
             // float D = Kd * -valueRateOfChange;
 
-
             float valueRateOfChange = Mathf.DeltaAngle(lastValue, currentAngle) / dt;
             lastValue = currentAngle;
 
