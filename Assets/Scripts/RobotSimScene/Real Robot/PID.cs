@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 public class PID : MonoBehaviour
 {
-    // TODO - retune PID for higher max speed?
+    // TODO - does not work if yaw pitch and roll are not 0
     public Rigidbody rb;
     public float xSetpoint = 0f;
     public float ySetpoint = 0f;
@@ -222,6 +222,8 @@ public class PIDHandler
         forces[6] += Vector3.up * yValue + Vector3.down * pitchValue + Vector3.down * rollValue;
         forces[7] += Vector3.up * yValue + Vector3.down * pitchValue + Vector3.up * rollValue;
 
+        //Debug.Log($"Values: zValue: {zValue}, xValue: {xValue}, yawValue: {yawValue}, yValue: {yValue}, pitchValue: {pitchValue}, rollValue: {rollValue}");
+
         float highestForce1 = 1f;
         float highestForce2 = 1f;
 
@@ -282,7 +284,7 @@ public class PIDHandler
         yawController.Kd = kValues[17];
     }
 
-    public void UpdateSetpoint(float x, float y, float z, float yaw, float roll, float pitch)
+    public void UpdateSetpoint(float x, float y, float z, float roll, float pitch, float yaw)
     {
         xSetpoint = x;
         ySetpoint = y;

@@ -9,7 +9,7 @@ public class CameraTrack : MonoBehaviour
     public GameObject tcameraPos;
     private bool trackPosition = false;
     private bool trackDistance = false;
-    private bool trackRotation = false;
+    public bool trackRotation = false;
     private bool motionSickness = false;
     private bool reallyMotionSickness = false;
     public bool firstPerson = false;

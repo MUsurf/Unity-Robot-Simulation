@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class RealRobotMovementController : MonoBehaviour
 {
+    //TODO - later, change to use input system package
     public float keyboardForceMultiplier = 10;
     public float mouseForceMultiplier = 0.5f;
     public float yawForceMultiplier = 4f;
@@ -11,7 +12,7 @@ public class RealRobotMovementController : MonoBehaviour
     private int invertMouseMultiplier = 1;
     public bool calledFor = false;
     private float timeSinceLastToggle = 0f;
-    private bool usingController = false;
+    public bool usingController = false;
     public RealRobotMotorScript motorScript;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     // void Start()
@@ -71,14 +72,20 @@ public class RealRobotMovementController : MonoBehaviour
         
         if(usingController)
         {
-            float leftStickX = Input.GetAxis("Horizontal");
-            float leftStickY = Input.GetAxis("Vertical");
-            float rightStickX = Input.GetAxis("RightStickHorizontal");
-            float rightStickY = Input.GetAxis("RightStickVertical");
-            float leftTrigger = Input.GetAxis("LeftTrigger");
-            float rightTrigger = Input.GetAxis("RightTrigger");
-            float dpadX = Input.GetAxis("DpadHorizontal");
-            float dpadY = Input.GetAxis("DpadVertical");
+            float leftStickX = Input.GetAxis("JoystickHorizontal");
+            float leftStickY = Input.GetAxis("JoystickVertical");
+            // float rightStickX = Input.GetAxis("RightStickHorizontal");
+            // float rightStickY = Input.GetAxis("RightStickVertical");
+            // float leftTrigger = Input.GetAxis("LeftTrigger");
+            // float rightTrigger = Input.GetAxis("RightTrigger");
+            // float dpadX = Input.GetAxis("DpadHorizontal");
+            // float dpadY = Input.GetAxis("DpadVertical");
+
+            float rightStickX = 0;
+            float rightStickY = 0;
+            float leftTrigger = 0;
+            float rightTrigger = 0;
+            float dpadY = 0;
 
             if(invertMouse)
             {
@@ -167,7 +174,12 @@ public class RealRobotMovementController : MonoBehaviour
             forces[5] *= motorScript.maxSpeed;
             forces[6] *= motorScript.maxSpeed;
             forces[7] *= motorScript.maxSpeed;
+
+            Debug.Log($"force1: {forces[0]}, force2: {forces[1]}, force3: {forces[2]}, force4: {forces[3]}, force5: {forces[4]}, force6: {forces[5]}, force7: {forces[6]}, force8: {forces[7]}");
+
+            return forces;
         }
+        
         else
         {
 

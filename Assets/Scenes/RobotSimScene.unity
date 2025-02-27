@@ -1321,6 +1321,7 @@ MonoBehaviour:
   firstPersonToggle: {fileID: 1794228747}
   fcameraPos: {fileID: 619879174}
   tcameraPos: {fileID: 1914540611}
+  trackRotation: 0
   firstPerson: 0
 --- !u!82 &330585549
 AudioSource:
@@ -3381,6 +3382,9 @@ MonoBehaviour:
   PIDScript: {fileID: 9193295145256729480}
   obstacleCourseSphere: {fileID: 266002510}
   realRobot: {fileID: 3023082051099529487}
+  ThirdPersonCamera: {fileID: 1914540611}
+  FirstPersonCamera: {fileID: 619879174}
+  CameraTrackScript: {fileID: 330585548}
 --- !u!4 &787789190
 Transform:
   m_ObjectHideFlags: 0
@@ -7966,6 +7970,7 @@ MonoBehaviour:
   shiftMultiplier: 4
   invertMouse: 0
   calledFor: 0
+  usingController: 0
   motorScript: {fileID: 9193295145256729473}
 --- !u!114 &9193295145256729480
 MonoBehaviour:
@@ -7981,7 +7986,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 9193295145256729471}
   xSetpoint: 0
-  ySetpoint: 0
+  ySetpoint: 5
   zSetpoint: 0
   rollSetpoint: 0
   pitchSetpoint: 0
