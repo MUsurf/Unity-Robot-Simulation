@@ -172,7 +172,6 @@ public class PIDController
 
             float D = Kd * valueRateOfChange;
 
-
             result = P + I + D;
         }
         else
