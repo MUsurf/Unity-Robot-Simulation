@@ -7970,7 +7970,7 @@ MonoBehaviour:
   shiftMultiplier: 4
   invertMouse: 0
   calledFor: 0
-  usingController: 0
+  usingController: 1
   motorScript: {fileID: 9193295145256729473}
 --- !u!114 &9193295145256729480
 MonoBehaviour:

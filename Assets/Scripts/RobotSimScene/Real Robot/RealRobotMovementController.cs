@@ -76,14 +76,9 @@ public class RealRobotMovementController : MonoBehaviour
             float leftStickY = Input.GetAxis("JoystickVertical");
             float rightStickX = Input.GetAxis("JoystickHorizontalRight");
             float rightStickY = Input.GetAxis("JoystickVerticalRight");
-            // float leftTrigger = Input.GetAxis("LeftTrigger");
-            // float rightTrigger = Input.GetAxis("RightTrigger");
+            float Triggers = Input.GetAxis("Triggers");
             // float dpadX = Input.GetAxis("DpadHorizontal");
-            // float dpadY = Input.GetAxis("DpadVertical");
-
-            float leftTrigger = 0;
-            float rightTrigger = 0;
-            float dpadY = 0;
+            float dpadY = Input.GetAxis("DPad");
 
             if(invertMouse)
             {
@@ -110,26 +105,20 @@ public class RealRobotMovementController : MonoBehaviour
             force7 += Vector3.up * dpadY;
             force8 += Vector3.up * dpadY;
 
-            force1 += (Vector3.back + Vector3.left) * leftTrigger;
-            force2 += (Vector3.forward + Vector3.left) * leftTrigger;
-            force3 += (Vector3.back + Vector3.right) * leftTrigger;
-            force4 += (Vector3.forward + Vector3.right) * leftTrigger;
-
-
-            force1 += (Vector3.forward + Vector3.right) * rightTrigger;
-            force2 += (Vector3.back + Vector3.right) * rightTrigger;
-            force3 += (Vector3.forward + Vector3.left) * rightTrigger;
-            force4 += (Vector3.back + Vector3.left) * rightTrigger;
+            force1 += (Vector3.back + Vector3.left) * -Triggers;
+            force2 += (Vector3.forward + Vector3.left) * -Triggers;
+            force3 += (Vector3.back + Vector3.right) * -Triggers;
+            force4 += (Vector3.forward + Vector3.right) * -Triggers;
 
             // mouseforce1 = mouseforce1.normalized;
             // mouseforce2 = mouseforce2.normalized;
             // mouseforce3 = mouseforce3.normalized;
             // mouseforce4 = mouseforce4.normalized;
 
-            force5 -= new Vector3(0, rightStickY, 0);
-            force6 -= new Vector3(0, rightStickY, 0);
-            force7 += new Vector3(0, rightStickY, 0);
-            force8 += new Vector3(0, rightStickY, 0);
+            force5 -= new Vector3(0, rightStickY * invertMouseMultiplier, 0);
+            force6 -= new Vector3(0, rightStickY * invertMouseMultiplier, 0);
+            force7 += new Vector3(0, rightStickY * invertMouseMultiplier, 0);
+            force8 += new Vector3(0, rightStickY * invertMouseMultiplier, 0);
 
             force5 -= new Vector3(0, rightStickX, 0);
             force6 += new Vector3(0, rightStickX, 0);
@@ -168,10 +157,10 @@ public class RealRobotMovementController : MonoBehaviour
             forces[1] *= motorScript.maxSpeed;
             forces[2] *= motorScript.maxSpeed;
             forces[3] *= motorScript.maxSpeed;
-            forces[4] *= motorScript.maxSpeed;
-            forces[5] *= motorScript.maxSpeed;
-            forces[6] *= motorScript.maxSpeed;
-            forces[7] *= motorScript.maxSpeed;
+            forces[4] *= motorScript.maxSpeed/4;
+            forces[5] *= motorScript.maxSpeed/4;
+            forces[6] *= motorScript.maxSpeed/4;
+            forces[7] *= motorScript.maxSpeed/4;
 
             Debug.Log($"force1: {forces[0]}, force2: {forces[1]}, force3: {forces[2]}, force4: {forces[3]}, force5: {forces[4]}, force6: {forces[5]}, force7: {forces[6]}, force8: {forces[7]}");
 
