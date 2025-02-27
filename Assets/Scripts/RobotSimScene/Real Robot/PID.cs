@@ -24,7 +24,7 @@ public class PID : MonoBehaviour
         pidHandler.getMaxSpeed(motorScript.maxSpeed);
         pidHandler.getLocation(location);
         pidHandler.UpdateKValues(kValues);
-        pidHandler.UpdateSetpoint(xSetpoint, ySetpoint, zSetpoint, rollSetpoint, pitchSetpoint, yawSetpoint);
+        UpdateSetpoint(xSetpoint, ySetpoint, zSetpoint, rollSetpoint, pitchSetpoint, yawSetpoint);
     }
 
     public List<Vector3> getVectors()
@@ -33,13 +33,25 @@ public class PID : MonoBehaviour
         pidHandler.getMaxSpeed(motorScript.maxSpeed);
         pidHandler.getLocation(location);
         pidHandler.UpdateKValues(kValues);
-        pidHandler.UpdateSetpoint(xSetpoint, ySetpoint, zSetpoint, rollSetpoint, pitchSetpoint, yawSetpoint);
+        UpdateSetpoint(xSetpoint, ySetpoint, zSetpoint, rollSetpoint, pitchSetpoint, yawSetpoint);
         return pidHandler.Update();
     }
 
     public void resetAll()
     {
         pidHandler.resetAll();
+    }
+
+    public void UpdateSetpoint(float x, float y, float z, float roll, float pitch, float yaw)
+    {
+        Vector3 vector = new Vector3(x, y, z);
+        vector = transform.InverseTransformPoint(vector);
+        xSetpoint = vector.x;
+        ySetpoint = vector.y;
+        zSetpoint = vector.z;
+        rollSetpoint = roll;
+        pitchSetpoint = pitch;
+        yawSetpoint = yaw;
     }
 }
 
@@ -282,16 +294,6 @@ public class PIDHandler
         yawController.Kp = kValues[15];
         yawController.Ki = kValues[16];
         yawController.Kd = kValues[17];
-    }
-
-    public void UpdateSetpoint(float x, float y, float z, float roll, float pitch, float yaw)
-    {
-        xSetpoint = x;
-        ySetpoint = y;
-        zSetpoint = z;
-        rollSetpoint = roll;
-        pitchSetpoint = pitch;
-        yawSetpoint = yaw;
     }
 
     public void resetAll()
