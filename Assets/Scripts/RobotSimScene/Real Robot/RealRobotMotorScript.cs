@@ -35,6 +35,10 @@ public class RealRobotMotorScript : MonoBehaviour
     public bool overrideMovement = false;
     public GameObject InvertMouseButton;
     private float timeSinceLastIToggle = 0f;
+
+    public GameObject ThirdPersonCamera;
+    public GameObject FirstPersonCamera;
+    public GameObject realRobot;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -163,6 +167,10 @@ public class RealRobotMotorScript : MonoBehaviour
             rb.rotation = Quaternion.identity;
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
+            FirstPersonCamera.transform.rotation = Quaternion.Euler(0, 0, 0);
+            FirstPersonCamera.transform.position = new Vector3(0, 0, 4) + realRobot.transform.position;
+            ThirdPersonCamera.transform.rotation = Quaternion.Euler(0, 0, 0);
+            ThirdPersonCamera.transform.position = new Vector3(0, 10, -20) + realRobot.transform.position;
             PIDScript.resetAll();
         }
 
