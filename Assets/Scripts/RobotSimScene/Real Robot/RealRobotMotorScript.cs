@@ -41,7 +41,7 @@ public class RealRobotMotorScript : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         InvertMouseButton.SetActive(false);
         rb.useGravity = false;
-        maxSpeed = 80f;
+        maxSpeed = 320f;
     }
 
     // Update is called once per frame
@@ -83,7 +83,7 @@ public class RealRobotMotorScript : MonoBehaviour
         }
         else
         {
-            //Debug.Log($"force1: {force1}, force2: {force2}, force3: {force3}, force4: {force4}, force5: {force5}, force6: {force6}, force7: {force7}, force8: {force8}");
+            // Debug.Log($"force1: {force1}, force2: {force2}, force3: {force3}, force4: {force4}, force5: {force5}, force6: {force6}, force7: {force7}, force8: {force8}");
         }
 
         // NYC Skyline
@@ -131,7 +131,7 @@ public class RealRobotMotorScript : MonoBehaviour
         }
         else
         {
-            maxSpeed = 80f;
+            maxSpeed = 320f;
         }
     }
 

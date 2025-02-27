@@ -20,22 +20,24 @@ public class PID : MonoBehaviour
     private List<float> location;
     private PIDHandler pidHandler = new PIDHandler();
 
+    public bool yawTrack = false;
+
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        location = new List<float>() {0, 0, 0, rb.rotation.eulerAngles.z, rb.rotation.eulerAngles.x, rb.rotation.eulerAngles.y};
+        location = new List<float>() {rb.transform.position.x, rb.transform.position.y, rb.transform.position.z, rb.rotation.eulerAngles.z, rb.rotation.eulerAngles.x, rb.rotation.eulerAngles.y};
         pidHandler.getMaxSpeed(motorScript.maxSpeed);
-        pidHandler.getLocation(location);
+        pidHandler.getLocation(location, yawTrack);
         pidHandler.UpdateKValues(kValues);
         UpdateSetpoint(xSetpoint, ySetpoint, zSetpoint, rollSetpoint, pitchSetpoint, yawSetpoint);
     }
 
     public List<Vector3> getVectors()
     {
-        location = new List<float>() {0, 0, 0, rb.rotation.eulerAngles.z, rb.rotation.eulerAngles.x, rb.rotation.eulerAngles.y};
+        location = new List<float>() {rb.transform.position.x, rb.transform.position.y, rb.transform.position.z, rb.rotation.eulerAngles.z, rb.rotation.eulerAngles.x, rb.rotation.eulerAngles.y};
         pidHandler.getMaxSpeed(motorScript.maxSpeed);
-        pidHandler.getLocation(location);
+        pidHandler.getLocation(location, yawTrack);
         pidHandler.UpdateKValues(kValues);
         UpdateSetpoint(xSetpoint, ySetpoint, zSetpoint, rollSetpoint, pitchSetpoint, yawSetpoint);
         sendSetpoints();
@@ -49,14 +51,26 @@ public class PID : MonoBehaviour
 
     public void UpdateSetpoint(float x, float y, float z, float roll, float pitch, float yaw)
     {
-        Vector3 vector = new Vector3(x, y, z);
-        vector = transform.InverseTransformPoint(vector);
-        xSetpointRelative = vector.x;
-        ySetpointRelative = vector.y;
-        zSetpointRelative = vector.z;
-        rollSetpoint = roll;
-        pitchSetpoint = pitch;
-        yawSetpoint = yaw;
+        if(yawTrack)
+        {
+            Vector3 vector = new Vector3(x, y, z);
+            vector = transform.InverseTransformPoint(vector);
+            xSetpointRelative = vector.x;
+            ySetpointRelative = vector.y;
+            zSetpointRelative = vector.z;
+            rollSetpoint = roll;
+            pitchSetpoint = pitch;
+            yawSetpoint = yaw;
+        }
+        else
+        {
+            xSetpointRelative = x;
+            ySetpointRelative = y;
+            zSetpointRelative = z;
+            rollSetpoint = roll;
+            pitchSetpoint = pitch;
+            yawSetpoint = yaw;
+        }
     }
 
     public void sendSetpoints()
@@ -137,21 +151,27 @@ public class PIDController
         float error = Mathf.DeltaAngle(currentAngle, targetAngle);
 
         // proportional term
-        float P = Kp * error;
+        float P = -Kp * error;
 
         // integral term
         integrationStored = Mathf.Clamp(integrationStored + (error * dt), -integralSaturation, integralSaturation);
         float I = Ki * integrationStored;
-
         // This check to make sure that the derivative term is not calculated on the first update, 
         // as it causes a large spike in the output since the error is very large and the lastValue is 0
         if(notFirstUpdate)
         {
             //derivative term
-            float valueRateOfChange = Mathf.DeltaAngle(currentAngle, targetAngle) / dt;
+            // float valueRateOfChange = Mathf.DeltaAngle(currentAngle, targetAngle) / dt;
+            // lastValue = currentAngle;
+
+            // float D = Kd * -valueRateOfChange;
+
+
+            float valueRateOfChange = Mathf.DeltaAngle(lastValue, currentAngle) / dt;
             lastValue = currentAngle;
 
-            float D = Kd * (-valueRateOfChange);
+            float D = Kd * valueRateOfChange;
+
 
             result = P + I + D;
         }
@@ -204,9 +224,16 @@ public class PIDHandler
     private float maxSpeed;
 
     private List<Vector3> forces = new List<Vector3>() {Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero};
-    public void getLocation(List<float> location)
+    public void getLocation(List<float> location, bool yawTrack)
     {
         this.location = location;
+
+        if(yawTrack)
+        {
+            this.location[0] = 0;
+            this.location[1] = 0;
+            this.location[2] = 0;
+        }
     }
 
     public void getMaxSpeed(float maxSpeed)
@@ -236,10 +263,6 @@ public class PIDHandler
 
     public List<Vector3> Update()
     {
-        rollSetpoint = 0;
-        pitchSetpoint = 0;
-        yawSetpoint = 0;
-
         forces = new List<Vector3>() {Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero};
 
         xValue = xController.Update(Time.fixedDeltaTime, location[0], xSetpoint);

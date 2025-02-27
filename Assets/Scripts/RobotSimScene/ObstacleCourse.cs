@@ -61,7 +61,10 @@ public class ObstacleCourse : MonoBehaviour
             PIDScript.ySetpoint = spherePosition.y;
             PIDScript.zSetpoint = spherePosition.z;
 
-            PIDScript.yawSetpoint = findAngle(realRobot.transform.position, spherePosition);
+            if(PIDScript.yawTrack)
+            {
+                PIDScript.yawSetpoint = findAngle(realRobot.transform.position, spherePosition);
+            }
 
             if(Vector3.Distance(realRobot.transform.position, spherePosition) < 3)
             {
