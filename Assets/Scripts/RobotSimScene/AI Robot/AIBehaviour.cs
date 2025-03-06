@@ -5,8 +5,10 @@ public class AIBehaviour : MonoBehaviour
     public GameObject PlayerBot;
     public GameObject AIBot;
     public int distance = 10;
-    public bool aiEnabled = false;
+    public bool aiEnabled = true;
+    public bool followPlayer = true;
     public AIPID pidScript;
+    public GameObject movePoint;
 
     // Update is called once per frame
     void Update()
@@ -14,13 +16,23 @@ public class AIBehaviour : MonoBehaviour
         if(aiEnabled)
         {
             Vector3 directionVector = AIBot.transform.position - PlayerBot.transform.position;
+
+            if(!followPlayer && directionVector.magnitude > distance)
+            {
+                return;
+            }
+
             Vector3 wantedPosition;
 
-            wantedPosition = PlayerBot.transform.TransformPoint(directionVector.normalized * distance);
-            
+            wantedPosition = PlayerBot.transform.position + directionVector.normalized * distance;
+
+            Debug.Log($"wantedPosition: {wantedPosition:F10}, directionVector: {directionVector.normalized:F10}");
+
             pidScript.xSetpoint = wantedPosition.x;
             pidScript.ySetpoint = wantedPosition.y;
             pidScript.zSetpoint = wantedPosition.z;
+
+            movePoint.transform.position = wantedPosition;
         }
     }
 }

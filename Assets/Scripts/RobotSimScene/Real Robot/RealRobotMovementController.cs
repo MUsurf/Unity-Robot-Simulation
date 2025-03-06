@@ -162,7 +162,7 @@ public class RealRobotMovementController : MonoBehaviour
             forces[6] *= motorScript.maxSpeed/4;
             forces[7] *= motorScript.maxSpeed/4;
 
-            Debug.Log($"force1: {forces[0]}, force2: {forces[1]}, force3: {forces[2]}, force4: {forces[3]}, force5: {forces[4]}, force6: {forces[5]}, force7: {forces[6]}, force8: {forces[7]}");
+            //Debug.Log($"force1: {forces[0]}, force2: {forces[1]}, force3: {forces[2]}, force4: {forces[3]}, force5: {forces[4]}, force6: {forces[5]}, force7: {forces[6]}, force8: {forces[7]}");
 
             return forces;
         }
@@ -271,7 +271,7 @@ public class RealRobotMovementController : MonoBehaviour
             mouseDelta.y = mouseDelta.y * mouseForceMultiplier * invertMouseMultiplier;
             mouseDelta.x = mouseDelta.x * mouseForceMultiplier;
 
-            Debug.Log(mouseDelta);
+            //Debug.Log(mouseDelta);
 
             if(mouseDelta.y > 1)
             {
@@ -321,7 +321,7 @@ public class RealRobotMovementController : MonoBehaviour
 
         }
 
-        Debug.Log($"force1: {force1}, force2: {force2}, force3: {force3}, force4: {force4}, force5: {force5}, force6: {force6}, force7: {force7}, force8: {force8}");
+        //Debug.Log($"force1: {force1}, force2: {force2}, force3: {force3}, force4: {force4}, force5: {force5}, force6: {force6}, force7: {force7}, force8: {force8}");
 
         return new List<Vector3> {force1, force2, force3, force4, force5, force6, force7, force8};
     }
@@ -450,5 +450,10 @@ public class RealRobotMovementController : MonoBehaviour
         {
             mouseforce8.y = -1;
         }
+    }
+
+    public void setUsingController(bool usingControllerBool)
+    {
+        usingController = usingControllerBool;
     }
 }
