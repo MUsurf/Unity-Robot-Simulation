@@ -2707,7 +2707,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 619879175}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FirstPersonCameraPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4574,7 +4574,7 @@ GameObject:
   - component: {fileID: 1067269179}
   - component: {fileID: 1067269178}
   - component: {fileID: 1067269177}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AI Robot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5694,7 +5694,7 @@ GameObject:
   - component: {fileID: 1404214353}
   - component: {fileID: 1404214355}
   - component: {fileID: 1404214354}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ExplosionPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7591,7 +7591,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1914540612}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ThirdPersonCameraPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8061,7 +8061,7 @@ GameObject:
   - component: {fileID: 2064156305}
   - component: {fileID: 2064156307}
   - component: {fileID: 2064156306}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MovePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8328,7 +8328,7 @@ GameObject:
   - component: {fileID: 9193295145256729476}
   - component: {fileID: 9193295145256729475}
   - component: {fileID: 9193295145256729478}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Real Robot
   m_TagString: Untagged
   m_Icon: {fileID: 0}

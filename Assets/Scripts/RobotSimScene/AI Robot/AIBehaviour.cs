@@ -11,7 +11,7 @@ public class AIBehaviour : MonoBehaviour
     public GameObject movePoint;
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if(aiEnabled)
         {
@@ -27,6 +27,13 @@ public class AIBehaviour : MonoBehaviour
             wantedPosition = PlayerBot.transform.position + directionVector.normalized * distance;
 
             Debug.Log($"wantedPosition: {wantedPosition:F10}, directionVector: {directionVector.normalized:F10}");
+
+            Physics.Raycast(Vector3 origin, Vector3 direction, out RaycastHit hitInfo, float maxDistance, int layerMask, QueryTriggerInteraction queryTriggerInteraction);
+
+
+
+
+
 
             pidScript.xSetpoint = wantedPosition.x;
             pidScript.ySetpoint = wantedPosition.y;
