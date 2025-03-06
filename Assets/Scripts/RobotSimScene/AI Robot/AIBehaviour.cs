@@ -30,55 +30,67 @@ public class AIBehaviour : MonoBehaviour
 
             wantedPosition = PlayerBot.transform.position + directionVector.normalized * distance;
 
-            Debug.Log($"wantedPosition: {wantedPosition:F10}, directionVector: {directionVector.normalized:F10}");
+            //Debug.Log($"wantedPosition: {wantedPosition:F10}, directionVector: {directionVector.normalized:F10}");
 
             if(avoidObstacles)
             {
-                Vector3 modifiedVector = frontVector;
 
                 float closestHit = rayDistance + 1;
 
                 bool hit;
 
-                int flip = 1;
+                int flip = 0;
 
-                // flip = 0;
-                // while(flip != -1)
-                // {
-                //     if(flip == 0)
-                //     {
-                //         flip = 1;
-                //     }
-                //     else
-                //     {
-                //         flip = -1;
-                //     }
+                bool closestHitBack = false;
 
-                //     frontVector.y *= flip;
-                // }
-
-                for(int i = 0; i < 3; i++)
+                while(flip != -1)
                 {
-                    modifiedVector.y = frontVector.y - i * 1.5f;
-                    for(int j = 0; j < 3; j++)
+                    Vector3 modifiedVector = frontVector;
+
+                    Debug.Log($"modifiedVector: {modifiedVector:F10}");
+
+                    if(flip == 0)
                     {
-                        modifiedVector.x = frontVector.x + j * 3.4f;
-                        hit = Physics.Raycast(modifiedVector + AIBot.transform.position, Vector3.forward * flip, out RaycastHit hitInfo, rayDistance, 0);
+                        flip = 1;
+                    }
+                    else
+                    {
+                        flip = -1;
+                    }
 
-                        Debug.DrawRay(modifiedVector + AIBot.transform.position, Vector3.forward * rayDistance * flip, Color.red, 0);
-
-                        if(hit && hitInfo.distance < closestHit)
+                    
+                    for(int i = 0; i < 3; i++)
+                    {
+                        modifiedVector.y = frontVector.y - i * 1.5f;
+                        for(int j = 0; j < 3; j++)
                         {
-                            closestHit = hitInfo.distance;
+                            modifiedVector.x = frontVector.x + j * 3.4f;
+                            hit = Physics.Raycast(flip * (modifiedVector) + AIBot.transform.position, Vector3.forward * flip, out RaycastHit hitInfo, rayDistance);
+
+                            Debug.DrawRay(flip * (modifiedVector) + AIBot.transform.position, Vector3.forward * rayDistance * flip, Color.red, 0);
+
+                            if(hit && (hitInfo.distance < closestHit))
+                            {
+                                closestHit = hitInfo.distance;
+                                if(flip == -1)
+                                {
+                                    closestHitBack = true;
+                                }
+                            }
                         }
                     }
                 }
-
+                
                 if(closestHit != rayDistance + 1)
                 {
-                    wantedPosition.z = -(rayDistance - closestHit) + AIBot.transform.position.z;
+                    float toAdd;
+                    toAdd = closestHit - rayDistance;
+                    if(!closestHitBack)
+                    {
+                        toAdd = -toAdd;
+                    }
+                    wantedPosition.z = toAdd + AIBot.transform.position.z;
                 }
-            
 
                 //-1.5 to 1.5 y
 
