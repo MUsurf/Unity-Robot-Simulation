@@ -7,7 +7,7 @@ using UnityEngine.UI;
 // TODO - could rainbow be more efficient?
 // TODO - remove gravity, cause the sub cant fight it
 
-public class RealRobotMotorScript : MonoBehaviour
+public class AIMotorScript : MonoBehaviour
 {
     public Rigidbody rb;
     public float maxSpeed;
@@ -29,23 +29,14 @@ public class RealRobotMotorScript : MonoBehaviour
     private Vector3 position6 = new Vector3(-2.72f, 0f, 5.66f);
     private Vector3 position7 = new Vector3(2.72f, 0f, -5.66f);
     private Vector3 position8 = new Vector3(-2.72f, 0f, -5.66f);
-    private List<Vector3> MovementOverrideList = new List<Vector3>();
-    public RealRobotMovementController RealRobotMovementControllerScript;
-    public PID PIDScript;
-    public bool overrideMovement = false;
-    public GameObject InvertMouseButton;
-    private float timeSinceLastIToggle = 0f;
-
-    public GameObject ThirdPersonCamera;
-    public GameObject FirstPersonCamera;
-    public Material robotMaterial;
+    public AIPID PIDScript;
+    public Material aiMaterial;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        InvertMouseButton.SetActive(false);
         rb.useGravity = false;
-        maxSpeed = 320f;
+        maxSpeed = 400f;
     }
 
     // Update is called once per frame
@@ -73,23 +64,6 @@ public class RealRobotMotorScript : MonoBehaviour
         force7 = forceList[6];
         force8 = forceList[7];
 
-        if(overrideMovement)
-        {
-            MovementOverrideList = RealRobotMovementControllerScript.MovementOverride();
-            force1 = MovementOverrideList[0];
-            force2 = MovementOverrideList[1];
-            force3 = MovementOverrideList[2];
-            force4 = MovementOverrideList[3];
-            force5 = MovementOverrideList[4];
-            force6 = MovementOverrideList[5];
-            force7 = MovementOverrideList[6];
-            force8 = MovementOverrideList[7];
-        }
-        else
-        {
-            // Debug.Log($"force1: {force1}, force2: {force2}, force3: {force3}, force4: {force4}, force5: {force5}, force6: {force6}, force7: {force7}, force8: {force8}");
-        }
-
         // NYC Skyline
         Vector3 localforce1 = transform.TransformDirection(force1);
         Vector3 localforce2 = transform.TransformDirection(force2);
@@ -109,33 +83,15 @@ public class RealRobotMotorScript : MonoBehaviour
         rb.AddForceAtPosition(localforce8, localposition8, ForceMode.Force);           
     }
 
-    public void enableOverrideMovement(bool enable)
-    {
-        overrideMovement = enable;
-        if(enable)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
-        RealRobotMovementControllerScript.invertMouse = false;
-        RealRobotMovementControllerScript.calledFor = enable;
-        InvertMouseButton.SetActive(enable);
-    }
-
     public void realisticMode(bool enable)
     {
         if(enable)
         {
-            maxSpeed = 40f;
+            maxSpeed = 50f;
         }
         else
         {
-            maxSpeed = 320f;
+            maxSpeed = 400f;
         }
     }
 
@@ -163,20 +119,11 @@ public class RealRobotMotorScript : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.R))
         {
-            rb.position = new Vector3(0, 4.5f, 0);
+            rb.position = new Vector3(0, 4.5f,20);
             rb.rotation = Quaternion.identity;
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
             PIDScript.resetAll();
-        }
-
-        timeSinceLastIToggle += Time.deltaTime;
-
-        if(Input.GetKeyDown(KeyCode.I) && overrideMovement && timeSinceLastIToggle > 0.2f)
-        {
-            timeSinceLastIToggle = 0f;
-            //RealRobotMovementControllerScript.invertMouse = !RealRobotMovementControllerScript.invertMouse;
-            InvertMouseButton.GetComponent<Toggle>().isOn = !InvertMouseButton.GetComponent<Toggle>().isOn;
         }
 
         if (currentIndex < targetWord.Length)
@@ -193,7 +140,7 @@ public class RealRobotMotorScript : MonoBehaviour
                         currentIndex = 0;
                         if (!rainbowAchieved)
                         {
-                            objectRenderer.material = robotMaterial;
+                            objectRenderer.material = aiMaterial;
 
                             currentColorIndex = 0;
                             timeElapsed = 0f;

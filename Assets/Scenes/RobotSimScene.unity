@@ -4460,6 +4460,223 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1038730771}
   m_CullTransparentMesh: 1
+--- !u!1 &1067269176
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1067269184}
+  - component: {fileID: 1067269183}
+  - component: {fileID: 1067269182}
+  - component: {fileID: 1067269181}
+  - component: {fileID: 1067269180}
+  - component: {fileID: 1067269179}
+  - component: {fileID: 1067269178}
+  - component: {fileID: 1067269177}
+  m_Layer: 0
+  m_Name: AI Robot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!64 &1067269177
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1067269176}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2432090755550338912, guid: bb6875ec82b4c9c429b9cd9e2a181272, type: 3}
+--- !u!114 &1067269178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1067269176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38949d3b80677de42a02fbbbec76a6d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 1067269181}
+  xSetpoint: 0
+  ySetpoint: 0
+  zSetpoint: 0
+  rollSetpoint: 0
+  pitchSetpoint: 0
+  yawSetpoint: 0
+  xSetpointRelative: 0
+  ySetpointRelative: 0
+  zSetpointRelative: 0
+  kValues:
+  - 0.5
+  - 0
+  - 0.1
+  - 0.5
+  - 0
+  - 0.1
+  - 0.5
+  - 0
+  - 0.1
+  - 0.05
+  - 0
+  - 0.1
+  - 0.05
+  - 0
+  - 0.1
+  - 0.05
+  - 0
+  - 0.1
+  motorScript: {fileID: 1067269179}
+  yawTrack: 0
+--- !u!114 &1067269179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1067269176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 223a45edc1965b941923d156e665b416, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 1067269181}
+  maxSpeed: 400
+  PIDScript: {fileID: 1067269178}
+  aiMaterial: {fileID: 2100000, guid: 1b41716f729cf704e938887308ec48dd, type: 2}
+  objectRenderer: {fileID: 1067269182}
+--- !u!114 &1067269180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1067269176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff3e1f771b6d3c640aab14e3650bd407, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerBot: {fileID: 3023082051099529487}
+  AIBot: {fileID: 1067269176}
+  distance: 10
+  aiEnabled: 0
+  pidScript: {fileID: 1067269178}
+--- !u!54 &1067269181
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1067269176}
+  serializedVersion: 4
+  m_Mass: 26.53
+  m_Drag: 1
+  m_AngularDrag: 1
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 0
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_Constraints: 0
+  m_CollisionDetection: 1
+--- !u!23 &1067269182
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1067269176}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 1b41716f729cf704e938887308ec48dd, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1067269183
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1067269176}
+  m_Mesh: {fileID: -2432090755550338912, guid: bb6875ec82b4c9c429b9cd9e2a181272, type: 3}
+--- !u!4 &1067269184
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1067269176}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 4, z: 20}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1112833740
 GameObject:
   m_ObjectHideFlags: 0
@@ -7927,7 +8144,7 @@ MonoBehaviour:
   InvertMouseButton: {fileID: 2145012752}
   ThirdPersonCamera: {fileID: 1914540611}
   FirstPersonCamera: {fileID: 619879174}
-  realRobot: {fileID: 3023082051099529487}
+  robotMaterial: {fileID: 0}
   objectRenderer: {fileID: 5670206860296888298}
 --- !u!114 &9193295145256729475
 MonoBehaviour:
@@ -8050,6 +8267,7 @@ SceneRoots:
   - {fileID: 330585546}
   - {fileID: 1507686376}
   - {fileID: 6287599461413388852}
+  - {fileID: 1067269184}
   - {fileID: 1659023452}
   - {fileID: 617364284}
   - {fileID: 836291349}

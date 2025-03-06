@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections.Generic;
 public class PID : MonoBehaviour
 {
-    // TODO - does not work if yaw pitch and roll are not 0
     // TODO - make yaw track thing a button
     public Rigidbody rb;
     public float xSetpoint = 0f;

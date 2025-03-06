@@ -6,7 +6,7 @@ public class AIBehaviour : MonoBehaviour
     public GameObject AIBot;
     public int distance = 10;
     public bool aiEnabled = false;
-    public PID pidScript;
+    public AIPID pidScript;
 
     // Update is called once per frame
     void Update()
