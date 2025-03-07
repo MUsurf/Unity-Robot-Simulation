@@ -4788,7 +4788,7 @@ MonoBehaviour:
   distance: 20
   rayDistance: 5
   aiEnabled: 1
-  followPlayer: 1
+  followPlayer: 0
   pidScript: {fileID: 1067269178}
   movePoint: {fileID: 2064156304}
   avoidObstacles: 1
