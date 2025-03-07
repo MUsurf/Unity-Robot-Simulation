@@ -12,7 +12,6 @@ public class AIBehaviour : MonoBehaviour
     public GameObject movePoint;
     public bool avoidObstacles = true;
     private Vector3 frontVector = new Vector3(-3.4f, 1.5f, 6.2f);
-    
 
     // Update is called once per frame
     void FixedUpdate()
@@ -47,8 +46,6 @@ public class AIBehaviour : MonoBehaviour
                 {
                     Vector3 modifiedVector = frontVector;
 
-                    Debug.Log($"modifiedVector: {modifiedVector:F10}");
-
                     if(flip == 0)
                     {
                         flip = 1;
@@ -65,7 +62,9 @@ public class AIBehaviour : MonoBehaviour
                         for(int j = 0; j < 3; j++)
                         {
                             modifiedVector.x = frontVector.x + j * 3.4f;
-                            hit = Physics.Raycast(flip * (modifiedVector) + AIBot.transform.position, Vector3.forward * flip, out RaycastHit hitInfo, rayDistance);
+                            hit = Physics.Raycast(flip * (modifiedVector) + AIBot.transform.position, Vector3.forward * flip, out RaycastHit hitInfo, rayDistance, 1);
+
+                            // Debug.Log(hit);
 
                             Debug.DrawRay(flip * (modifiedVector) + AIBot.transform.position, Vector3.forward * rayDistance * flip, Color.red, 0);
 
@@ -85,11 +84,13 @@ public class AIBehaviour : MonoBehaviour
                 {
                     float toAdd;
                     toAdd = closestHit - rayDistance;
-                    if(!closestHitBack)
+                    if(closestHitBack)
                     {
                         toAdd = -toAdd;
                     }
                     wantedPosition.z = toAdd + AIBot.transform.position.z;
+
+                    //Debug.Log($"toAdd: {toAdd}, wantedPosition: {wantedPosition:F10}, closestHit: {closestHit}");
                 }
 
                 //-1.5 to 1.5 y

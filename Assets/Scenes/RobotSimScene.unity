@@ -4791,6 +4791,7 @@ MonoBehaviour:
   followPlayer: 1
   pidScript: {fileID: 1067269178}
   movePoint: {fileID: 2064156304}
+  avoidObstacles: 1
 --- !u!54 &1067269181
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8757,7 +8758,7 @@ MonoBehaviour:
   rb: {fileID: 9193295145256729471}
   xSetpoint: 0
   ySetpoint: 5
-  zSetpoint: 0
+  zSetpoint: 30
   rollSetpoint: 0
   pitchSetpoint: 0
   yawSetpoint: 0
