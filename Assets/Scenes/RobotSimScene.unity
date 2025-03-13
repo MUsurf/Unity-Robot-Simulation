@@ -4774,7 +4774,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!64 &1067269177
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -8759,8 +8759,8 @@ MonoBehaviour:
   ThirdPersonCamera: {fileID: 1914540611}
   FirstPersonCamera: {fileID: 619879174}
   robotMaterial: {fileID: 0}
-  collisionBool: 1
-  collisionBoomBool: 1
+  collisionBool: 0
+  collisionBoomBool: 0
   RealRobotExplosionScript: {fileID: 9193295145256729475}
   collisionSound: {fileID: 8300000, guid: ca111cbdd99ae56469186df209ae11bb, type: 3}
   explodeQuad: {fileID: 663444767}

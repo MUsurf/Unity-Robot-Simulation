@@ -42,7 +42,7 @@ public class RealRobotExplosion : MonoBehaviour
 
     public void happenExplosionBig()
     {
-        rb.AddExplosionForce(explosionForce * 1000, position, 0, 0f, ForceMode.Force);
+        rb.AddExplosionForce(explosionForce * 10, position, 0, 0f, ForceMode.Force);
     }
 
     float RandomFloat(float min, float max)
