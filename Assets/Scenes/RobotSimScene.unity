@@ -3517,7 +3517,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &827465803
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4688,7 +4688,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &1067269177
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -8612,7 +8612,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
@@ -8741,7 +8741,7 @@ MonoBehaviour:
   shiftMultiplier: 4
   invertMouse: 0
   calledFor: 0
-  usingController: 0
+  usingController: 1
   motorScript: {fileID: 9193295145256729473}
 --- !u!114 &9193295145256729480
 MonoBehaviour:
@@ -8758,7 +8758,7 @@ MonoBehaviour:
   rb: {fileID: 9193295145256729471}
   xSetpoint: 0
   ySetpoint: 5
-  zSetpoint: 30
+  zSetpoint: 0
   rollSetpoint: 0
   pitchSetpoint: 0
   yawSetpoint: 0

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System.IO;
 
 // TODO - max thrust is - 51.4 N and 40 N
 // TODO - invert mouse button
@@ -39,6 +40,10 @@ public class RealRobotMotorScript : MonoBehaviour
     public GameObject ThirdPersonCamera;
     public GameObject FirstPersonCamera;
     public Material robotMaterial;
+
+    private bool sendFile = true;
+
+    private string filePath = "D:\\Unity\\Games\\SURF Robot Simulation\\Assets\\Scripts\\RobotSimScene\\Real Robot\\MotorValues.txt";
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -88,6 +93,11 @@ public class RealRobotMotorScript : MonoBehaviour
         else
         {
             // Debug.Log($"force1: {force1}, force2: {force2}, force3: {force3}, force4: {force4}, force5: {force5}, force6: {force6}, force7: {force7}, force8: {force8}");
+        }
+
+        if(sendFile)
+        {
+            File.WriteAllText(filePath, $"{Mathf.Clamp(force1.z / maxSpeed / .707f, -1, 1)}, {Mathf.Clamp(force2.z / maxSpeed / .707f, -1, 1)}, {Mathf.Clamp(force3.z / maxSpeed / .707f, -1, 1)}, {Mathf.Clamp(force4.z / maxSpeed / .707f, -1, 1)}, {force5.y / maxSpeed}, {force6.y / maxSpeed}, {force7.y / maxSpeed}, {force8.y / maxSpeed}");
         }
 
         // NYC Skyline
