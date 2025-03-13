@@ -279,7 +279,7 @@ public class PIDHandler
         forces[6] += Vector3.up * yValue + Vector3.down * pitchValue + Vector3.down * rollValue;
         forces[7] += Vector3.up * yValue + Vector3.down * pitchValue + Vector3.up * rollValue;
 
-        //Debug.Log($"Values: zValue: {zValue}, xValue: {xValue}, yawValue: {yawValue}, yValue: {yValue}, pitchValue: {pitchValue}, rollValue: {rollValue}");
+        // Debug.Log($"Values: zValue: {zValue}, xValue: {xValue}, yawValue: {yawValue}, yValue: {yValue}, pitchValue: {pitchValue}, rollValue: {rollValue}");
 
         float highestForce1 = 1f;
         float highestForce2 = 1f;

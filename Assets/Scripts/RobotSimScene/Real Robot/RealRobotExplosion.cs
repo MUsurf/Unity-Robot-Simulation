@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RealRobotExplosion : MonoBehaviour
@@ -27,9 +28,21 @@ public class RealRobotExplosion : MonoBehaviour
         Invoke("happenExplosion", 0.5f);
     }
 
+    public void ExplodePoint(Vector3 point)
+    {
+        position = point;
+        explosionPoint.transform.position = position;
+        Invoke("happenExplosionBig", 0.2f);
+    }
+
     public void happenExplosion()
     {
         rb.AddExplosionForce(explosionForce, position, 0, 0f, ForceMode.Force);
+    }
+
+    public void happenExplosionBig()
+    {
+        rb.AddExplosionForce(explosionForce * 1000, position, 0, 0f, ForceMode.Force);
     }
 
     float RandomFloat(float min, float max)

@@ -62,7 +62,7 @@ public class AIBehaviour : MonoBehaviour
                         for(int j = 0; j < 3; j++)
                         {
                             modifiedVector.x = frontVector.x + j * 3.4f;
-                            hit = Physics.Raycast(flip * (modifiedVector) + AIBot.transform.position, Vector3.forward * flip, out RaycastHit hitInfo, rayDistance, 1);
+                            hit = Physics.Raycast(flip * modifiedVector + AIBot.transform.position, Vector3.forward * flip, out RaycastHit hitInfo, rayDistance, 1);
 
                             // Debug.Log(hit);
 

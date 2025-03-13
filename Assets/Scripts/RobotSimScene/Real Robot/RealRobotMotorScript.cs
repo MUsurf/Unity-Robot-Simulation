@@ -41,7 +41,14 @@ public class RealRobotMotorScript : MonoBehaviour
     public GameObject FirstPersonCamera;
     public Material robotMaterial;
 
-    private bool sendFile = true;
+    private bool sendFile = false;
+
+    public bool collisionBool = false;
+    public bool collisionBoomBool = false;
+    public RealRobotExplosion RealRobotExplosionScript;
+    public AudioClip collisionSound;
+    public GameObject explodeQuad;
+    public GameObject mainCamera;
 
     private string filePath = "D:\\Unity\\Games\\SURF Robot Simulation\\Assets\\Scripts\\RobotSimScene\\Real Robot\\MotorValues.txt";
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -51,6 +58,7 @@ public class RealRobotMotorScript : MonoBehaviour
         InvertMouseButton.SetActive(false);
         rb.useGravity = false;
         maxSpeed = 320f;
+        explodeQuad.SetActive(false);
     }
 
     // Update is called once per frame
@@ -117,6 +125,36 @@ public class RealRobotMotorScript : MonoBehaviour
         rb.AddForceAtPosition(localforce6, localposition6, ForceMode.Force);
         rb.AddForceAtPosition(localforce7, localposition7, ForceMode.Force);
         rb.AddForceAtPosition(localforce8, localposition8, ForceMode.Force);           
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if(collisionBool == true)
+        {
+            AudioSource.PlayClipAtPoint(collisionSound, transform.position);
+
+            Vector3 point = collision.GetContact(0).point;
+
+            explodeQuad.transform.position = point;
+
+            Vector3 lookPoint = explodeQuad.transform.position - mainCamera.transform.position;
+            lookPoint.y = mainCamera.transform.position.y;
+            explodeQuad.transform.LookAt(lookPoint);
+
+            explodeQuad.SetActive(true);
+
+            Invoke("disableExplosion", 0.5f);
+
+            if(collisionBoomBool)
+            {
+                RealRobotExplosionScript.ExplodePoint(point);
+            }
+        }    
+    }
+
+    void disableExplosion()
+    {
+        explodeQuad.SetActive(false);
     }
 
     public void enableOverrideMovement(bool enable)
