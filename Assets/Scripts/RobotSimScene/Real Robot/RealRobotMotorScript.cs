@@ -55,7 +55,14 @@ public class RealRobotMotorScript : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        InvertMouseButton.SetActive(false);
+        if(!overrideMovement)
+        {
+            InvertMouseButton.SetActive(false);
+        }
+        else
+        {
+            InvertMouseButton.SetActive(true);
+        }
         rb.useGravity = false;
         maxSpeed = 320f;
         explodeQuad.SetActive(false);

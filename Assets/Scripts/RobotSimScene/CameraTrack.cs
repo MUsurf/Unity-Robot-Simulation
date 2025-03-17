@@ -17,7 +17,10 @@ public class CameraTrack : MonoBehaviour
 
     void Start()
     {
-        ReallyMotionSicknessToggle?.SetActive(false);
+        if (ReallyMotionSicknessToggle != null)
+        {
+            ReallyMotionSicknessToggle.SetActive(false);
+        }
         firstPersonToggle.SetActive(false);
     }
 
