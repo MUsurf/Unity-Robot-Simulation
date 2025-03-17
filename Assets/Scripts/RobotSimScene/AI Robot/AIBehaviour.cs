@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 public class AIBehaviour : MonoBehaviour
 {
     // TODO - make thing where shots a cone of rays in 90 degree (or whatever degree we want) from a point
+    // TODO - make raycasts into sphere?
     public GameObject PlayerBot;
     public GameObject AIBot;
     public int distance = 10;

@@ -17,7 +17,7 @@ public class CameraTrack : MonoBehaviour
 
     void Start()
     {
-        ReallyMotionSicknessToggle.SetActive(false);
+        ReallyMotionSicknessToggle?.SetActive(false);
         firstPersonToggle.SetActive(false);
     }
 
@@ -81,7 +81,7 @@ public class CameraTrack : MonoBehaviour
     public void changeMotionSickness(bool wantMotionSickness)
     {
         motionSickness = wantMotionSickness;
-        ReallyMotionSicknessToggle.SetActive(wantMotionSickness);
+        ReallyMotionSicknessToggle?.SetActive(wantMotionSickness);
         reallyMotionSickness = false;
     }    
 
