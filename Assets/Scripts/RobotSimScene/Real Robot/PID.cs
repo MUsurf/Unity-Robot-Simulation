@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections.Generic;
 public class PID : MonoBehaviour
 {
-    // TODO - andrew wants a constructer for the controllers - dont do
     public Rigidbody rb;
     public float xSetpoint = 0f;
     public float ySetpoint = 0f;
@@ -21,10 +20,12 @@ public class PID : MonoBehaviour
 
     public bool yawTrack = false;
 
-
+    // Start is called before the first frame update, this is where we initialize the PID controllers and set the initial values
     void Start()
     {
+        // getting the rigidbody component of the robot
         rb = GetComponent<Rigidbody>();
+
         location = new List<float>() {rb.transform.position.x, rb.transform.position.y, rb.transform.position.z, rb.rotation.eulerAngles.z, rb.rotation.eulerAngles.x, rb.rotation.eulerAngles.y};
         pidHandler.getMaxSpeed(motorScript.maxSpeed);
         pidHandler.getLocation(location, yawTrack);
@@ -32,6 +33,7 @@ public class PID : MonoBehaviour
         UpdateSetpoint(xSetpoint, ySetpoint, zSetpoint, rollSetpoint, pitchSetpoint, yawSetpoint);
     }
 
+    // this function is called by motorScript to get the vectors to apply
     public List<Vector3> getVectors()
     {
         location = new List<float>() {rb.transform.position.x, rb.transform.position.y, rb.transform.position.z, rb.rotation.eulerAngles.z, rb.rotation.eulerAngles.x, rb.rotation.eulerAngles.y};
@@ -43,13 +45,16 @@ public class PID : MonoBehaviour
         return pidHandler.Update();
     }
 
+    // a function that resets all the PID controllers
     public void resetAll()
     {
         pidHandler.resetAll();
     }
 
+    // a function that updates the setpoints for the PID controllers
     public void UpdateSetpoint(float x, float y, float z, float roll, float pitch, float yaw)
     {
+        // checks if you want to track the yaw rotation of the sub with the camera
         if(yawTrack)
         {
             Vector3 vector = new Vector3(x, y, z);
@@ -72,6 +77,7 @@ public class PID : MonoBehaviour
         }
     }
 
+    // a function that sends the setpoints to the PIDHandler
     public void sendSetpoints()
     {
         List<float> setpoints = new List<float>() {xSetpointRelative, ySetpointRelative, zSetpointRelative, rollSetpoint, pitchSetpoint, yawSetpoint};
@@ -215,7 +221,10 @@ public class PIDHandler
     // the maximum speed of the robot, used to scale the output of the PID controllers
     private float maxSpeed;
 
+    // the forces that will be applied to the robot after being returned, one for each motor
     private List<Vector3> forces = new List<Vector3>() {Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero};
+    
+    // a function that is called in the MonoBehaviour to get the current position and rotation
     public void getLocation(List<float> location, bool yawTrack)
     {
         this.location = location;
@@ -228,11 +237,13 @@ public class PIDHandler
         }
     }
 
+    // a function that is called in the MonoBehaviour to get the current max speed of the robot
     public void getMaxSpeed(float maxSpeed)
     {
         this.maxSpeed = maxSpeed;
     }
 
+    // this function calls a reset on all of the PID controllers
     public void Reset()
     {
         xController.Reset();
@@ -243,6 +254,7 @@ public class PIDHandler
         yawController.Reset();
     }
 
+    // a function that is called in the MonoBehaviour to send the setpoints to the PIDHandler
     public void recieveSetpoints(List<float> setpoints)
     {
         xSetpoint = setpoints[0];
