@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 public class PID : MonoBehaviour
 {
-    // TODO - make yaw track thing a button
+    // TODO - andrew wants a constructer for the controllers - dont do
     public Rigidbody rb;
     public float xSetpoint = 0f;
     public float ySetpoint = 0f;
@@ -110,6 +110,7 @@ public class PIDController
     {
         float result;
 
+        // the error is how far away you are from where you want to be
         float error = targetValue - currentValue;
 
         // proportional term
@@ -124,6 +125,7 @@ public class PIDController
         if(notFirstUpdate)
         {
             //derivative term
+            // We use value to avoid a spike in the D output
             float valueRateOfChange = (currentValue - lastValue) / dt;
             lastValue = currentValue;
 
@@ -160,10 +162,6 @@ public class PIDController
         if(notFirstUpdate)
         {
             //derivative term
-            // float valueRateOfChange = Mathf.DeltaAngle(currentAngle, targetAngle) / dt;
-            // lastValue = currentAngle;
-
-            // float D = Kd * -valueRateOfChange;
 
             float valueRateOfChange = Mathf.DeltaAngle(lastValue, currentAngle) / dt;
             lastValue = currentAngle;
@@ -193,7 +191,10 @@ public class PIDController
 
 public class PIDHandler
 {
+    // current position and rotation of the robot
     public List<float> location = new List<float>();
+
+    // initializing all controllers
     public PIDController xController = new PIDController();
     public PIDController yController = new PIDController();
     public PIDController zController = new PIDController();
@@ -201,7 +202,9 @@ public class PIDHandler
     public PIDController pitchController = new PIDController();
     public PIDController yawController = new PIDController();
 
-    //z is forward, x is right, y is up
+    // z is forward, x is right, y is up
+
+    // setpoints for the PID controllers, where we want to go
     private float xSetpoint;
     private float ySetpoint;
     private float zSetpoint;
@@ -209,15 +212,7 @@ public class PIDHandler
     private float pitchSetpoint;
     private float yawSetpoint;
 
-    private float xValue;
-    private float yValue;
-    private float zValue;
-    private float rollValue;
-    private float pitchValue;
-    private float yawValue;
-
-    // private float degreeFix = Mathf.Sqrt(2) / 2;
-
+    // the maximum speed of the robot, used to scale the output of the PID controllers
     private float maxSpeed;
 
     private List<Vector3> forces = new List<Vector3>() {Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero};
@@ -260,20 +255,24 @@ public class PIDHandler
 
     public List<Vector3> Update()
     {
+        // the forces that will be applied to the robot after being returned, one for each motor
         forces = new List<Vector3>() {Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero};
 
-        xValue = xController.Update(Time.fixedDeltaTime, location[0], xSetpoint);
-        yValue = yController.Update(Time.fixedDeltaTime, location[1], ySetpoint);
-        zValue = zController.Update(Time.fixedDeltaTime, location[2], zSetpoint);
-        rollValue = rollController.UpdateAngle(Time.fixedDeltaTime, location[3], rollSetpoint);
-        pitchValue = pitchController.UpdateAngle(Time.fixedDeltaTime, location[4], pitchSetpoint);
-        yawValue = yawController.UpdateAngle(Time.fixedDeltaTime, location[5], yawSetpoint);
+        // what the PID controllers return, the values to apply to the motors
+        float xValue = xController.Update(Time.fixedDeltaTime, location[0], xSetpoint);
+        float yValue = yController.Update(Time.fixedDeltaTime, location[1], ySetpoint);
+        float zValue = zController.Update(Time.fixedDeltaTime, location[2], zSetpoint);
+        float rollValue = rollController.UpdateAngle(Time.fixedDeltaTime, location[3], rollSetpoint);
+        float pitchValue = pitchController.UpdateAngle(Time.fixedDeltaTime, location[4], pitchSetpoint);
+        float yawValue = yawController.UpdateAngle(Time.fixedDeltaTime, location[5], yawSetpoint);
 
+        // the forces on the z and x plane
         forces[0] += (Vector3.forward + Vector3.right) * zValue + (Vector3.forward + Vector3.right) * xValue + (Vector3.back + Vector3.left) * yawValue;
         forces[1] += (Vector3.forward + Vector3.left) * zValue + (Vector3.back + Vector3.right) * xValue + (Vector3.forward + Vector3.left) * yawValue;
         forces[2] += (Vector3.forward + Vector3.left) * zValue + (Vector3.back + Vector3.right) * xValue + (Vector3.back + Vector3.right) * yawValue;
         forces[3] += (Vector3.forward + Vector3.right) * zValue + (Vector3.forward + Vector3.right) * xValue + (Vector3.forward + Vector3.right) * yawValue;
 
+        // the forces on the y plane
         forces[4] += Vector3.up * yValue + Vector3.up * pitchValue + Vector3.down * rollValue;
         forces[5] += Vector3.up * yValue + Vector3.up * pitchValue + Vector3.up * rollValue;
         forces[6] += Vector3.up * yValue + Vector3.down * pitchValue + Vector3.down * rollValue;
@@ -281,9 +280,11 @@ public class PIDHandler
 
         // Debug.Log($"Values: zValue: {zValue}, xValue: {xValue}, yawValue: {yawValue}, yValue: {yValue}, pitchValue: {pitchValue}, rollValue: {rollValue}");
 
+        // variables to cache the highest force for the top 4 and bottom 4 lines, so we can normalize them later
         float highestForce1 = 1f;
         float highestForce2 = 1f;
 
+        // find the highest force for the top 4 and bottom 4 lines
         for(int i = 0; i < 4; i++)
         {
             if(forces[i].magnitude > highestForce1)
@@ -296,6 +297,7 @@ public class PIDHandler
             }
         }
 
+        // normalize the forces for the top 4 and bottom 4 lines, so they are between -1 and 1
         forces[0] = forces[0] * (1 / highestForce1);
         forces[1] = forces[1] * (1 / highestForce1);
         forces[2] = forces[2] * (1 / highestForce1);
@@ -307,6 +309,8 @@ public class PIDHandler
 
         //replace the bottom 4 lines divideCounter like they are in the top 4 lines divide counter but with the correct values for the bottom 4 lines
         // if we ever change it to be more realistic, the 40f should be changed to be 40/51.4 so it conforms to the actual motor limits if backwards
+
+        // scale the forces by the max speed of the robot, so they are between -maxSpeed and maxSpeed
         forces[0] *= maxSpeed;
         forces[1] *= maxSpeed;
         forces[2] *= maxSpeed;
@@ -319,6 +323,7 @@ public class PIDHandler
         return forces;
     }
 
+    // a function called to update the K values of the PID controllers
     public void UpdateKValues(List<float> kValues)
     {
         xController.Kp = kValues[0];
@@ -341,6 +346,7 @@ public class PIDHandler
         yawController.Kd = kValues[17];
     }
 
+    // reset the PID controllers when the PIDs are not in use
     public void resetAll()
     {
         xController.Reset();
