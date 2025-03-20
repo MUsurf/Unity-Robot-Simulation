@@ -14,11 +14,6 @@ public class RealRobotMovementController : MonoBehaviour
     private float timeSinceLastToggle = 0f;
     public bool usingController = false;
     public RealRobotMotorScript motorScript;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    // void Start()
-    // {
-        
-    // }
 
     // Update is called once per frame
     void Update()
@@ -109,11 +104,6 @@ public class RealRobotMovementController : MonoBehaviour
             force2 += (Vector3.forward + Vector3.left) * -Triggers;
             force3 += (Vector3.back + Vector3.right) * -Triggers;
             force4 += (Vector3.forward + Vector3.right) * -Triggers;
-
-            // mouseforce1 = mouseforce1.normalized;
-            // mouseforce2 = mouseforce2.normalized;
-            // mouseforce3 = mouseforce3.normalized;
-            // mouseforce4 = mouseforce4.normalized;
 
             force5 -= new Vector3(0, rightStickY * invertMouseMultiplier, 0);
             force6 -= new Vector3(0, rightStickY * invertMouseMultiplier, 0);
