@@ -22,14 +22,26 @@ public class Explosion : MonoBehaviour
 
     public void Explode()
     {
-        position = new Vector3(transform.position.x + RandomFloat(2f, 5f), transform.position.y + RandomFloat(1f, 4f), transform.position.z + RandomFloat(1f, 4f));
+        position = new Vector3(transform.position.x + RandomFloat(10f, 15f), transform.position.y + RandomFloat(3f, 6f), transform.position.z + RandomFloat(3f, 6f));
         explosionPoint.transform.position = position;
         Invoke("happenExplosion", 0.5f);
+    }
+
+    public void ExplodePoint(Vector3 point)
+    {
+        position = point;
+        explosionPoint.transform.position = position;
+        Invoke("happenExplosionBig", 0.2f);
     }
 
     public void happenExplosion()
     {
         rb.AddExplosionForce(explosionForce, position, 0, 0f, ForceMode.Force);
+    }
+
+    public void happenExplosionBig()
+    {
+        rb.AddExplosionForce(explosionForce * 10, position, 0, 0f, ForceMode.Force);
     }
 
     float RandomFloat(float min, float max)

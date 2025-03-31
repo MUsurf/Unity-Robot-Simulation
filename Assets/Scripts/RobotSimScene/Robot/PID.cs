@@ -14,7 +14,7 @@ public class PID : MonoBehaviour
     public float zSetpointRelative = 0f;
     public List<float> kValues = new List<float>() {0.5f, 0, 0.1f, 0.5f, 0, 0.1f, 0.5f, 0, 0.1f, 0.05f, 0, 0.1f, 0.05f, 0, 0.1f, 0.05f, 0, 0.1f};
 
-    public RealRobotMotorScript motorScript;
+    public MotorScript motorScript;
     private List<float> location;
     private PIDHandler pidHandler = new PIDHandler();
 

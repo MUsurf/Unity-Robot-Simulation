@@ -8,7 +8,7 @@ public class ThunderingWar : MonoBehaviour
     public AudioClip audioClip; // List of audio clips to play
     public AudioSource audioSource;
     // public MovementController MovementControllerScript;
-    public RealRobotMovementController RealRobotMovementControllerScript;
+    public MovementController movementControllerScript;
 
     void Start()
     {
@@ -17,7 +17,7 @@ public class ThunderingWar : MonoBehaviour
 
     void Update()
     {
-        if(RealRobotMovementControllerScript.calledFor)
+        if(movementControllerScript.calledFor)
         {
             if (currentIndex < targetWord.Length)
             {

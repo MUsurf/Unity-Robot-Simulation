@@ -1,71 +1,171 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System.IO;
 
+// TODO - max thrust is - 51.4 N and 40 N
+// TODO - invert mouse button
+// TODO - could rainbow be more efficient?
+// TODO - remove gravity, cause the sub cant fight it
 
 public class MotorScript : MonoBehaviour
 {
     public Rigidbody rb;
+    public float maxSpeed;
+    private Vector3 force1;
+    private Vector3 force2;
+    private Vector3 force3;
+    private Vector3 force4;
     private Vector3 force5;
     private Vector3 force6;
     private Vector3 force7;
     private Vector3 force8;
-    private Vector3 position5 = new Vector3(1.5f, 0f, 0.5f);
-    private Vector3 position6 = new Vector3(1.5f, 0f, -0.5f);
-    private Vector3 position7 = new Vector3(-1.5f, 0f, 0.5f);
-    private Vector3 position8 = new Vector3(-1.5f, 0f, -0.5f);
+    //front left, front right, back left, back right XY motors
+    //then front left, front right, back left, back right Z motors
+    private Vector3 position1 = new Vector3(1.95f, 0f, 4.9f);
+    private Vector3 position2 = new Vector3(-1.95f, 0f, 4.9f);
+    private Vector3 position3 = new Vector3(1.95f, 0f, -4.9f);
+    private Vector3 position4 = new Vector3(-1.95f, 0f, -4.9f);
+    private Vector3 position5 = new Vector3(2.72f, 0f, 5.66f);
+    private Vector3 position6 = new Vector3(-2.72f, 0f, 5.66f);
+    private Vector3 position7 = new Vector3(2.72f, 0f, -5.66f);
+    private Vector3 position8 = new Vector3(-2.72f, 0f, -5.66f);
     private List<Vector3> MovementOverrideList = new List<Vector3>();
-    public MovementController MovementControllerScript;
-    
-    // uncomment this to use PID when pushed
-    public OldPID PIDScript;
+    public MovementController movementControllerScript;
+    public PID PIDScript;
     public bool overrideMovement = false;
     public GameObject InvertMouseButton;
     private float timeSinceLastIToggle = 0f;
 
-    
+    public GameObject ThirdPersonCamera;
+    public GameObject FirstPersonCamera;
+    public Material robotMaterial;
+
+    private bool sendFile = false;
+
+    public bool collisionBool = false;
+    public bool collisionBoomBool = false;
+    public Explosion explosionScript;
+    public AudioClip collisionSound;
+    public GameObject explodeQuad;
+    public GameObject mainCamera;
+
+    private string filePath = "D:\\Unity\\Games\\SURF Robot Simulation\\Assets\\Scripts\\RobotSimScene\\Real Robot\\MotorValues.txt";
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        InvertMouseButton.SetActive(false);
+        if(!overrideMovement)
+        {
+            InvertMouseButton.SetActive(false);
+        }
+        else
+        {
+            InvertMouseButton.SetActive(true);
+        }
         rb.useGravity = false;
+        maxSpeed = 320f;
+        explodeQuad.SetActive(false);
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {   
+        Vector3 localposition1 = transform.TransformPoint(position1);
+        Vector3 localposition2 = transform.TransformPoint(position2);
+        Vector3 localposition3 = transform.TransformPoint(position3);
+        Vector3 localposition4 = transform.TransformPoint(position4);
         Vector3 localposition5 = transform.TransformPoint(position5);
         Vector3 localposition6 = transform.TransformPoint(position6);
         Vector3 localposition7 = transform.TransformPoint(position7);
         Vector3 localposition8 = transform.TransformPoint(position8);
 
         List<Vector3> forceList;
-        
-        forceList = PIDScript.returnGetVectors();
 
-        force5 = forceList[0];
-        force6 = forceList[1];
-        force7 = forceList[2];
-        force8 = forceList[3];
+        forceList = PIDScript?.getVectors();
+
+        if(forceList != null)
+        {
+            force1 = forceList[0];
+            force2 = forceList[1];
+            force3 = forceList[2];
+            force4 = forceList[3];
+            force5 = forceList[4];
+            force6 = forceList[5];
+            force7 = forceList[6];
+            force8 = forceList[7];
+        }
+
 
         if(overrideMovement)
         {
-            MovementOverrideList = MovementControllerScript.MovementOverride();
-            force5 = MovementOverrideList[0];
-            force6 = MovementOverrideList[1];
-            force7 = MovementOverrideList[2];
-            force8 = MovementOverrideList[3];
+            MovementOverrideList = movementControllerScript.MovementOverride();
+            force1 = MovementOverrideList[0];
+            force2 = MovementOverrideList[1];
+            force3 = MovementOverrideList[2];
+            force4 = MovementOverrideList[3];
+            force5 = MovementOverrideList[4];
+            force6 = MovementOverrideList[5];
+            force7 = MovementOverrideList[6];
+            force8 = MovementOverrideList[7];
+        }
+        else
+        {
+            // Debug.Log($"force1: {force1}, force2: {force2}, force3: {force3}, force4: {force4}, force5: {force5}, force6: {force6}, force7: {force7}, force8: {force8}");
         }
 
+        if(sendFile)
+        {
+            File.WriteAllText(filePath, $"{Mathf.Clamp(force1.z / maxSpeed / .707f, -1, 1)}, {Mathf.Clamp(force2.z / maxSpeed / .707f, -1, 1)}, {Mathf.Clamp(force3.z / maxSpeed / .707f, -1, 1)}, {Mathf.Clamp(force4.z / maxSpeed / .707f, -1, 1)}, {force5.y / maxSpeed}, {force6.y / maxSpeed}, {force7.y / maxSpeed}, {force8.y / maxSpeed}");
+        }
+
+        // NYC Skyline
+        Vector3 localforce1 = transform.TransformDirection(force1);
+        Vector3 localforce2 = transform.TransformDirection(force2);
+        Vector3 localforce3 = transform.TransformDirection(force3);
+        Vector3 localforce4 = transform.TransformDirection(force4);
         Vector3 localforce5 = transform.TransformDirection(force5);
         Vector3 localforce6 = transform.TransformDirection(force6);
         Vector3 localforce7 = transform.TransformDirection(force7);
         Vector3 localforce8 = transform.TransformDirection(force8);
+        rb.AddForceAtPosition(localforce1, localposition1, ForceMode.Force);
+        rb.AddForceAtPosition(localforce2, localposition2, ForceMode.Force);
+        rb.AddForceAtPosition(localforce3, localposition3, ForceMode.Force);
+        rb.AddForceAtPosition(localforce4, localposition4, ForceMode.Force);
         rb.AddForceAtPosition(localforce5, localposition5, ForceMode.Force);
         rb.AddForceAtPosition(localforce6, localposition6, ForceMode.Force);
         rb.AddForceAtPosition(localforce7, localposition7, ForceMode.Force);
         rb.AddForceAtPosition(localforce8, localposition8, ForceMode.Force);           
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if(collisionBool == true)
+        {
+            AudioSource.PlayClipAtPoint(collisionSound, transform.position);
+
+            Vector3 point = collision.GetContact(0).point;
+
+            explodeQuad.transform.position = point;
+
+            Vector3 lookPoint = explodeQuad.transform.position - mainCamera.transform.position;
+            lookPoint.y = mainCamera.transform.position.y;
+            explodeQuad.transform.LookAt(lookPoint);
+
+            explodeQuad.SetActive(true);
+
+            Invoke("disableExplosion", 0.5f);
+
+            if(collisionBoomBool)
+            {
+                explosionScript.ExplodePoint(point);
+            }
+        }    
+    }
+
+    void disableExplosion()
+    {
+        explodeQuad.SetActive(false);
     }
 
     public void enableOverrideMovement(bool enable)
@@ -81,9 +181,21 @@ public class MotorScript : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
-        MovementControllerScript.invertMouse = false;
-        MovementControllerScript.calledFor = enable;
+        movementControllerScript.invertMouse = false;
+        movementControllerScript.calledFor = enable;
         InvertMouseButton.SetActive(enable);
+    }
+
+    public void realisticMode(bool enable)
+    {
+        if(enable)
+        {
+            maxSpeed = 40f;
+        }
+        else
+        {
+            maxSpeed = 320f;
+        }
     }
 
     private string targetWord = "rainbow";
@@ -103,21 +215,18 @@ public class MotorScript : MonoBehaviour
         };
     private int currentColorIndex = 0;
     private float timeElapsed = 0f;
-    public Renderer objectRenderer1;
-    public Renderer objectRenderer2;
-    public Renderer objectRenderer3;
-    public Renderer objectRenderer4;
-    public Renderer objectRenderer5;
+    public Renderer objectRenderer;
 
     void Update()
     {
 
         if(Input.GetKeyDown(KeyCode.R))
         {
-            rb.position = new Vector3(0, 1, 0);
-            rb.rotation = new Quaternion(0, 0, 0, 0);
+            rb.position = new Vector3(0, 4.5f, 0);
+            rb.rotation = Quaternion.identity;
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
+            PIDScript.resetAll();
         }
 
         timeSinceLastIToggle += Time.deltaTime;
@@ -125,7 +234,7 @@ public class MotorScript : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.I) && overrideMovement && timeSinceLastIToggle > 0.2f)
         {
             timeSinceLastIToggle = 0f;
-            //MovementControllerScript.invertMouse = !MovementControllerScript.invertMouse;
+            //movementControllerScript.invertMouse = !movementControllerScript.invertMouse;
             InvertMouseButton.GetComponent<Toggle>().isOn = !InvertMouseButton.GetComponent<Toggle>().isOn;
         }
 
@@ -143,11 +252,7 @@ public class MotorScript : MonoBehaviour
                         currentIndex = 0;
                         if (!rainbowAchieved)
                         {
-                            objectRenderer1.material.color = Color.gray;
-                            objectRenderer2.material.color = Color.gray;
-                            objectRenderer3.material.color = Color.gray;
-                            objectRenderer4.material.color = Color.gray;
-                            objectRenderer5.material.color = Color.gray;
+                            objectRenderer.material = robotMaterial;
 
                             currentColorIndex = 0;
                             timeElapsed = 0f;
@@ -171,11 +276,7 @@ public class MotorScript : MonoBehaviour
             // Interpolate the color
             Color startColor = rainbowColors[currentColorIndex];
             Color endColor = rainbowColors[(currentColorIndex + 1) % rainbowColors.Count];
-            objectRenderer1.material.color = Color.Lerp(startColor, endColor, lerpValue);
-            objectRenderer2.material.color = Color.Lerp(startColor, endColor, lerpValue);
-            objectRenderer3.material.color = Color.Lerp(startColor, endColor, lerpValue);
-            objectRenderer4.material.color = Color.Lerp(startColor, endColor, lerpValue);
-            objectRenderer5.material.color = Color.Lerp(startColor, endColor, lerpValue);
+            objectRenderer.material.color = Color.Lerp(startColor, endColor, lerpValue);
 
             // Move to the next color if the duration is exceeded
             if (timeElapsed >= duration)

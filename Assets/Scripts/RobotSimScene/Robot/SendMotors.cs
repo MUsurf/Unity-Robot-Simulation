@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.IO;
 
-public class sendMotors : MonoBehaviour
+public class SendMotors : MonoBehaviour
 {
     //TODO - manually enter IP and port
     //TODO - it might be better to just convert the powers to a text and give to this script instead of the whole file thing
