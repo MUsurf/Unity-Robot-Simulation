@@ -10,19 +10,20 @@ public class SendMotors : MonoBehaviour
     //TODO - manually enter IP and port
     //TODO - it might be better to just convert the powers to a text and give to this script instead of the whole file thing
     //TODO - do both things above
-    public string ip = "";
-    public int port = 0;
-    private string txtfile = "D:\\Unity\\Games\\SURF Robot Simulation\\Assets\\Scripts\\RobotSimScene\\Real Robot\\MotorValues.txt";
+    [SerializeField] private string ip = "";
+    [SerializeField] private int port = 0;
 
     private int count;
-    public string text;
-    public float timeBetweenSends = 0.5f;
+    private string text;
+    [SerializeField] private float timeBetweenSends = 0.5f;
 
-    public bool wantSendMotors = false;
+    [SerializeField] private bool wantSendMotors = false;
     private IPEndPoint ep;
     private Socket sock;
     
     private bool hasSent = true;
+
+    public MotorScript motorScript;
 
     void Start()
     {
@@ -32,7 +33,7 @@ public class SendMotors : MonoBehaviour
 
     void Update()
     {
-        if(hasSent && wantSendMotors && File.Exists(txtfile))
+        if(hasSent && wantSendMotors)
         {
             Invoke("sendPackage", timeBetweenSends);
             hasSent = false;
@@ -42,11 +43,9 @@ public class SendMotors : MonoBehaviour
 
     void sendPackage()
     {
-        if(wantSendMotors && File.Exists(txtfile))
+        if(wantSendMotors)
         {
-            StreamReader sr = new StreamReader(txtfile);
-
-            text = sr.ReadToEnd();
+            text = motorScript.getMotorValues();
 
             byte [] packetdata = Encoding.ASCII.GetBytes(text);
 

@@ -41,8 +41,6 @@ public class MotorScript : MonoBehaviour
     public GameObject FirstPersonCamera;
     public Material robotMaterial;
 
-    private bool sendFile = false;
-
     public bool collisionBool = false;
     public bool collisionBoomBool = false;
     public Explosion explosionScript;
@@ -50,7 +48,6 @@ public class MotorScript : MonoBehaviour
     public GameObject explodeQuad;
     public GameObject mainCamera;
 
-    private string filePath = "D:\\Unity\\Games\\SURF Robot Simulation\\Assets\\Scripts\\RobotSimScene\\Real Robot\\MotorValues.txt";
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -114,11 +111,6 @@ public class MotorScript : MonoBehaviour
             // Debug.Log($"force1: {force1}, force2: {force2}, force3: {force3}, force4: {force4}, force5: {force5}, force6: {force6}, force7: {force7}, force8: {force8}");
         }
 
-        if(sendFile)
-        {
-            File.WriteAllText(filePath, $"{Mathf.Clamp(force1.z / maxSpeed / .707f, -1, 1)}, {Mathf.Clamp(force2.z / maxSpeed / .707f, -1, 1)}, {Mathf.Clamp(force3.z / maxSpeed / .707f, -1, 1)}, {Mathf.Clamp(force4.z / maxSpeed / .707f, -1, 1)}, {force5.y / maxSpeed}, {force6.y / maxSpeed}, {force7.y / maxSpeed}, {force8.y / maxSpeed}");
-        }
-
         // NYC Skyline
         Vector3 localforce1 = transform.TransformDirection(force1);
         Vector3 localforce2 = transform.TransformDirection(force2);
@@ -136,6 +128,11 @@ public class MotorScript : MonoBehaviour
         rb.AddForceAtPosition(localforce6, localposition6, ForceMode.Force);
         rb.AddForceAtPosition(localforce7, localposition7, ForceMode.Force);
         rb.AddForceAtPosition(localforce8, localposition8, ForceMode.Force);           
+    }
+
+    public string getMotorValues()
+    {
+        return $"{Mathf.Clamp(force1.z / maxSpeed / .707f, -1, 1)}, {Mathf.Clamp(force2.z / maxSpeed / .707f, -1, 1)}, {Mathf.Clamp(force3.z / maxSpeed / .707f, -1, 1)}, {Mathf.Clamp(force4.z / maxSpeed / .707f, -1, 1)}, {force5.y / maxSpeed}, {force6.y / maxSpeed}, {force7.y / maxSpeed}, {force8.y / maxSpeed}";
     }
 
     void OnCollisionEnter(Collision collision)
