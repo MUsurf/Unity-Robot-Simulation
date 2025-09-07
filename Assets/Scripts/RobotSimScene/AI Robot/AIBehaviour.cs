@@ -191,7 +191,7 @@ public class AIBehaviour : MonoBehaviour
 
                             Debug.DrawRay(flip * (modifiedVector) + AIBot.transform.position, Vector3.up * rayDistance * flip, Color.red, 0);
 
-                            Debug.Log("j:" + j);
+                            // Debug.Log("j:" + j);
 
                             if(hit && (hitInfo.distance < closestHit))
                             {

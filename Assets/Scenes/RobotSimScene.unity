@@ -1554,7 +1554,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioClip: {fileID: 8300000, guid: c4b43193ce92ac045b53ccab47d4c949, type: 3}
   audioSource: {fileID: 330585549}
-  RealRobotMovementControllerScript: {fileID: 9193295145256729479}
+  movementControllerScript: {fileID: 9193295145256729479}
 --- !u!1 &356330340
 GameObject:
   m_ObjectHideFlags: 0
@@ -4873,6 +4873,8 @@ MonoBehaviour:
   AIBot: {fileID: 1067269176}
   distance: 20
   rayDistance: 5
+  rayConeDistance: 5
+  rayConeAngle: 90
   aiEnabled: 1
   followPlayer: 0
   pidScript: {fileID: 1067269178}
@@ -8752,7 +8754,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 9193295145256729471}
   maxSpeed: 200
-  RealRobotMovementControllerScript: {fileID: 9193295145256729479}
+  movementControllerScript: {fileID: 9193295145256729479}
   PIDScript: {fileID: 9193295145256729480}
   overrideMovement: 0
   InvertMouseButton: {fileID: 2145012752}
@@ -8761,7 +8763,7 @@ MonoBehaviour:
   robotMaterial: {fileID: 0}
   collisionBool: 0
   collisionBoomBool: 0
-  RealRobotExplosionScript: {fileID: 9193295145256729475}
+  explosionScript: {fileID: 0}
   collisionSound: {fileID: 8300000, guid: ca111cbdd99ae56469186df209ae11bb, type: 3}
   explodeQuad: {fileID: 663444767}
   mainCamera: {fileID: 330585543}

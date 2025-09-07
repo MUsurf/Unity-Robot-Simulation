@@ -46,7 +46,7 @@ public class ArrowCreator : MonoBehaviour
     {
         values = pidSimScript.returnValues();
 
-        Debug.Log($"Values: {values[0]}");
+        // Debug.Log($"Values: {values[0]}");
         updateAll();
     }
 
